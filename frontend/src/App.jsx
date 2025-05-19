@@ -1,22 +1,18 @@
-import react from 'react'
-import Navbar from './components/landingPage/navbar'
-import Header from './components/landingPage/header'
-import Container from './components/landingPage/container'
-import Footer from './components/landingPage/footer'
-import HouseList from './components/listPage/HouseList'
+import React from 'react'
+import LandingPage from './components/landingPage/landingPage'
 import SinglePage from './components/singlePage/singlePage'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
-
   return (
-    <div className='w-full overflow-hidden '>
-      <Navbar />
-      {/* <Header />
-      <Container /> */}
-      <SinglePage />
-      <Footer />
-      {/* <HouseList /> */}
-    </div>
+      <div className='w-full overflow-hidden '>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/singlePage' element={<SinglePage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
   )
 }
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Slider from './slider'
 import { singlePostData, userData } from '../../assets/dummyData'
 import Map from './map'
+import Navbar from '../landingPage/navbar';
 
 const SinglePage = () => {
     const [imageIndex, setImageIndex] = useState(null);
@@ -21,6 +22,7 @@ const SinglePage = () => {
     }, [imageIndex]);
     return (
         <div className='w-full h-full'>
+            <Navbar />
             <div className='px-20 py-17 w-full h-full flex gap-5'>
                 <div className='flex-3'>
                     <div className='flex flex-col gap-5'>
