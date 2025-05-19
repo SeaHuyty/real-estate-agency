@@ -21,6 +21,7 @@
     "leaflet": "^1.9.4",
     "morgan": "^1.10.0",
     "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.6.0",
     "tailwindcss": "^4.1.7"
   },
   "devDependencies": {

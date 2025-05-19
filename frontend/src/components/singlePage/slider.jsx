@@ -22,8 +22,8 @@ function Slider ({ images, imageIndex, setImageIndex }) {
                 <div className='arrow flex-1 flex items-center justify-center'>
                     <img className='w-[20px] cursor-pointer' src="./arrow.png" alt="" onClick={() => changeImage('left')}/>
                 </div>
-                <div className='imgContainer flex-10'>
-                    <img className='z-100' src={images[imageIndex]} alt="" />
+                <div className='imgContainer flex justify-center flex-10'>
+                    <img className='z-100 ' src={images[imageIndex]} alt="" />
                 </div>
                 <div className='arrow flex-1 flex items-center justify-center'>
                     <img className='w-[20px] rotate-180 cursor-pointer' src="./arrow.png" alt="" onClick={() => changeImage('right')}/>
@@ -35,7 +35,7 @@ function Slider ({ images, imageIndex, setImageIndex }) {
             </div>
             <div className='flex-1 flex flex-col justify-between gap-2'>
                 {images.slice(1).map((image, index) => (
-                    <img className='h-[100px] rounded-[10px] object-cover' key={index} src={image}  onClick={()=> setImageIndex(index+1)} lt="" />
+                    <img className='h-[100px] rounded-[10px] object-cover flex ' key={index} src={image} onClick={()=> setImageIndex(index+1)} alt="" />
                 ))}
             </div>
         </div>
