@@ -3,6 +3,7 @@ import Slider from './slider'
 import { singlePostData, userData } from '../../assets/dummyData'
 import Map from './map'
 import Navbar from '../landingPage/navbar';
+import Footer from '../landingPage/footer';
 
 const SinglePage = () => {
     const [imageIndex, setImageIndex] = useState(null);
@@ -145,6 +146,7 @@ const SinglePage = () => {
                     {/* end */}
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
