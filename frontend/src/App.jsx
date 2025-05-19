@@ -1,24 +1,23 @@
 import react from 'react'
-import Navbar from './component/navbar'
-import Header from './component/header'
-import Container from './component/container'
-import House from './component/house'
-import Contact from './component/contact'
-import Footer from './component/footer'
-import Review from './component/customerRating'
+import Navbar from './components/landingPage/navbar'
+import Header from './components/landingPage/header'
+import Container from './components/landingPage/container'
+import Footer from './components/landingPage/footer'
+import HouseList from './components/listPage/HouseList'
+import SinglePage from './components/singlePage/singlePage'
+
 function App() {
 
   return (
     <div className='w-full overflow-hidden '>
       <Navbar />
-      <Header />
-      <Container />
-      <House />
-      <Review />
-      <Contact />
+      {/* <Header />
+      <Container /> */}
+      <SinglePage />
       <Footer />
+      {/* <HouseList /> */}
     </div>
   )
 }
 
-export default App
+export default App;
