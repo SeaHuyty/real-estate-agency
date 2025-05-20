@@ -1,10 +1,10 @@
 {
   "name": "databaseproject",
   "version": "1.0.0",
-  "main": "backend/server.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon ./server.js"
   },
   "keywords": [],
   "author": "",

@@ -1,18 +1,21 @@
 import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import LandingPage from './components/landingPage/landingPage'
 import SinglePage from './components/singlePage/singlePage'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Properties from './components/houseListPage/properties'
 
 function App() {
   return (
+    <BrowserRouter>
       <div className='w-full overflow-hidden '>
-        <BrowserRouter>
           <Routes>
             <Route path='/' element={<LandingPage />} />
-            <Route path='/singlePage' element={<SinglePage />} />
+            <Route path='/property/:id' element={<SinglePage />} />
+            <Route path='/properties/:province' element={<Properties />} />
           </Routes>
-        </BrowserRouter>
       </div>
+    </BrowserRouter>
   )
 }
 
