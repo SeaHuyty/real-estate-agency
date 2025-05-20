@@ -79,7 +79,7 @@ const container = () => {
                 </div>
             </motion.div>    
             {/* house image */}
-            <motion.div className='py-4 px-20' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <motion.div className=' relative py-4 px-20' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <div className='flex justify-between items-center'>
                     <h1 className=' text-[30px]'>Popular Apartments</h1>
                     <div className='flex justify-end items-center mb-8'>
@@ -114,14 +114,14 @@ const container = () => {
                     </div>
                 </div>
             </motion.div>
-            {/* customer rating */}
+            {/* Meet our CEO */}
             <motion.div className='w-full h-screen px-20 py-6' id='customerRating' initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <h1 className='text-2xl sm:text-4xl font-bold mb-2 text-center'>Customer<span className='underline underline-offset-4 font-light decoration-1 under'> Reviews</span></h1>
-                <p className='text-center text-gray-500 mb-12 mx-auto max-w-80'>Real stories from those who found home with us</p>
+                <h1 className='text-2xl sm:text-4xl mb-2 text-center'>Meet our<span className='font bold underline underline-offset-4 font-light decoration-1 under'> CEO</span></h1>
+                <p className='text-center text-gray-500 mb-12 mx-auto max-w-80'>CEO of Outdee real estate</p>
                 <div className='flex flex-wrap justify-center items-center gap-10'>
                     {testimonialsData.map((testimonial, index) => (
-                        <div key={index} className='max-w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col items-center'>
-                            <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full mx-auto mb-4'/>
+                        <div key={index} className='max-w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col items-center transition duration-250 ease-in-out hover:scale-105'>
+                            <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full mx-auto mb-4 transition duration-250 ease-in-out hover:scale-115'/>
                             <h2 className='text-xl font-semibold text-gray-800'>{testimonial.name}</h2>
                             <h2>{testimonial.title}</h2>
                             <div className='flex justify-center items-center gap-1 text-red-500 mt-2'>
@@ -134,7 +134,7 @@ const container = () => {
                     ))};
                 </div>
             </motion.div>
-            {/* contact us */}
+            {/* Contact us */}
             <motion.div className='relative w-full flex justify-center items-center min-h-screen' id='contact' initial={{ opacity: 0, y: 150 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                 <img className='px-20 w-full h-full min-h-screen object-cover absolute top-0 left-0 z-0 brightness-70' src={assets.header_img} alt='' />
                 <div className='z-10 w-full flex justify-center items-center'>

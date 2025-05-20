@@ -36,7 +36,7 @@ const SinglePage = () => {
                                 <div className='flex flex-col gap-3 w-full'>
                                     <h1 className='font-semibold'>{singlePostData.title}</h1>
                                     <div className='flex gap-2 items-center text-[14px] text-gray-500'>
-                                        <img className='w-[20px] h-[20px]' src="./pin.png" alt="" />
+                                        <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
                                         <span>{singlePostData.address}</span>
                                     </div>
                                     <div className='w-max rounded-[5px] p-2 bg-gray-200'>$ {singlePostData.price}</div>
@@ -55,21 +55,21 @@ const SinglePage = () => {
                                     <h1 className='font-semibold'>General</h1>
                                     <div className='flex flex-col gap-4 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./utility.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/utility.png" alt="" />
                                             <div>
                                                 <h1>Utilities</h1>
                                                 <p className='text-gray-500 text-[14px]'>Renter is responsible</p>
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./pet.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/pet.png" alt="" />
                                             <div>
                                                 <h1>Pet policy</h1>
                                                 <p className='text-gray-500 text-[14px]'>Pet Allowed</p>
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./fee.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/fee.png" alt="" />
                                             <div>
                                                 <h1>Property fees</h1>
                                                 <p className='text-gray-500 text-[14px]'>Unknown information</p>
@@ -82,21 +82,21 @@ const SinglePage = () => {
                                     <h1 className='font-semibold'>Details</h1>
                                     <div className='flex justify-between gap-4 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./size.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/size.png" alt="" />
                                             <div>
                                                 {/* <h1>Size</h1> */}
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.size}sqm</p>
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./bed.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/bed.png" alt="" />
                                             <div>
                                                 {/* <h1>Beds</h1> */}
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.bedRooms} bed</p>
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./bath.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/bath.png" alt="" />
                                             <div>
                                                 {/* <h1>Bathrooms</h1> */}
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.bathroom} bathroom</p>
@@ -109,21 +109,21 @@ const SinglePage = () => {
                                     <h1 className='font-semibold'>Nearby places</h1>
                                     <div className='flex justify-between gap-4 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./school.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/school.png" alt="" />
                                             <div>
                                                 <h1>School</h1>
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.school}</p>
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./bus.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/bus.png" alt="" />
                                             <div>
                                                 <h1>Bus stop</h1>
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.bus}</p>
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="./restaurant.png" alt="" />
+                                            <img className='w-[30px] h-[30px]' src="/restaurant.png" alt="" />
                                             <div>
                                                 <h1>Restaurant</h1>
                                                 <p className='text-gray-500 text-[14px]'>{singlePostData.restaurant}</p>
@@ -137,9 +137,9 @@ const SinglePage = () => {
                     </div>
                 </div>
 
-                <div className='w-full h-full p-5 flex flex-col flex-2 gap-2 bg-gray-200'>
+                <div className='w-full h-full flex flex-col flex-2'>
                     <div className='w-full h-full flex flex-col gap-2'>
-                        <h1 className='font-semibold'>Location</h1>
+                        <h1 className='font-semibold text-[20px]'>Location</h1>
                         <Map />
                     </div>
                     

@@ -3,11 +3,11 @@ import React from 'react'
 const footer = () => {
     return (
         <div className='w-full'>
-            <footer class="w-full bg-gray-100 dark:bg-gray-900">
+            <footer class="w-full bg-gray-900">
                 <div class="mx-auto w-full max-w-screen-l">
                 <div class="flex justify-between gap-8 px-20 py-6 lg:py-8">
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Company</h2>
+                        <h2 class="mb-6 text-sm font-semibold uppercase text-white">Company</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
                                 <a href="#" class=" hover:underline">About</a>
@@ -24,7 +24,7 @@ const footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Help center</h2>
+                        <h2 class="mb-6 text-sm font-semibold text-white uppercase">Help center</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
                                 <a href="#" class="hover:underline">Discord Server</a>
@@ -41,7 +41,7 @@ const footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
+                        <h2 class="mb-6 text-sm font-semibold text-white uppercase dark:text-white">Legal</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
                                 <a href="#" class="hover:underline">Privacy Policy</a>
@@ -55,8 +55,8 @@ const footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Download</h2>
-                        <ul class="text-gray-500 dark:text-gray-400 font-medium">
+                        <h2 class="mb-6 text-sm font-semibold uppercase text-white">Download</h2>
+                        <ul class="text-gray-500 font-medium">
                             <li class="mb-4">
                                 <a href="#" class="hover:underline">iOS</a>
                             </li>
@@ -72,7 +72,7 @@ const footer = () => {
                         </ul>
                     </div>
                 </div>
-                <div class="px-20 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
+                <div class="px-20 py-6 bg-gray-700 md:flex md:items-center md:justify-between">
                     <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a href="https://flowbite.com/">Outdee™</a>. All Rights Reserved.
                     </span>
                     <div class="flex mt-4 sm:justify-center md:mt-0 space-x-5 rtl:space-x-reverse">
