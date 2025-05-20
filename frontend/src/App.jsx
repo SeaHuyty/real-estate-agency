@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
 import LandingPage from './components/landingPage/landingPage'
 import SinglePage from './components/singlePage/singlePage'
 import Properties from './components/houseListPage/properties'
