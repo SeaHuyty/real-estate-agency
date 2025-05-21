@@ -93,7 +93,7 @@ const container = () => {
                 </div>
                 <div className='overflow-hidden'>
                     {/* slider */}
-                    <div className='flex gap-8 transition-transform duration-500 ease-in-out' 
+                    <div className='overflow-x-scroll no-scrollbar flex gap-8 transition-transform duration-500 ease-in-out' 
                     style={{transform: `translateX(-${(currentIndex * 100) / cardShow}%)`}}>
                         {projectsData.map((project, index) => (
                             <div 
