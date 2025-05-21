@@ -52,27 +52,27 @@ const SinglePage = () => {
 
                             <div className='details mt-3 flex flex-col gap-5'>
                                 <div className='General'>
-                                    <h1 className='font-semibold'>General</h1>
-                                    <div className='flex flex-col gap-4 mt-3'>
+                                    <h1 className='font-semibold'>Community Area</h1>
+                                    <div className='w-full flex justify-between gap-4 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/utility.png" alt="" />
                                             <div>
-                                                <h1>Utilities</h1>
-                                                <p className='text-gray-500 text-[14px]'>Renter is responsible</p>
+                                                <h1 className='w-[50px]'>Swimming Pool</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>Renter is responsible</p> */}
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/pet.png" alt="" />
                                             <div>
-                                                <h1>Pet policy</h1>
-                                                <p className='text-gray-500 text-[14px]'>Pet Allowed</p>
+                                                <h1>Parking lot</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>Pet Allowed</p> */}
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/fee.png" alt="" />
                                             <div>
-                                                <h1>Property fees</h1>
-                                                <p className='text-gray-500 text-[14px]'>Unknown information</p>
+                                                <h1>Garden</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>Unknown information</p> */}
                                             </div>
                                         </div>
                                     </div>
@@ -84,51 +84,51 @@ const SinglePage = () => {
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/size.png" alt="" />
                                             <div>
-                                                {/* <h1>Size</h1> */}
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.size}sqm</p>
+                                                <h1>{singlePostData.size}sqm</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.size}sqm</p> */}
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/bed.png" alt="" />
                                             <div>
-                                                {/* <h1>Beds</h1> */}
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.bedRooms} bed</p>
+                                                <h1>Beds</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.bedRooms} bed</p> */}
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/bath.png" alt="" />
                                             <div>
-                                                {/* <h1>Bathrooms</h1> */}
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.bathroom} bathroom</p>
+                                                <h1>Bathrooms</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.bathroom} bathroom</p> */}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className='nearby places'>
-                                    <h1 className='font-semibold'>Nearby places</h1>
+                                    <h1 className='font-semibold'>Security</h1>
                                     <div className='flex justify-between gap-4 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/school.png" alt="" />
                                             <div>
-                                                <h1>School</h1>
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.school}</p>
+                                                <h1>Fire Security</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.school}</p> */}
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/bus.png" alt="" />
                                             <div>
-                                                <h1>Bus stop</h1>
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.bus}</p>
+                                                <h1>Security</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.bus}</p> */}
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/restaurant.png" alt="" />
                                             <div>
-                                                <h1>Restaurant</h1>
-                                                <p className='text-gray-500 text-[14px]'>{singlePostData.restaurant}</p>
+                                                <h1>Non Flooding</h1>
+                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.restaurant}</p> */}
                                             </div>
-                                        </div>
+                                        </div>                                        
                                     </div>
                                 </div>
 
