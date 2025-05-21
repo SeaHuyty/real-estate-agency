@@ -8,15 +8,27 @@ export const usePropertyStore = create((set, get) => ({
     loading:false,
     error:null,
 
-    fetchProperties: async (province) => {
+    fetchProperties: async (filters) => {
         set({ loading: true });
+
+        const cleanFilters = Object.fromEntries(
+            Object.entries(filters).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+        );
+
+        const query = new URLSearchParams(cleanFilters).toString();
+
         try {
-            const response = await axios.get(`${BASE_URL}/api/properties/${province}`);
-            set({ properties:response.data.data,error:null });
+            const response = await axios.get(`${BASE_URL}/api/properties?${query}`);
+            if (response.data.success && response.data.data) {
+                set({ properties: response.data.data, error: null });
+            } else {
+                set({ properties: [], error: 'No data received from server' });
+            }
         } catch (err) {
             set({ error: err.message });
         } finally {
             set({ loading: false });
         }
     }
+
 }));

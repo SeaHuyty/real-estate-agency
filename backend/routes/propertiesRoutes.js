@@ -6,7 +6,7 @@ import {
 
 const router = express.Router();
 
-router.get('/:province', getAllProperties);
+router.get('/', getAllProperties);
 router.get('/:id', getProperty);
 
 export default router;
