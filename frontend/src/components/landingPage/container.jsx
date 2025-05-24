@@ -58,28 +58,40 @@ const container = () => {
     return (
         <div>
             {/* about us */}
-            <motion.div className='w-full h-screen bg-white' id='about' initial={{ opacity: 0, y: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <div className='mt-20'>
-                    <div className='px-20 py-20 grid grid-cols-2 gap-10'>
-                        <img className='w-100' src={assets.brand_img} alt="" />
-                        <div>
-                            <h1 className='text-[2.5rem] font-semibold text-center'>Discover your future house</h1>
-                            <div className='grid grid-cols-2 gap-10 mt-15'>
-                                <div>
-                                    <h1 className='text-[30px] py-15 underline underline-offset-4 text-center'>About Us</h1> 
-                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio quaerat modi voluptas non sequi repudiandae? Accusantium minima harum vitae aspernatur maiores doloremque, corrupti earum, eveniet fugiat quasi doloribus et possimus?</p>
-                                </div>
-                                <div>
-                                    <h1 className='text-[30px] py-15 underline underline-offset-4 text-center'>About Us</h1> 
-                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Odio quaerat modi voluptas non sequi repudiandae? Accusantium minima harum vitae aspernatur maiores doloremque, corrupti earum, eveniet fugiat quasi doloribus et possimus?</p>
-                                </div>
+            <motion.div className='w-full bg-white mt-25 py-4 px-20' id='about' initial={{ opacity: 0, y: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                <h1 className='text-[2.5rem] font-semibold text-center'>Discover your future house</h1>
+                <h1 className='text-[30px] underline underline-offset-4 text-center'>About Us</h1>
+                <p className='mt-5 text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate natus assumenda saepe sint quas error, architecto molestias commodi maiores perferendis</p>
+                <div className='mt-20 flex justify-center gap-10'>
+                    <div className='flex flex-col gap-10'>
+                        <div className='grid grid-cols-2 gap-10'>
+                            <div>
+                                <h1 className='font-semibold text-[3rem]'>10+</h1>
+                                <p className='text-gray-500'>Year of Excellence</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[3rem]'>15+</h1>
+                                <p className='text-gray-500'>Projects Completed</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[3rem]'>8+</h1>
+                                <p className='text-gray-500'>Ongoing Projects</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[3rem]'>10K+</h1>
+                                <p className='text-gray-500'>User</p>
                             </div>
                         </div>
+                        <img className='w-100' src={assets.project_img8} alt="" />
                     </div>
+                    <img className='w-100' src={assets.project_img7} alt="" />
+                    <img className='w-100' src={assets.project_img9} alt="" />
+                    {/* <div className='flex gap-5'>
+                    </div> */}
                 </div>
             </motion.div>    
             {/* house image */}
-            <motion.div className=' relative py-4 px-20' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <motion.div className='w-full h-full mt-25 py-4 px-20' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <div className='flex justify-between items-center'>
                     <h1 className=' text-[30px]'>Popular Apartments</h1>
                     <div className='flex justify-end items-center mb-8'>
@@ -114,13 +126,19 @@ const container = () => {
                     </div>
                 </div>
             </motion.div>
+            {/* province display */}
+            {/* <div>
+                <div>
+                    <h1>Siem Reap</h1>
+                </div>
+            </div> */}
             {/* Meet our CEO */}
-            <motion.div className='w-full h-screen px-20 py-6' id='customerRating' initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <motion.div className='w-full px-20 py-6' id='customerRating' initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <h1 className='text-2xl sm:text-4xl mb-2 text-center'>Meet our<span className='font bold underline underline-offset-4 font-light decoration-1 under'> CEO</span></h1>
                 <p className='text-center text-gray-500 mb-12 mx-auto max-w-80'>CEO of Outdee real estate</p>
                 <div className='flex flex-wrap justify-center items-center gap-10'>
                     {testimonialsData.map((testimonial, index) => (
-                        <div key={index} className='max-w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col items-center transition duration-250 ease-in-out hover:scale-105'>
+                        <div key={index} className='w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col items-center transition duration-250 ease-in-out hover:scale-105'>
                             <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full mx-auto mb-4 transition duration-250 ease-in-out hover:scale-115'/>
                             <h2 className='text-xl font-semibold text-gray-800'>{testimonial.name}</h2>
                             <h2>{testimonial.title}</h2>
@@ -135,14 +153,37 @@ const container = () => {
                 </div>
             </motion.div>
             {/* Contact us */}
-            <motion.div className='relative w-full flex justify-center items-center min-h-screen' id='contact' initial={{ opacity: 0, y: 150 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <img className='px-20 w-full h-full min-h-screen object-cover absolute top-0 left-0 z-0 brightness-70' src={assets.header_img} alt='' />
-                <div className='z-10 w-full flex justify-center items-center'>
+            <motion.div className='mt-40 px-20 relative w-full flex justify-center items-center' id='contact'
+            initial={{ opacity: 0, y: 150 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                {/* <img className='px-20 w-full h-full absolute top-0 left-0 z-0 brightness-150' src={assets.header_img} alt='' /> */}
+                <div className='z-10 w-full flex justify-around p-15' style={{backgroundImage: `url(${assets.header_img})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
+                    <div className='w-full max-w-md text-white'>
+                        <h1 className='font-semibold text-[40px]'>Let's get in touch</h1>
+                        <p>We're open for discussion and future work</p>
+                        <div className='mt-10 flex flex-col gap-10'>
+                            <div className='flex items-center gap-5'>
+                                <img className='rotate-90' src="/envelope.png" alt="" />
+                                <p>longchhunhour@gmail.com</p>
+                            </div>
+                            <div className='flex items-center gap-5'>
+                                <img className='rotate-90' src="/phone.png" alt="" />
+                                <p>+855 88 5510 486</p>
+                            </div>
+                            <div className='flex items-center gap-5'>
+                                <img className='rotate-90' src="/location-alt.png" alt="" />
+                                <p>Cambodia Academy Of Digital Technology</p>
+                            </div>
+                            <div className='flex items-center gap-5'>
+                                <img className='rotate-90' src="/location-alt.png" alt="" />
+                                <p>Cambodia Academy Of Digital Technology</p>
+                            </div>
+                        </div>
+                    </div>
                     <form onSubmit={onSubmit} className='bg-white p-6 rounded shadow-md w-full max-w-md'>
                         <h2 className='text-2xl font-bold mb-4'>Contact Us</h2>
-                        <input type='text' name='name' placeholder='Your Name' className='border p-2 mb-4 w-full' required />
-                        <input type='email' name='email' placeholder='Your Email' className='border p-2 mb-4 w-full' required />
-                        <textarea name='message' placeholder='Your Message' className='border p-2 mb-4 w-full h-32' required></textarea>
+                        <input type='text' name='name' placeholder='Your Name' className='p-2 mb-4 w-full bg-gray-2 bg-gray-200' required />
+                        <input type='email' name='email' placeholder='Your Email' className='bg-gray-200 p-2 mb-4 w-full' required />
+                        <textarea name='message' placeholder='Your Message' className='bg-gray-200 p-2 mb-4 w-full h-32' required></textarea>
                         <button type='submit' className='bg-blue-900 text-white py-2 px-4 rounded'>Send</button>
                         {result && <p className='mt-4'>{result}</p>}
                     </form>
