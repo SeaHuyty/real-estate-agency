@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { assets, projectsData, testimonialsData } from '../../assets/assets'
+import { assets, ceoData, projectsData, testimonialsData } from '../../assets/assets'
 import { motion } from "motion/react"
 
 const container = () => {
@@ -59,10 +59,9 @@ const container = () => {
         <div>
             {/* about us */}
             <motion.div className='w-full bg-white mt-25 py-4 px-20' id='about' initial={{ opacity: 0, y: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <h1 className='text-[2.5rem] font-semibold text-center'>Discover your future house</h1>
-                <h1 className='text-[30px] underline underline-offset-4 text-center'>About Us</h1>
-                <p className='mt-5 text-center'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate natus assumenda saepe sint quas error, architecto molestias commodi maiores perferendis</p>
-                <div className='mt-20 flex justify-center gap-10'>
+                <h1 className='text-[2.5rem] font-semibold text-center'>Discover Your Future House</h1>
+                <p className='mt-5 text-center text-gray-500'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto cupiditate natus assumenda saepe sint quas error, architecto molestias commodi maiores perferendis</p>
+                <div className=' mt-20 flex justify-center flex-wrap gap-10'>
                     <div className='flex flex-col gap-10'>
                         <div className='grid grid-cols-2 gap-10'>
                             <div>
@@ -84,16 +83,18 @@ const container = () => {
                         </div>
                         <img className='w-100' src={assets.project_img8} alt="" />
                     </div>
-                    <img className='w-100' src={assets.project_img7} alt="" />
-                    <img className='w-100' src={assets.project_img9} alt="" />
-                    {/* <div className='flex gap-5'>
+                        <img className='w-100' src={assets.project_img7} alt="" />
+                    {/* <div className=''>
+                    </div> */}
+                        <img className='w-100' src={assets.project_img9} alt="" />
+                    {/* <div className='w-100 h-100'>
                     </div> */}
                 </div>
             </motion.div>    
             {/* house image */}
             <motion.div className='w-full h-full mt-25 py-4 px-20' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
                 <div className='flex justify-between items-center'>
-                    <h1 className=' text-[30px]'>Popular Apartments</h1>
+                    <h1 className=' text-[30px] font-semibold'>Popular Apartments</h1>
                     <div className='flex justify-end items-center mb-8'>
                         <button onClick={prevSlide} className='p-3 bg-gray-200 rounded mr-2 cursor-pointer' aria-label='previous project'>
                             <img src={assets.left_arrow} alt="previous" />
@@ -127,21 +128,60 @@ const container = () => {
                 </div>
             </motion.div>
             {/* province display */}
-            {/* <div>
-                <div>
-                    <h1>Siem Reap</h1>
+            {/* Meet our customer*/}
+
+            <motion.div className='w-full h-full px-20 py-6' id='customerRating'
+            initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <div className='mt-20 gap-10'>
+                    <div className='flex flex-col justify-center items-center'>
+                        <h1 className='text-2xl sm:text-4xl text-center font-semibold'>Meet Our CEO</h1>
+                        <p className='text-center text-gray-500 px-30 mt-10'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis optio minima praesentium amet sequi quidem ducimus impedit! Minus animi rem praesentium ratione ad ea eveniet fugit, aut ullam. Magnam, eveniet!</p>
+                        {/* <img className='w-[300px] h-[300px] mt-10' src={assets.brand_img} alt="" /> */}
+                    </div>
+                    <div className='mt-10 flex justify-center items-center gap-10'>
+                        {/* Vannda */}
+                        <div className='relative group w-80 h-80 overflow-hidden'>
+                            <img className='w-[350px] h-[350px] object-cover' src={assets.vannda} alt="" />
+                            <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                                <h2 className='text-xl font-bold'>{ceoData[0].name}</h2>
+                                <p className='text-sm'>{ceoData[0].title}</p>
+                                <p className='text-xs mt-2'>{ceoData[0].text}</p>
+                            </div>
+                        </div>
+                        <div className='flex gap-10'>
+                            {/* G-Devith */}
+                            <div className='relative group w-80 h-80 overflow-hidden'>
+                                <img className='w-[350px] h-[350px] object-cover' src={assets.img2} alt="" />
+                                <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                                    <h2 className='text-xl font-bold'>{ceoData[1].name}</h2>
+                                    <p className='text-sm'>{ceoData[1].title}</p>
+                                    <p className='text-xs mt-2'>{ceoData[1].text}</p>
+                                </div>
+                            </div>
+
+                            {/* Long Chhunhour */}
+                            <div className='relative group w-80 h-80 overflow-hidden'>
+                                <img className='w-[350px] h-[350px] object-cover' src={assets.img3} alt="" />
+                                <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                                    <h2 className='text-xl font-bold'>{ceoData[2].name}</h2>
+                                    <p className='text-sm'>{ceoData[2].title}</p>
+                                    <p className='text-xs mt-2'>{ceoData[2].text}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div> */}
-            {/* Meet our CEO */}
-            <motion.div className='w-full px-20 py-6' id='customerRating' initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <h1 className='text-2xl sm:text-4xl mb-2 text-center'>Meet our<span className='font bold underline underline-offset-4 font-light decoration-1 under'> CEO</span></h1>
-                <p className='text-center text-gray-500 mb-12 mx-auto max-w-80'>CEO of Outdee real estate</p>
-                <div className='flex flex-wrap justify-center items-center gap-10'>
+            </motion.div>
+            {/* Meet our customer*/}
+            <motion.div className='w-full px-20 py-6 mt-30' id='CEO'
+            initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <h1 className='text-2xl sm:text-4xl mb-2 text-center'>Customers<span className='font bold underline underline-offset-4 font-light decoration-1 under'> Review</span></h1>
+                <div className='flex flex-wrap justify-center items-center gap-10 mt-15'>
                     {testimonialsData.map((testimonial, index) => (
-                        <div key={index} className='w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col items-center transition duration-250 ease-in-out hover:scale-105'>
+                        <div key={index} className='w-[340px] border shadow-lg rounded px-8 py-12 text-center flex flex-col justify-center items-center transition duration-250 ease-in-out hover:scale-105'>
                             <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full mx-auto mb-4 transition duration-250 ease-in-out hover:scale-115'/>
                             <h2 className='text-xl font-semibold text-gray-800'>{testimonial.name}</h2>
-                            <h2>{testimonial.title}</h2>
+                            {/* <h2>{testimonial.title}</h2> */}
                             <div className='flex justify-center items-center gap-1 text-red-500 mt-2'>
                                 {Array.from({ length: testimonial.rating}, (item, index) => (
                                     <img key={index} src={assets.star_icon} />
@@ -155,7 +195,6 @@ const container = () => {
             {/* Contact us */}
             <motion.div className='mt-40 px-20 relative w-full flex justify-center items-center' id='contact'
             initial={{ opacity: 0, y: 150 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                {/* <img className='px-20 w-full h-full absolute top-0 left-0 z-0 brightness-150' src={assets.header_img} alt='' /> */}
                 <div className='z-10 w-full flex justify-around p-15' style={{backgroundImage: `url(${assets.header_img})`, backgroundSize: 'cover', backgroundPosition: 'center'}}>
                     <div className='w-full max-w-md text-white'>
                         <h1 className='font-semibold text-[40px]'>Let's get in touch</h1>

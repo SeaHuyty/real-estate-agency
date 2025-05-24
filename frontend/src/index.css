@@ -6,14 +6,6 @@
     font-family: "Roboto", sans-serif;
 }
 
-body {
-    background-color: white;
-    /* background-image: url("assets/house.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100vh; */
-}
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
         display: none;
