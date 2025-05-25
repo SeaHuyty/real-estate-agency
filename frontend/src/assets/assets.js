@@ -23,7 +23,11 @@ import img3 from './img3.jpg'
 import gdevith from './GDevith.jpg'
 import vannda from './vannda.jpg'
 import image from './image.png'
-
+import siemreap from './angkorThomBg.jpg'
+import phnompenh from './royalePalace.jpg'
+import kampot from './kompot.jpg'
+import sihanouk from './sihanouk.jpg'
+import battambong from './battambong.jpg'
 export const assets = {
     logo,
     logo_dark,
@@ -47,7 +51,12 @@ export const assets = {
     img1,
     img2,
     img3,
-    image
+    image,
+    siemreap,
+    phnompenh,
+    kampot,
+    sihanouk,
+    battambong
 }
 
 export const projectsData = [
@@ -133,6 +142,38 @@ export const ceoData = [
       name: "Long Chhunhour",
       title: "UI/UX Designer",
       image: img3,
+      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+  }
+];
+export const province = [
+  {
+      name: "Sime Reap",
+      // title: "Project Manager",
+      image: siemreap,
+      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+  },
+  {
+      name: "Sihuanoukville",
+      // title: "Co-Founder",
+      image: sihanouk,
+      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+  },
+  {
+      name: "Kampot",
+      // title: "UI/UX Designer",
+      image: kampot,
+      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+  },
+  {
+      name: "Phnom Penh",
+      // title: "UI/UX Designer",
+      image: phnompenh,
+      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+  },
+  {
+      name: "battambong",
+      // title: "UI/UX Designer",
+      image: battambong,
       text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
   }
 ];

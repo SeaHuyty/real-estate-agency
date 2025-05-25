@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { assets, ceoData, projectsData, testimonialsData } from '../../assets/assets'
+import { assets, ceoData, projectsData, testimonialsData, province } from '../../assets/assets'
 import { motion } from "motion/react"
 
 const container = () => {
@@ -128,15 +128,54 @@ const container = () => {
                 </div>
             </motion.div>
             {/* province display */}
-            {/* Meet our customer*/}
-
-            <motion.div className='w-full h-full px-20 py-6' id='customerRating'
+            <motion.div className='w-full h-full mt-25 py-4 px-20' id='province'
             initial={{ opacity: 0, x: -200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+                <h1 className='text-[30px] font-semibold text-center'>Explore Our Provinces</h1>
+                <div className='mt-10 grid grid-cols-3 grid-rows-2 w-full h-[90vh] object-cover gap-2'>
+                    <div className='col-span-2 row-span-2 relative group overflow-hidden'>
+                        <img className='w-full h-full object-cover' src={assets.siemreap} alt="" />
+                        <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                            <h2 className='text-xl font-bold'>{province[0].name}</h2>
+                            <p className='text-xs mt-2'>{province[0].text}</p>
+                        </div>
+                    </div>
+                    <div className='col-span-1 relative group overflow-hidden'>
+                        <img className='w-full h-full object-cover'  src={assets.sihanouk} alt="" />
+                        <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                            <h2 className='text-xl font-bold'>{province[1].name}</h2>
+                            <p className='text-xs mt-2'>{province[1].text}</p>
+                        </div>
+                    </div>
+                    <div className='col-span-1 row-span-2 relative group overflow-hidden'>
+                        <img className='w-full h-full object-cover'  src={assets.battambong} alt="" />
+                        <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                            <h2 className='text-xl font-bold'>{province[4].name}</h2>
+                            <p className='text-xs mt-2'>{province[4].text}</p>
+                        </div>
+                    </div>
+                    <div className='col-span-1 relative group overflow-hidden'>
+                        <img className='w-full h-[300px] object-cover'   src={assets.kampot} alt="" />
+                        <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                            <h2 className='text-xl font-bold'>{province[2].name}</h2>
+                            <p className='text-xs mt-2'>{province[2].text}</p>
+                        </div>
+                    </div>
+                    <div className='col-span-1 relative group overflow-hidden'>
+                        <img className='w-full h-full object-cover '  src={assets.phnompenh} alt="" />
+                        <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
+                            <h2 className='text-xl font-bold'>{province[3].name}</h2>
+                            <p className='text-xs mt-2'>{province[3].text}</p>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+            {/* Meet our ceo*/}
+            <motion.div className='w-full h-full px-20 py-6' id='customerRating'
+            initial={{ opacity: 0, y: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                 <div className='mt-20 gap-10'>
                     <div className='flex flex-col justify-center items-center'>
                         <h1 className='text-2xl sm:text-4xl text-center font-semibold'>Meet Our CEO</h1>
                         <p className='text-center text-gray-500 px-30 mt-10'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veritatis optio minima praesentium amet sequi quidem ducimus impedit! Minus animi rem praesentium ratione ad ea eveniet fugit, aut ullam. Magnam, eveniet!</p>
-                        {/* <img className='w-[300px] h-[300px] mt-10' src={assets.brand_img} alt="" /> */}
                     </div>
                     <div className='mt-10 flex justify-center items-center gap-10'>
                         {/* Vannda */}
