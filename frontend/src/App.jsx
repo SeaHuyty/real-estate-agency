@@ -13,6 +13,7 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
+            <Route path='/SinglePage' element={<SinglePage />} />
           </Routes>
       </div>
     </BrowserRouter>
