@@ -48,7 +48,9 @@ function Properties() {
                     <option value="">Select Province</option>
                     <option value="phnompenh">Phnom Penh</option>
                     <option value="siemreap">Siem Reap</option>
-                    <option value="battambang">Battambang</option>
+                    <option value="sihanouk">Sihanouk Ville</option>
+                    <option value="kompot">Kompot</option>
+                    <option value="kep">Kep</option>
                 </select>
 
                 <select
@@ -58,9 +60,10 @@ function Properties() {
                     className="p-2 border rounded"
                 >
                     <option value="">Select Type</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="villa">Villa</option>
-                    <option value="studio">Studio</option>
+                    <option value="Apartment">Apartment</option>
+                    <option value="Villa">Villa</option>
+                    <option value="House">House</option>
+                    <option value="Penthouse">Penthouse</option>
                 </select>
 
                 <input

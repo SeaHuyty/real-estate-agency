@@ -121,7 +121,7 @@ export const testimonialsData = [
       title: "UI/UX Designer",
       image: img3,
       alt: "Portrait of Richard Nelson",
-      rating: 4,
+      rating: 5,
       text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
   }
 ];
