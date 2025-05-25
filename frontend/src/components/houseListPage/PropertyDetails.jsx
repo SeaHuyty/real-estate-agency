@@ -85,7 +85,7 @@ const PropertyDetails = () => {
                                         <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
                                         <span>{property.address}, {property.city}</span>
                                     </div>
-                                    <div className='w-max rounded-[5px] p-2 bg-gray-200'>$ {property.price}</div>
+                                    <div className='w-max rounded-[5px] p-2 bg-gray-200'>$ {Number(property.price).toLocaleString()}</div>
                                 </div>
                             </div>
                             <div className='mt-[20px] text-[14px] text-gray-500 leading-[20px]'>

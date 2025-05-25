@@ -19,7 +19,7 @@ const Header = () => {
                     <h1 className='-mt-7'>PERFECT HOME</h1>
                 </div>
                 <div className='flex flex-col gap-2'>
-                    <p className='w-150 text-left text-gray-500'>We offer over 10000 apartments for every request. You are guaranteed to be able to find an apartments that suit you.</p>  
+                    <p className='w-150 text-left text-gray-500'>We offer a wide range of properties across five provinces in Cambodia — Phnom Penh, Siem Reap, Sihanoukville, Kampot, and Kep. From apartments to villas, find the perfect home for your needs.</p>  
                     {/* search bar */}
                     <div className=''>
                         <form class="w-full flex gap-5" action='/properties' method='GET'>
@@ -28,7 +28,7 @@ const Header = () => {
                                 <option value="phnompenh">Phnom Penh</option>
                                 <option value="siemreap">Siem Reap</option>
                                 <option value="sihanouk">Sihanouk</option>
-                                <option value="kompot">Kompot</option>
+                                <option value="kompot">Kampot</option>
                                 <option value="kep">Kep</option>
                             </select>
                             <button type='submit' className='w-30 rounded-md px-4 py-2 bg-blue-900 text-white transition duration-250 ease-in-out hover:bg-blue-600'>Search</button>
