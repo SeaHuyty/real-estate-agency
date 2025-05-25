@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 function PropertyCard({ property }) {
-    const firstImage = property.images?.[0];
+    const firstImage = property.property_thumbnail;
 
     return (
         <Link to={`/properties/${property.id}`}>

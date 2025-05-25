@@ -30,10 +30,12 @@ async function initDB() {
                 address VARCHAR(255) NOT NULL,
                 city VARCHAR(100) NOT NULL,
                 province VARCHAR(100) NOT NULL,
+                location_url TEXT NOT NULL,
                 price NUMERIC(12, 2) NOT NULL,
                 size INTEGER NOT NULL,
                 bedrooms INTEGER NOT NULL,
                 bathrooms INTEGER NOT NULL,
+                property_thumbnail TEXT,
                 status VARCHAR(50) DEFAULT 'available',
                 listed_date DATE DEFAULT CURRENT_DATE
             );
