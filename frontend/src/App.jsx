@@ -4,7 +4,7 @@ import LandingPage from './components/landingPage/landingPage'
 import SinglePage from './components/singlePage/singlePage'
 import PropertyDetails from './components/houseListPage/PropertyDetails'
 import Properties from './components/houseListPage/properties'
-import ListPage from "./listPage/listPage.jsx";
+// import ListPage from "./listPage/listPage.jsx";
 
 function App() {
   return (
@@ -14,8 +14,6 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
-            <Route path='/SinglePage' element={<SinglePage />} />
-            <Route path='/list' element={<ListPage/>}/>
           </Routes>
       </div>
     </BrowserRouter>

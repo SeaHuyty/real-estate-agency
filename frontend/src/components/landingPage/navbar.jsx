@@ -3,8 +3,8 @@ import {assets} from '../../assets/assets'
 
 const Navbar = () => {
     return (
-        <div className='w-full absolute top-0 left-0 z-10'>
-            <div className='w-full absolute top-0 left-0 mx-auto flex justify-between items-center py-4 px-20 md:px-20 lg-px-32 backdrop-blur-sm'>
+        <div className='w-full'>
+            <div className='w-full mx-auto flex justify-between items-center py-4 px-20 md:px-20 lg-px-32'>
                 <img src={assets.logo_dark} alt="" className='bg-black rounded-sm w-20 py-2 px-2 transition duration-250 ease-in-out hover:scale-110'/>
                 <ul className='hidden md:flex gap-8 text-[16px] text-black'>
                     <a href="#Header" className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Home</a>

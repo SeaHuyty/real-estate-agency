@@ -179,7 +179,7 @@ const container = () => {
                     {testimonialsData.map((testimonial, index) => (
                         <div key={index} className='flex flex-col gap-5 bg-gray-100 p-10'>
                             <div className='flex gap-5 items-center'>
-                                <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full transition duration-250 ease-in-out hover:scale-115'/>
+                                <img src={testimonial.image} alt={testimonial.alt} className='w-20 h-20 rounded-full'/>
                                 <div className='flex flex-col'>
                                     <h2 className='text-xl font-semibold'>{testimonial.name}</h2>
                                     <div className='flex justify-center items-center gap-1'>

@@ -20,7 +20,7 @@ function Slider ({ images, imageIndex, setImageIndex, thumbnail }) {
     }
     return (
         <div className='h-[350px] flex gap-2'>
-            {imageIndex !== null && (<div className='absolute h-full w-full top-0 left-0 bg-black/80 flex items-center justify-center'>
+            {imageIndex !== null && (<div className='absolute h-full w-full top-0 left-0 bg-black/85 flex items-center justify-center'>
                 <div className='arrow flex-1 flex items-center justify-center'>
                     <img className='w-[20px] cursor-pointer' src="/arrow.png" alt="" onClick={() => changeImage('left')}/>
                 </div>
