@@ -10,12 +10,12 @@ import React from 'react'
 function Card({item}) {
     return (
         <div className="card">
-            <Link to={`/real-estate-agency/${item.id}`} className='imageContainer'>
+            <Link to={`/properties/${item.id}`} className='imageContainer'>
                 <img src={item.img} alt="" />
             </Link>
             <div className="textContainer">
                 <h2 className="title">
-                    <Link to={`/real-estate-agency/${item.id}`}>{item.title }</Link>
+                    <Link to={`/properties/${item.id}`}>{item.title }</Link>
                 </h2>
                 <p className='address'>
                     <img src={pin} alt="" />

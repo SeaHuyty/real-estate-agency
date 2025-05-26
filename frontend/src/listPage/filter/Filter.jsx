@@ -7,18 +7,18 @@ function Filter() {
         <div className="filter">
             <h1>Search results for <b>Phnom Penh</b></h1>
             <div className="top">
-                <div className="item">
+                {/* <div className="item">
                     <label htmlFor="city">Location</label>
                     <input type="text" id="city" name="city" placeholder='City Location'/>
-                </div>
+                </div> */}
             </div>
             <div className="bottom">
                 <div className="item">
                     <label htmlFor="type">Phnom Penh</label>
                     <select name="type" id="type">
-                        <option value="buy">any</option>
-                        <option value="buy">Buy</option>
-                        <option value="rent">Rent</option>
+                        <option value="buy">Phnom Penh</option>
+                        <option value="buy">Siem Reap</option>
+                        <option value="rent">Kompot</option>
                     </select>
                 </div>
                 <div className="item">
@@ -43,9 +43,9 @@ function Filter() {
                     <label htmlFor="bedroom">Bedroom</label>
                     <input type="text" id="bedroom" name="bedroom" placeholder='any'/>
                 </div>
-                <button>
+                {/* <button>
                     <img src={img} alt="search" />
-                </button>
+                </button> */}
             </div>
         </div>
     )
