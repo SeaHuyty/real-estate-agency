@@ -70,7 +70,7 @@ const PropertyDetails = () => {
     return (
         <div className='w-full h-full'>
             <Navbar />
-            <div className='px-20 py-17 w-full h-full flex gap-5'>
+            <div className='px-20 w-full h-full flex gap-5'>
                 <div className='flex-3'>
                     <div className='flex flex-col gap-5'>
                         <Slider
@@ -81,15 +81,15 @@ const PropertyDetails = () => {
                         <div className='info'>
                             <div className='flex justify-between gap-5'>
                                 <div className='flex flex-col gap-3 w-full'>
-                                    <h1 className='font-semibold'>{property.title}</h1>
+                                    <h1 className='font-semibold text-[27px]'>{property.title}</h1>
                                     <div className='flex gap-2 items-center text-[14px] text-gray-500'>
                                         <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
                                         <span>{property.address}, {property.city}</span>
                                     </div>
-                                    <div className='w-max rounded-[5px] p-2 bg-gray-200'>$ {Number(property.price).toLocaleString()}</div>
+                                    <div className='w-max rounded-[5px] font-semibold text-[20px] text-green-600'>$ {Number(property.price).toLocaleString()}</div>
                                 </div>
                             </div>
-                            <div className='mt-[20px] text-[14px] text-gray-500 leading-[20px]'>
+                            <div className='mt-[15px] text-[14px] text-gray-500 leading-[20px]'>
                                 {property.description}
                             </div>
 

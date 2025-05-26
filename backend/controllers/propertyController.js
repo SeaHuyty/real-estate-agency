@@ -2,29 +2,34 @@ import { sql } from '../config/db.js';
 
 export const getAllProperties = async (req, res) => {
     try {
-        const { province, type, minprice, maxprice } = req.query;
+        const { province, type, minprice, maxprice, bedrooms } = req.query;
 
         const conditions = [];
         const params = [];
 
         if (province) {
-        params.push(province);
-        conditions.push(`p.province = $${params.length}`);
+            params.push(province);
+            conditions.push(`p.province = $${params.length}`);
         }
 
         if (type) {
-        params.push(type);
-        conditions.push(`p.property_type = $${params.length}`);
+            params.push(type);
+            conditions.push(`p.property_type = $${params.length}`);
         }
 
         if (minprice) {
-        params.push(minprice);
-        conditions.push(`p.price >= $${params.length}`);
+            params.push(minprice);
+            conditions.push(`p.price >= $${params.length}`);
         }
 
         if (maxprice) {
-        params.push(maxprice);
-        conditions.push(`p.price <= $${params.length}`);
+            params.push(maxprice);
+            conditions.push(`p.price <= $${params.length}`);
+        }
+        
+        if (bedrooms) {
+            params.push(bedrooms);
+            conditions.push(`p.bedrooms >= $${params.length}`);
         }
 
         const whereClause = conditions.length
@@ -32,14 +37,14 @@ export const getAllProperties = async (req, res) => {
         : '';
 
         const query = `
-        SELECT 
-            p.*, 
-            ARRAY_AGG(pi.image_url) AS images
-        FROM properties p
-        LEFT JOIN property_images pi ON p.id = pi.property_id
-        ${whereClause}
-        GROUP BY p.id
-        ORDER BY p.listed_date DESC
+            SELECT 
+                p.*, 
+                ARRAY_AGG(pi.image_url) AS images
+            FROM properties p
+            LEFT JOIN property_images pi ON p.id = pi.property_id
+            ${whereClause}
+            GROUP BY p.id
+            ORDER BY p.listed_date DESC
         `;
 
         const result = await sql.query(query, params);
