@@ -27,7 +27,7 @@ import siemreap from './angkorThomBg.jpg'
 import phnompenh from './royalePalace.jpg'
 import kampot from './kompot.jpg'
 import sihanouk from './sihanouk.jpg'
-import battambong from './battambong.jpg'
+import kep from './kep.jpg'
 export const assets = {
     logo,
     logo_dark,
@@ -56,7 +56,7 @@ export const assets = {
     phnompenh,
     kampot,
     sihanouk,
-    battambong
+    kep
 }
 
 export const projectsData = [
@@ -148,32 +148,27 @@ export const ceoData = [
 export const province = [
   {
       name: "Siem Reap",
-      // title: "Project Manager",
       image: siemreap,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+      text: "Siem Reap attracts property buyers seeking boutique hotels and guesthouses near the famous Angkor Wat. The growing tourism industry boosts demand for rental properties and hospitality developments."
   },
   {
       name: "Sihuanoukville",
-      // title: "Co-Founder",
       image: sihanouk,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+      text: "Sihanoukville has seen rapid growth in high-rise developments and beachfront resorts."
   },
   {
       name: "Kampot",
-      // title: "UI/UX Designer",
       image: kampot,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+      text: "Kampot features tranquil riverside properties and expanding residential zones, perfect for those seeking a peaceful lifestyle. Real estate here is gaining interest due to infrastructure improvements and eco-tourism."
   },
   {
       name: "Phnom Penh",
-      // title: "UI/UX Designer",
       image: phnompenh,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+      text: "Phnom Penh offers a dynamic real estate market with high-rise condos and modern office spaces catering to rapid urban growth. Its central location makes it ideal for both residential and commercial investments."
   },
   {
-      name: "battambong",
-      // title: "UI/UX Designer",
-      image: battambong,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+      name: "Kep",
+      image: kep,
+      text: "Kep is known for its coastal properties and seafood markets, attracting buyers looking for a serene lifestyle. The area is developing with new residential projects and eco-friendly initiatives."
   }
 ];
