@@ -4,7 +4,7 @@ import { assets } from '../../assets/assets'
 
 const Header = () => {
     return (
-        <div className='py-4 px-20 flex flex-col items-center justify-center gap-5' id='Header'>
+        <div className='px-20 flex flex-col items-center justify-center gap-5' id='Header'>
             <motion.div 
                 // Animations
                 initial={{ opacity: 0, y: 150 }}
@@ -12,7 +12,7 @@ const Header = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 
-                className='relative w-full flex justify-between items-center mt-25'>
+                className='relative w-full flex justify-between items-center'>
                 {/* main text */}
                 <div className='text-left text-black font-bold text-[4.5rem]'>
                     <h1>FIND YOUR</h1>

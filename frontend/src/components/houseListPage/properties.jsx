@@ -44,15 +44,15 @@ function Properties() {
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
-                    <h1 className='font-semibold text-[24px]'>Search results for<b> Phnom Penh</b></h1>
+                    <h1 className='font-semibold text-[24px]'>Search results for<b> {filters.province}</b></h1>
                     <div className='flex gap-5 items-center'>
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="type" className='text-[10px]'>Phnom Penh</label>
+                            <label htmlFor="type" className='text-[15px]'>Select Provinces</label>
                             <select
                                 name="province"
                                 value={filters.province}
                                 onChange={handleChange}
-                                className='w-[128px] border rounded-[5px] text-[14px]'
+                                class=" w-full p-2.5 bg-gray-50 border border-gray-500 text-gray-900 text-sm"
                                 >
                                 <option value="">Select Province</option>
                                 <option value="phnompenh">Phnom Penh</option>
@@ -64,12 +64,12 @@ function Properties() {
                         </div>
 
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="property" className='text-[10px]'>Property</label>
+                            <label htmlFor="property" className='text-[15px]'>Property</label>
                             <select
                                 name="type"
                                 value={filters.type}
                                 onChange={handleChange}
-                                className=" border rounded"
+                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
                                 >
                                 <option value="">Select Type</option>
                                 <option value="Apartment">Apartment</option>
@@ -80,36 +80,36 @@ function Properties() {
                         </div>
 
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="minPrice" className='text-[10px]'>Min Price</label>
+                            <label htmlFor="minPrice" className='text-[15px]'>Min Price</label>
                             <input
                                 type="number"
                                 name="minprice"
                                 placeholder="Min Price"
                                 value={filters.minprice}
                                 onChange={handleChange}
-                                className=" border rounded"
+                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
                                 />
                         </div>
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="maxPrice" className='text-[10px]'>Max Price</label>
+                            <label htmlFor="maxPrice" className='text-[15px]'>Max Price</label>
                             <input
                                 type="number"
                                 name="maxprice"
                                 placeholder="Max Price"
                                 value={filters.maxprice}
                                 onChange={handleChange}
-                                className=" border rounded"
+                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
                             />
                         </div>
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="bedroom" className='text-[10px]'>Bedroom</label>
+                            <label htmlFor="bedroom" className='text-[15px]'>Bedroom</label>
                             <input
                                 type="number"
                                 name="bedrooms"
                                 placeholder="Bedroom"
                                 value={filters.bedrooms}
                                 onChange={handleChange}
-                                className=" border rounded"
+                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
                                 />
                         </div>
                     </div>

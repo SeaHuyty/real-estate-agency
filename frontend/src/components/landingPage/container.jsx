@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
-import { assets, ceoData, projectsData, testimonialsData, province } from '../../assets/assets'
+import { assets, ceoData, testimonialsData, province } from '../../assets/assets'
 import { motion } from "motion/react"
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const container = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [cardShow, setCardShow] = useState(1);
     const [result, setResult] = React.useState("");
     const [topProperties, setTopProperties] = useState([]);
 
@@ -92,14 +90,13 @@ const container = () => {
                 </div>
                 <div className='mt-10'>
                     {/* slider */}
-                    <div className='overflow-x-scroll no-scrollbar flex gap-8 transition-transform duration-500 ease-in-out' 
-                    style={{transform: `translateX(-${(currentIndex * 100) / cardShow}%)`}}>
+                    <div className='overflow-x-scroll no-scrollbar flex gap-8'>
                         {topProperties.map((project, index) => (
                             <Link to={`/properties/${project.id}`}
                                 key={index}  className='relative flex-shrink-0 w-full sm:w-1/4'>
-                                <img src={project.property_thumbnail} alt={project.title} className='w-500 h-50 mb-14'/>
+                                <img src={project.property_thumbnail} alt={project.title} className='w-500 h-50 mb-14 transition duration-250 ease-in-out hover:scale-105'/>
                                 <div className='absolute left-0 right-0 bottom-5 flex justify-center items-center'>
-                                    <div className='inline-block bg-white w-3/4 px-4 py-2 shadow-md'>
+                                    <div className='inline-block bg-white w-3/4 px-4 py-2 shadow-md transition duration-250 ease-in-out hover:scale-105'>
                                         <h2 className='text-xl font-semibold text-gray-800'>
                                             {project.title}
                                         </h2>
@@ -143,7 +140,7 @@ const container = () => {
                         <div className='z-10 absolute top-[90%] left-5 bg-white px-4 py-2 text-black flex flex-col justify-center items-center'>
                             <h2 className='text-[17px]'>{province[4].name}</h2>
                         </div>
-                        <img className='w-full h-full object-cover'  src={assets.battambong} alt="" />
+                        <img className='w-full h-full object-cover'  src={assets.kep} alt="" />
                         <div className='absolute inset-0 bg-black/50 text-white flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 text-center'>
                             <h2 className='text-xl font-semibold'>{province[4].name}</h2>
                             <p className='text-xs mt-2'>{province[4].text}</p>

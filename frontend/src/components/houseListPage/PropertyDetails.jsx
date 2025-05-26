@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 const BASE_URL = 'http://localhost:3000';
 import React from 'react';
-import Slider from '../singlePage/slider'
-import Map from '../singlePage/map'
+import Slider from './slider'
+import Map from './map'
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 
