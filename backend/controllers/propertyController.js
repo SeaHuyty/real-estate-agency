@@ -90,3 +90,23 @@ export const getProperty = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
+export const getTopProperty = async (req, res) => {
+    try {
+        const result = await sql `
+            SELECT
+                id,
+                title,
+                price,
+                city,
+                property_thumbnail
+            FROM properties
+            ORDER BY price DESC
+            LIMIT 6
+        `;
+        res.status(200).json({ success: true, data: result });
+    } catch (error) {
+        console.error('getTopProperty error:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}

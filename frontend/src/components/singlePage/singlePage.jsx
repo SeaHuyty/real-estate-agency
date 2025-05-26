@@ -88,14 +88,12 @@ const SinglePage = () => {
                                             <img className='w-[30px] h-[30px]' src="/pet.png" alt="" />
                                             <div>
                                                 <h1>Parking lot</h1>
-                                                {/* <p className='text-gray-500 text-[14px]'>Pet Allowed</p> */}
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/fee.png" alt="" />
                                             <div>
                                                 <h1>Garden</h1>
-                                                {/* <p className='text-gray-500 text-[14px]'>Unknown information</p> */}
                                             </div>
                                         </div>
                                     </div>
@@ -108,21 +106,18 @@ const SinglePage = () => {
                                             <img className='w-[30px] h-[30px]' src="/size.png" alt="" />
                                             <div>
                                                 <h1>{singlePostData.size}sqm</h1>
-                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.size}sqm</p> */}
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/bed.png" alt="" />
                                             <div>
                                                 <h1>Beds</h1>
-                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.bedRooms} bed</p> */}
                                             </div>
                                         </div>
                                         <div className='property fee flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/bath.png" alt="" />
                                             <div>
                                                 <h1>Bathrooms</h1>
-                                                {/* <p className='text-gray-500 text-[14px]'>{singlePostData.bathroom} bathroom</p> */}
                                             </div>
                                         </div>
                                     </div>
