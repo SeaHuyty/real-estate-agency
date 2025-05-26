@@ -73,7 +73,8 @@ const PropertyDetails = () => {
             <div className='px-20 py-17 w-full h-full flex gap-5'>
                 <div className='flex-3'>
                     <div className='flex flex-col gap-5'>
-                        <Slider 
+                        <Slider
+                            thumbnail={property.property_thumbnail}
                             images={property.images} 
                             imageIndex={imageIndex} 
                             setImageIndex={setImageIndex} />
@@ -92,14 +93,14 @@ const PropertyDetails = () => {
                                 {property.description}
                             </div>
 
-                            <div className='details mt-3 flex flex-col gap-5'>
-                                <div className='Details'>
+                            <div className='details mt-3 flex flex-col gap-7 mt-10'>
+                                <div className='Details '>
                                     <h1 className='font-semibold'>Details</h1>
-                                    <div className='flex justify-between gap-4 mt-3'>
+                                    <div className='grid grid-cols-3 gap-7 mt-3 '>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/size.png" alt="" />
                                             <div>
-                                                <h1>{property.size} sqm^2</h1>
+                                                <h1>{property.size} m²</h1>
                                             </div>
                                         </div>
                                         <div className='pet flex gap-3 items-center'>
@@ -119,14 +120,14 @@ const PropertyDetails = () => {
 
                                 <div className='General'>
                                     <h1 className='font-semibold'>Amenities</h1>
-                                    <div className='w-full flex justify-between gap-4 mt-3'>
-                                        <div className='utility flex gap-3 items-center'>
+                                    <div className='grid grid-cols-3 gap-7 mt-3'>
+                                        <div className='w-full flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/utility.png" alt="" />
                                             <div>
                                                 <h1 className='w-[50px]'>Swimming Pool</h1>
                                             </div>
                                         </div>
-                                        <div className='pet flex gap-3 items-center'>
+                                        <div className='flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/pet.png" alt="" />
                                             <div>
                                                 <h1>Parking lot</h1>
@@ -161,7 +162,7 @@ const PropertyDetails = () => {
 
                                 <div className='security'>
                                     <h1 className='font-semibold'>Security</h1>
-                                    <div className='flex justify-between gap-4 mt-3'>
+                                    <div className='grid grid-cols-3 gap-7 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/school.png" alt="" />
                                             <div>
@@ -185,7 +186,7 @@ const PropertyDetails = () => {
 
                                 <div className='community'>
                                     <h1 className='font-semibold'>Community Area</h1>
-                                    <div className='w-full flex justify-between gap-4 mt-3'>
+                                    <div className='grid grid-cols-3 gap-7 mt-3'>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/utility.png" alt="" />
                                             <div>

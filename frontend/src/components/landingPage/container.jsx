@@ -22,30 +22,6 @@ const container = () => {
         .catch(err => console.error('Error fetching top properties:', err));
     }, []); // 👈 This empty array is critical!
 
-    // slider image
-    useEffect(() => {
-        const updateCardShow = () => {
-            if (window.innerWidth >= 1024) {
-                setCardShow(projectsData.length);
-            } else {
-                setCardShow(1);
-            };
-        }
-        updateCardShow();
-        window.addEventListener('resize', updateCardShow);
-        return () => {
-            window.removeEventListener('resize', updateCardShow);
-        };
-    },[]);
-    const nextSlide = () => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % projectsData.length)
-    }
-    const prevSlide = () => {
-        // return project data - 1 and reduce the current index by 1 if it is not 0
-        // if it is 0 then set the current index to the last project data
-        setCurrentIndex((prevIndex) => prevIndex === 0 ? projectsData.length - 1 : prevIndex - 1)
-    }
-
     // contact form
     const onSubmit = async (event) => {
         event.preventDefault();
@@ -76,33 +52,28 @@ const container = () => {
                 <div className='flex flex-2'>
                     <div>
                         <div>
-                            <div className='flex flex-col'>
+                            <div className='flex flex-col gap-2'>
                                 <h1 className='text-[2.5rem] font-bold'>Discover Your Future House</h1>
                                 <p className='text-[20px] text-gray-500 font-bold'>Your Trusted Partner In Real Estate Success</p>
                             <p className='text-gray-500 w-[100%] mt-5'>Our real estate platform is trusted by thousands for its transparency, reliability, and personalized service. Whether you're buying, selling, or renting, we connect you with verified listings and expert agents who understand your needs. With a commitment to integrity and customer satisfaction, we've become a trusted choice for individuals and families looking for their next home.</p>
                             </div>
                         </div>
-                        <div className='w-full mt-10 flex flex-wrap gap-5 '>
-                            {/* Left Column */}
-                            <div className='flex flex-col gap-5 flex-1 min-w-[300px]'>
-                                <div className='grid grid-cols-2 gap-4'>
-                                    <div>
-                                        <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>1</h1>
-                                        <p className='text-gray-500'>Year of Excellence</p>
-                                    </div>
-                                    <div>
-                                        <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>90+</h1>
-                                        <p className='text-gray-500'>Properties Listed</p>
-                                    </div>
-                                    <div>
-                                        <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>15+</h1>
-                                        <p className='text-gray-500'>Properties Sold</p>
-                                    </div>
-                                    <div>
-                                        <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>5</h1>
-                                        <p className='text-gray-500'>Cooperated Architect Companies</p>
-                                    </div>
-                                </div>
+                        <div className='grid grid-cols-2 gap-4'>
+                            <div>
+                                <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>1</h1>
+                                <p className='text-gray-500'>Year of Excellence</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>90+</h1>
+                                <p className='text-gray-500'>Properties Listed</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>15+</h1>
+                                <p className='text-gray-500'>Properties Sold</p>
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-[2rem] lg:text-[3rem]'>5</h1>
+                                <p className='text-gray-500'>Cooperated Architect Companies</p>
                             </div>
                         </div>
                     </div>
@@ -115,21 +86,11 @@ const container = () => {
             </motion.div>    
             {/* house image */}
             <motion.div className='w-full h-full mt-25' id='project' initial={{ opacity: 0, x: 200 }} transition={{ duration: 1 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <div className='flex justify-between items-center'>
-                    <div>
-                        <h1 className=' text-[40px] font-semibold'>Featured Properties: Your Next Great Find</h1>
-                        <p className='text-gray-500 w-[100%]'>Explore the top-rated properties exclusively offered by our agency — your next great find awaits!</p>
-                    </div>
-                    <div className='flex justify-end items-center'>
-                        <button onClick={prevSlide} className='p-3 bg-gray-200 rounded mr-2 cursor-pointer' aria-label='previous project'>
-                            <img src={assets.left_arrow} alt="previous" />
-                        </button>
-                        <button onClick={nextSlide} className='p-3 bg-gray-200 rounded mr-2  cursor-pointer' aria-label='next project'>
-                            <img src={assets.right_arrow} alt="next" />
-                        </button>
-                    </div>
+                <div>
+                    <h1 className=' text-[40px] font-semibold'>Featured Properties: Your Next Great Find</h1>
+                    <p className='text-gray-500 w-[100%]'>Explore the top-rated properties exclusively offered by our agency — your next great find awaits!</p>
                 </div>
-                <div className='overflow-hidden mt-10'>
+                <div className='mt-10'>
                     {/* slider */}
                     <div className='overflow-x-scroll no-scrollbar flex gap-8 transition-transform duration-500 ease-in-out' 
                     style={{transform: `translateX(-${(currentIndex * 100) / cardShow}%)`}}>
@@ -295,10 +256,7 @@ const container = () => {
                                 <img className='rotate-90' src="/location-alt.png" alt="" />
                                 <p>Cambodia Academy Of Digital Technology</p>
                             </div>
-                            <div className='flex items-center gap-5'>
-                                <img className='rotate-90' src="/location-alt.png" alt="" />
-                                <p>Cambodia Academy Of Digital Technology</p>
-                            </div>
+                            
                         </div>
                     </div>
                     <form onSubmit={onSubmit} className='bg-white p-6 rounded shadow-md w-full max-w-md'>
