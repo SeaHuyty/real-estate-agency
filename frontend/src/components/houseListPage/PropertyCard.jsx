@@ -17,12 +17,14 @@ function PropertyCard({ property }) {
                 </div>
 
                 <div className="flex flex-col justify-between gap-[10px]">
-                    <h2 className="text-[20px] font-semibold">{property.title}</h2>
+                    <div className="flex justify-between">
+                        <h2 className="text-[20px] font-semibold">{property.title}</h2>
+                        <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
+                    </div>
                     <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
                         <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
                         <span>{property.address}, {property.city}</span>
                     </p>
-                    <p className='text-[20px] font-semibold'>$ {property.price}</p>
                     <div className="flex gap-[20px] text-[14px]">
                         <div className="flex items-center gap-[5px] bg-white">
                             <img src="/bed.png" alt="" className='w-[20px] h-[20px]'/>
@@ -31,6 +33,10 @@ function PropertyCard({ property }) {
                         <div className="flex items-center gap-[5px] bg-white">
                             <img src="/bath.png" alt="" className='w-[20px] h-[20px]'/>
                             <span>{property.bathrooms} bathroom</span>
+                        </div>
+                        <div className="flex items-center gap-[5px] bg-white">
+                            <img src="/size.png" alt="" className='w-[20px] h-[20px]'/>
+                            <span>{property.size} m²</span>
                         </div>
                     </div>
                 </div>
