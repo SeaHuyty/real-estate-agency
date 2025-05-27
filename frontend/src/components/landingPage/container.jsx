@@ -77,7 +77,7 @@ const container = () => {
                     </div>
                     {/* Right Images */}
                     <div className='flex gap-5 min-w-[300px] overflow-hidden'>
-                        <img className='w-full object-cover' src={assets.project_img9} alt="" />
+                        <img className='w-full object-cover' src={assets.aboutUsImg} alt="" />
                     </div>
                 </div>
 
