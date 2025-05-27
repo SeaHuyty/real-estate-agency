@@ -5,6 +5,7 @@ import { assets } from '../../assets/assets'
 const Header = () => {
     return (
         <div className='px-20 flex flex-col items-center justify-center gap-5' id='Header'>
+            
             <motion.div 
                 // Animations
                 initial={{ opacity: 0, y: 150 }}
