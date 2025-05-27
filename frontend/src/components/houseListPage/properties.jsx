@@ -44,7 +44,7 @@ function Properties() {
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
-                    <h1 className='font-semibold text-[24px]'>Search results for<b> {filters.province}</b></h1>
+                    <h1 className='font-semibold text-[24px]'>Search results for<b> {properties[0]?.city}</b></h1>
                     <div className='flex gap-5 items-center'>
                         <div className="flex flex-col gap-[2px]">
                             <label htmlFor="type" className='text-[15px]'>Select Provinces</label>
@@ -120,7 +120,7 @@ function Properties() {
                         <div className="loading loading-spinner loading-lg" />
                     </div>
                 ) : (
-                    <div className="grid grid-cols-3 gap-10">
+                    <div className="grid grid-cols-3 gap-13">
                         {Array.isArray(properties) ? (
                             properties.map((property) => (
                                 <PropertyCard key={property.id} property={property} />
@@ -130,6 +130,7 @@ function Properties() {
                         )}
                     </div>
                 )}
+
             </div>
             <Footer />
         </div>

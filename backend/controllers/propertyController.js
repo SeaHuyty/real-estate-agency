@@ -48,6 +48,7 @@ export const getAllProperties = async (req, res) => {
         `;
 
         const result = await sql.query(query, params);
+        console.log(result);
         res.status(200).json({ success: true, data: result });
 
     } catch (error) {

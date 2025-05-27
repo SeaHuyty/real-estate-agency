@@ -157,9 +157,9 @@ export const province = [
       text: "Sihanoukville has seen rapid growth in high-rise developments and beachfront resorts."
   },
   {
-      name: "Kampot",
+      name: "Kompot",
       image: kampot,
-      text: "Kampot features tranquil riverside properties and expanding residential zones, perfect for those seeking a peaceful lifestyle. Real estate here is gaining interest due to infrastructure improvements and eco-tourism."
+      text: "Kompot features tranquil riverside properties and expanding residential zones, perfect for those seeking a peaceful lifestyle. Real estate here is gaining interest due to infrastructure improvements and eco-tourism."
   },
   {
       name: "Phnom Penh",

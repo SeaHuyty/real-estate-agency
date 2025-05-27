@@ -22,13 +22,13 @@ function Slider ({ images, imageIndex, setImageIndex, thumbnail }) {
         <div className='h-[350px] flex gap-2'>
             {imageIndex !== null && (<div className='absolute h-full w-full top-0 left-0 bg-black/85 flex items-center justify-center'>
                 <div className='arrow flex-1 flex items-center justify-center'>
-                    <img className='w-[20px] cursor-pointer' src="/arrow.png" alt="" onClick={() => changeImage('left')}/>
+                    <img className='w-[200px] rotate-180 cursor-pointer' src="/right_click.png" alt="" onClick={() => changeImage('left')}/>
                 </div>
                 <div className='imgContainer flex justify-center flex-10'>
                     <img className='z-100 ' src={allImages[imageIndex]} alt="" />
                 </div>
                 <div className='arrow flex-1 flex items-center justify-center'>
-                    <img className='w-[20px] rotate-180 cursor-pointer' src="/arrow.png" alt="" onClick={() => changeImage('right')}/>
+                    <img className='w-[200px] cursor-pointer' src="/right_click.png" alt="" onClick={() => changeImage('right')}/>
                 </div>
                 <div onClick={() => setImageIndex(null)} className='absolute top-0 right-0 text-white text-[36px] font-bold p-[50px] cursor-pointer'>X</div>
             </div>)}
