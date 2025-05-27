@@ -4,6 +4,7 @@ import LandingPage from './components/landingPage/landingPage'
 import PropertyDetails from './components/houseListPage/PropertyDetails'
 import Properties from './components/houseListPage/properties'
 import LoginAdmin from './components/authentication/loginAdmin'
+import Contact from './components/landingPage/contact'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
             <Route path='/loginAdmin' element={<LoginAdmin />} />
+            <Route path='/Contact' element={<Contact />} />
           </Routes>
       </div>
     </BrowserRouter>

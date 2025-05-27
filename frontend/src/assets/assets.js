@@ -18,6 +18,8 @@ import phnompenh from './royalePalace.jpg'
 import kampot from './kompot.jpg'
 import sihanouk from './sihanouk.jpg'
 import kep from './kep.jpg'
+import villa_s from './villa_s.jpg'
+
 export const assets = {
     logo,
     logo_dark,
@@ -38,7 +40,8 @@ export const assets = {
     sihanouk,
     kep,
     header_img,
-    aboutUsImg
+    aboutUsImg,
+    villa_s
 }
 
 export const testimonialsData = [
