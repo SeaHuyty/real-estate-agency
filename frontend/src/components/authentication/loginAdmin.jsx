@@ -1,31 +1,77 @@
-import React from 'react'
-import { assets } from '../../assets/assets'
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const BASE_URL = 'http://localhost:3000';
 
 const LoginAdmin = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        try {
+            if (email === 'papaN@gmail.com' && password === '123') {
+                // Store token in localStorage
+                localStorage.setItem('adminToken', 'demo-token');
+                navigate('/admin');
+            } else {
+                setError('Invalid credentials');
+            }
+        } catch (err) {
+            setError('Login failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <div className='flex justify-center items-center h-screen w-full'>
-            <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto w-full md:h-screen lg:py-0">
-                <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                    <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Login as Admin
-                        </h1>
-                        <form class="space-y-4 md:space-y-6" action="#">
-                            <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="chhunhour@admin.com" required="" />
-                            </div>
-                            <div>
-                                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
-                            </div>
-                            <button type="submit" class="w-full text-white bg-blue-900 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Login</button>
-                        </form>
+        <div className='min-h-screen flex items-center justify-center bg-gray-50'>
+            <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-md'>
+                <h2 className='text-2xl font-bold mb-6 text-center'>Admin Login</h2>
+                
+                {error && <div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>{error}</div>}
+                
+                <form onSubmit={handleSubmit}>
+                    <div className='mb-4'>
+                        <label className='block text-gray-700 mb-2'>Email</label>
+                        <input
+                            type='email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className='w-full p-2 border rounded'
+                            required
+                        />
                     </div>
-                </div>
+                    
+                    <div className='mb-6'>
+                        <label className='block text-gray-700 mb-2'>Password</label>
+                        <input
+                            type='password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className='w-full p-2 border rounded'
+                            required
+                        />
+                    </div>
+                    
+                    <button
+                        type='submit'
+                        disabled={loading}
+                        className='w-full bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition disabled:opacity-50'
+                    >
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default LoginAdmin;
