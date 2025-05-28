@@ -40,7 +40,7 @@ function Properties() {
     };
 
     return (
-        <div className='w-full overflow-hidden'>
+        <div className='w-full'>
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
