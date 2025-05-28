@@ -68,7 +68,7 @@ const PropertyDetails = () => {
     if (!property) return <p>Property not found</p>
 
     return (
-        <div className='w-full h-full'>
+        <div className='w-full'>
             <Navbar />
             <div className='px-20 w-full h-full flex gap-5'>
                 <div className='flex-3'>

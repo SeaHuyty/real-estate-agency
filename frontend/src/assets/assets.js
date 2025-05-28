@@ -45,75 +45,75 @@ export const assets = {
 }
 
 export const testimonialsData = [
-  {
-      name: "Vannda",
-      title: "Marketing Manager",
-      image: vannda,
-      alt: "Portrait of Donald Jackman",
-      rating: 5,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  },
-  {
-      name: "G-Devith",
-      title: "Co-Founder",
-      image: gdevith,
-      alt: "Portrait of James Washington",
-      rating: 5,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  },
-  {
-      name: "Chhunhour",
-      title: "UI/UX Designer",
-      image: img3,
-      alt: "Portrait of Richard Nelson",
-      rating: 5,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  }
+    {
+        name: "Vannda",
+        title: "Marketing Manager",
+        image: vannda,
+        alt: "Portrait of Donald Jackman",
+        rating: 5,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    },
+    {
+        name: "G-Devith",
+        title: "Co-Founder",
+        image: gdevith,
+        alt: "Portrait of James Washington",
+        rating: 5,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    },
+    {
+        name: "Chhunhour",
+        title: "UI/UX Designer",
+        image: img3,
+        alt: "Portrait of Richard Nelson",
+        rating: 5,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    }
 ];
 export const ceoData = [
-  {
-      name: "Vannda",
-      title: "Project Manager",
-      image: vannda,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  },
-  {
-      name: "G-Devith",
-      title: "Co-Founder",
-      image: img2,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  },
-  {
-      name: "Long Chhunhour",
-      title: "UI/UX Designer",
-      image: img3,
-      text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
-  }
+    {
+        name: "Vannda",
+        title: "Project Manager",
+        image: vannda,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    },
+    {
+        name: "G-Devith",
+        title: "Co-Founder",
+        image: img2,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    },
+    {
+        name: "Long Chhunhour",
+        title: "UI/UX Designer",
+        image: img3,
+        text: "From the very first meeting, they understood my vision and helped me find the perfect property. Their attention to detail and commitment to client satisfaction is unmatched."
+    }
 ];
 export const province = [
-  {
-      name: "Siem Reap",
-      image: siemreap,
-      text: "Siem Reap attracts property buyers seeking boutique hotels and guesthouses near the famous Angkor Wat. The growing tourism industry boosts demand for rental properties and hospitality developments."
-  },
-  {
-      name: "Sihuanoukville",
-      image: sihanouk,
-      text: "Sihanoukville has seen rapid growth in high-rise developments and beachfront resorts."
-  },
-  {
-      name: "Kompot",
-      image: kampot,
-      text: "Kompot features tranquil riverside properties and expanding residential zones, perfect for those seeking a peaceful lifestyle. Real estate here is gaining interest due to infrastructure improvements and eco-tourism."
-  },
-  {
-      name: "Phnom Penh",
-      image: phnompenh,
-      text: "Phnom Penh offers a dynamic real estate market with high-rise condos and modern office spaces catering to rapid urban growth. Its central location makes it ideal for both residential and commercial investments."
-  },
-  {
-      name: "Kep",
-      image: kep,
-      text: "Kep is known for its coastal properties and seafood markets, attracting buyers looking for a serene lifestyle. The area is developing with new residential projects and eco-friendly initiatives."
-  }
+    {
+        name: "Siem Reap",
+        image: siemreap,
+        text: "Siem Reap attracts property buyers seeking boutique hotels and guesthouses near the famous Angkor Wat. The growing tourism industry boosts demand for rental properties and hospitality developments."
+    },
+    {
+        name: "Sihuanoukville",
+        image: sihanouk,
+        text: "Sihanoukville has seen rapid growth in high-rise developments and beachfront resorts."
+    },
+    {
+        name: "Kompot",
+        image: kampot,
+        text: "Kompot features tranquil riverside properties and expanding residential zones, perfect for those seeking a peaceful lifestyle. Real estate here is gaining interest due to infrastructure improvements and eco-tourism."
+    },
+    {
+        name: "Phnom Penh",
+        image: phnompenh,
+        text: "Phnom Penh offers a dynamic real estate market with high-rise condos and modern office spaces catering to rapid urban growth. Its central location makes it ideal for both residential and commercial investments."
+    },
+    {
+        name: "Kep",
+        image: kep,
+        text: "Kep is known for its coastal properties and seafood markets, attracting buyers looking for a serene lifestyle. The area is developing with new residential projects and eco-friendly initiatives."
+    }
 ];
