@@ -8,7 +8,7 @@ function PropertyCard({ property }) {
             <div className='flex flex-col gap-3'>
                 <div>
                     {firstImage ? (
-                        <img src={firstImage} alt="property.title" className='w-full h-[300px] object-cover' />
+                        <img src={firstImage} alt="property.title" className='w-full h-[300px] object-cover object-center' />
                     ) : (
                         <div className='w-full h-48 bg-gray-200 rounded flex items-center justify-center' >
                             <span>No Image</span>
