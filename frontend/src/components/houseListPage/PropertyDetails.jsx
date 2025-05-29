@@ -69,7 +69,7 @@ const PropertyDetails = () => {
 
     return (
         <div className='w-full'>
-            <Navbar />
+            <Navbar />  
             <div className='px-20 w-full h-full flex gap-5'>
                 <div className='flex-3'>
                     <div className='flex flex-col gap-5'>

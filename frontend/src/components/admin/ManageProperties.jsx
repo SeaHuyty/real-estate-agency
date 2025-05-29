@@ -47,64 +47,51 @@ const ManageProperties = () => {
     };
 
     return (
-        <div className='w-full overflow-hidden'>
+        <div className='w-full'>
             <Navbar />
-            <div className='px-20 py-10'>
-                <div className='flex justify-between items-center mb-8'>
+            <div className='px-20 flex flex-col gap-5'>
+                <div className='flex flex-col gap-5'>
                     <h1 className='text-3xl font-bold'>Manage Properties</h1>
-                    <Link 
-                        to="/admin/properties/create" 
-                        className='bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition'
-                    >
-                        Add New Property
-                    </Link>
+                    <Link to="/admin/properties/create" className='w-50 text-center bg-blue-900 text-white py-2 px-4 hover:bg-blue-800 transition'><button>Add New Property</button></Link>
                 </div>
-                
+
                 {error && <div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>{error}</div>}
                 
                 {loading ? (
-                    <div className='flex justify-center items-center h-64'>
-                        <div className='loading loading-spinner loading-lg' />
-                    </div>
+                    <div className='loading loading-spinner loading-lg' />
                 ) : (
-                    <div className='overflow-x-auto'>
-                        <table className='min-w-full bg-white border'>
-                            <thead>
-                                <tr>
-                                    <th className='py-3 px-4 border-b text-left'>Title</th>
-                                    <th className='py-3 px-4 border-b text-left'>Type</th>
-                                    <th className='py-3 px-4 border-b text-left'>Location</th>
-                                    <th className='py-3 px-4 border-b text-left'>Price</th>
-                                    <th className='py-3 px-4 border-b text-left'>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {properties.map(property => (
-                                    <tr key={property.id} className='hover:bg-gray-50'>
-                                        <td className='py-3 px-4 border-b'>{property.title}</td>
-                                        <td className='py-3 px-4 border-b'>{property.property_type}</td>
-                                        <td className='py-3 px-4 border-b'>{property.city}, {property.province}</td>
-                                        <td className='py-3 px-4 border-b'>${property.price.toLocaleString()}</td>
-                                        <td className='py-3 px-4 border-b'>
-                                            <div className='flex gap-2'>
-                                                <Link 
-                                                    to={`/admin/properties/edit/${property.id}`}
-                                                    className='text-blue-600 hover:text-blue-800'
-                                                >
-                                                    Edit
-                                                </Link>
-                                                <button
-                                                    onClick={() => handleDelete(property.id)}
-                                                    className='text-red-600 hover:text-red-800'
-                                                >
-                                                    Delete
-                                                </button>
+                    <div className='grid grid-cols-3 gap-13'>
+                        {properties.map(property => (
+                            <div key={property.id} className='flex flex-col gap-5'>
+                                <div>
+                                    <img className='w-full h-[300px] object-cover object-center' src={property.images} alt="" />
+                                </div>
+                                <div className='flex flex-col gap-2'>
+                                    <div className='flex flex-col gap-2'>
+                                        <div className='flex items-center justify-between'>
+                                            <h1 className='text-[20px] font-bold'>{property.title}</h1>
+                                            <h1 className='text-[20px] text-green-600 font-bold'>${property.price.toLocaleString()}</h1>
+                                        </div>
+                                        <div>
+                                            <div className='flex items-center justify-between'>
+                                                <h1 className='font-semibold'>Category: {property.property_type}</h1>
+                                                <h1 className='font-semibold'>ID: {property.id}</h1>
                                             </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                            <div className='flex gap-1 items-center'>
+                                                <img className='w-5 h-5 ' src="/pin.png" alt="" />
+                                                <h1 className='text-gray-500'>{property.province}, {property.city}</h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='flex gap-5'>
+                                        <Link to={`/admin/properties/edit/${property.id}`} className='text-white bg-blue-900 py-2 px-7 hover:bg-blue-800 transition'>
+                                            <button>Edit</button>
+                                        </Link>
+                                        <button onClick={() => handleDelete(property.id)} className='text-white bg-blue-900 py-2 px-7 hover:bg-blue-800 transition'>Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 )}
             </div>
