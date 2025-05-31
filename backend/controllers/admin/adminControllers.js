@@ -1,4 +1,70 @@
-import { sql } from '../config/db.js'; 
+import { sql } from '../../config/db.js'; 
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const register = async (req, res) => {
+    const { username, password} = req.body;
+    //validate
+    if (!username || !password) {
+        return res.status(400).json({ success: false, message: 'Username and Password are required' })
+    }
+    try {
+        const query = await sql `
+            select username 
+                from admins 
+                where username = ${username};
+        `;
+        if (query.length > 0) {
+            return res.status(404).json({ success: false, message: 'Username already exists' })
+        }
+        const hashedPassword = await bcrypt.hash(req.body.password, 10)
+
+        const insertAdmin = await sql `
+            insert into admins (username, password) values (${username}, ${hashedPassword})
+            returning username 
+        `
+        res.status(201).json({ success: true, user: insertAdmin[0] });
+    } catch (err) {
+        console.error('Error in register:', err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+
+export const login = async (req, res) => {
+    // const username = req.body.username
+    const { username, password } = req.body;
+    try {
+        const query = await sql `
+            select * 
+                from admins 
+                where username = ${username};
+        `;
+        if (query.length === 0) {
+            return res.status(404).json({ success: false, message: 'Invalid Credential'})
+        }
+        const user = query[0];
+
+        // const match = await (password, user.password);
+        // const match = await bcrypt.compare(password, user.password);
+
+        if (!(query)) {
+            return res.status(401).json({ success: false, message: `Invalid Credentials` });
+        }
+
+        const payload = { id: user.id, username: user.username };
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h' 
+        });
+
+        return res.json({ success: true, accessToken: accessToken })
+    } catch (error) {
+        console.log('Error in login:', error);
+        res.status(500).json({ message: 'Error server'});
+    }
+}
 
 export const deleteProperty = async (req, res) => {
     const { id } = req.params;
@@ -67,5 +133,5 @@ export const createProperty = async (req, res) => {
         console.log('Error in createProperty:', error);
         res.status(500).json({ success: false, message: error.message });
     }
-    
 };
+

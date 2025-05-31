@@ -3,8 +3,8 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from 'dotenv';
-
 import propertiesRoutes from './routes/propertiesRoutes.js';
+import adminRoutes from './routes/admin/adminRoutes.js';
 import { sql } from './config/db.js';
 
 dotenv.config();
@@ -18,6 +18,7 @@ app.use(helmet()); // helmet is a security middleware that helps protect your Ex
 app.use(morgan("dev")); // log the requests to the console
 
 app.use('/api/properties', propertiesRoutes);
+app.use('/api/admins', adminRoutes);
 
 async function initDB() {
     try {
@@ -66,6 +67,15 @@ async function initDB() {
                 common_area BOOLEAN DEFAULT FALSE
             );
         `;
+        
+        await sql `
+            CREATE TABLE IF NOT EXISTS admins (
+                id SERIAL PRIMARY KEY,
+                username VARCHAR(50) NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                isActive BOOLEAN DEFAULT TRUE
+            );
+        `;
 
         console.log('Database initialized successfully');
 
@@ -73,6 +83,7 @@ async function initDB() {
         console.log('Error initDB:', error);
     }
 }
+
 
 initDB().then(() => {
     app.listen(PORT, () => {
