@@ -42,27 +42,28 @@ export const login = async (req, res) => {
                 from admins 
                 where username = ${username};
         `;
+
         if (query.length === 0) {
-            return res.status(404).json({ success: false, message: 'Invalid Credential'})
+            return res.status(404).json({ success: false, message: 'This user does not exist. Please register'})
         }
+
         const user = query[0];
 
-        // const match = await (password, user.password);
-        // const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.password);
 
-        if (!(query)) {
-            return res.status(401).json({ success: false, message: `Invalid Credentials` });
+        if (!(match)) {
+            return res.status(401).json({ success: false, message: 'Invalid password. Try again' });
         }
 
         const payload = { id: user.id, username: user.username };
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '1h' 
+            expiresIn: '15m' 
         });
 
         return res.json({ success: true, accessToken: accessToken })
     } catch (error) {
         console.log('Error in login:', error);
-        res.status(500).json({ message: 'Error server'});
+        res.status(500).json({ message: 'Username does not exist. Try again'});
     }
 }
 
