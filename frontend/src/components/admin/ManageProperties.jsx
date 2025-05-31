@@ -14,22 +14,36 @@ const ManageProperties = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(() => {
-        const fetchProperties = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL}/api/properties`);
-                if (response.data.success) {
-                    setProperties(response.data.data);
-                }
-            } catch (err) {
-                setError(err.response?.data?.message || 'Failed to fetch properties');
-            } finally {
-                setLoading(false);
-            }
-        };
 
+    useEffect(() => {
+        // fetchUser();
         fetchProperties();
     }, []);
+
+    const fetchProperties = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const token = localStorage.getItem('accessToken');
+            if (!token) {
+                throw new Error('No token found. Please login again');
+            }
+            const response = await axios.get(`${BASE_URL}/api/properties`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.data.success) {
+                setProperties(response.data.data);
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Failed to fetch properties');
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this property?')) return;
@@ -37,7 +51,7 @@ const ManageProperties = () => {
         try {
             const response = await axios.delete(`${BASE_URL}/api/admin/properties/${id}`, {
                 headers: {
-                    // Add auth token here in real app
+                    Authorization: `Bearer ${token}`
                 }
             });
 

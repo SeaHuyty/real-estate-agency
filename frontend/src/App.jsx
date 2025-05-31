@@ -8,7 +8,7 @@ import LoginAdmin from './components/admin/loginAdmin'
 import AdminDashboard from './components/admin/AdminDashboard'
 import CreateProperty from './components/admin/CreateProperty'
 import ManageProperties from './components/admin/ManageProperties'
-
+import ProtectedRouted from './components/admin/protectedRoute'
 function App() {
   return (
     <BrowserRouter>
@@ -17,11 +17,19 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
-            <Route path='/loginAdmin' element={<LoginAdmin />} />
             <Route path='/Contact' element={<Contact />} />
-            <Route path='/admin' element={<AdminDashboard />} />
-            <Route path='/admin/properties/create' element={<CreateProperty />} />
-            <Route path='/admin/properties/manage' element={<ManageProperties />} />
+            <Route path='/login' element={<LoginAdmin />} />
+
+            <Route 
+              path='/admin' 
+              element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
+              <Route 
+                path='/admin/properties/create' 
+                element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
+              <Route 
+              path='/admin/properties/manage' 
+              element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
+            
           </Routes>
       </div>
     </BrowserRouter>

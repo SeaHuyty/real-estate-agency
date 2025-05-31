@@ -5,31 +5,37 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:3000';
 
 const LoginAdmin = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
-
+        setLoading(true)
         try {
-            if (email === 'papaN@gmail.com' && password === '123') {
-                // Store token in localStorage
-                localStorage.setItem('adminToken', 'demo-token');
-                navigate('/admin');
-            } else {
-                setError('Invalid credentials');
+            const res = await axios.post(`${BASE_URL}/api/admins/login`, 
+                { username, password },
+                {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password}),
+                }
+            );
+            const data = res.data;
+            if (!data.success) {
+                throw new Error(data.message || 'Login Failed');
             }
+            localStorage.setItem('accessToken', data.accessToken);
+            navigate('/admin')
         } catch (err) {
-            setError('Login failed. Please try again.');
+            console.log("Login error:", err);
+            setError(err.response?.data?.message || 'Login failed. Please try again.');
         } finally {
             setLoading(false);
         }
-    };
+    }
 
     return (
         <div className='min-h-screen flex items-center justify-center bg-gray-50'>
@@ -38,13 +44,13 @@ const LoginAdmin = () => {
                 
                 {error && <div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>{error}</div>}
                 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleLogin}>
                     <div className='mb-4'>
-                        <label className='block text-gray-700 mb-2'>Email</label>
+                        <label className='block text-gray-700 mb-2'>Username</label>
                         <input
-                            type='email'
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type='text'
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             className='w-full p-2 border rounded'
                             required
                         />
