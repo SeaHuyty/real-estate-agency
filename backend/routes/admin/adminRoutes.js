@@ -19,9 +19,6 @@ router.use(authenticateToken);
 router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });
 });
-// router.get('/me', (req, res) => {
-//     res.json({ success: true, user: req.user });
-// });
 
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
