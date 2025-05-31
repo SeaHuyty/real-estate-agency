@@ -101,42 +101,46 @@ const ManageProperties = () => {
                     <>
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                             {currentProperties.map(property => (
-                                <div key={property.id} className='flex flex-col gap-4 overflow-hidden shadow-md hover:shadow-lg transition-shadow'>
-                                    <div className='h-48 overflow-hidden'>
-                                        <img 
-                                            className='w-full h-full object-cover' 
-                                            src={property.property_thumbnail || '/placeholder-property.jpg'} 
-                                            alt={property.title} 
-                                        />
+                                <div key={property.id} className='flex flex-col gap-3'>
+                                    <div>
+                                        {property.property_thumbnail ? (
+                                            <img src={property.property_thumbnail} alt="property.title" className='w-full h-[300px] object-cover object-center' />
+                                        ) : (
+                                            <div className='w-full h-48 bg-gray-200 rounded flex items-center justify-center' >
+                                                <span>No Image</span>
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className='p-4 flex flex-col gap-3'>
-                                        <div className='flex justify-between items-start'>
-                                            <h2 className='text-xl font-bold truncate'>{property.title}</h2>
-                                            <span className='text-lg font-semibold text-blue-900'>
-                                                ${Number(property.price).toLocaleString()}
-                                            </span>
+
+                                    <div className="flex flex-col justify-between gap-[10px]">
+                                        <div className="flex justify-between">
+                                            <h2 className="text-[20px] font-semibold">{property.title}</h2>
+                                            <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
                                         </div>
-                                        <div className='flex items-center gap-1 text-gray-600'>
-                                            <img className='w-4 h-4' src="/pin.png" alt="Location" />
+                                        <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
+                                            <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
                                             <span>{property.address}, {property.city}</span>
-                                        </div>
-                                        <div className='flex justify-between text-sm'>
-                                            <span className='font-medium'>Type: {property.property_type}</span>
-                                            <span className='text-gray-500'>ID: {property.id}</span>
-                                        </div>
-                                        <div className='flex gap-3 mt-2'>
-                                            <Link 
-                                                to={`/admin/properties/edit/${property.id}`}
-                                                className='flex-1 text-center bg-blue-900 text-white py-2 px-4 rounded hover:bg-blue-800 transition'
-                                            >
-                                                Edit
-                                            </Link>
-                                            <button 
-                                                onClick={() => handleDelete(property.id)}
-                                                className='flex-1 text-center bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition'
-                                            >
-                                                Delete
-                                            </button>
+                                        </p>
+                                        <div className="flex justify-between align-center">
+                                            <div className="flex items-center bg-white w-full">
+                                                <span>ID: {property.id}</span>
+                                            </div>
+                                            <div className='flex gap-3 mt-2 w-full h-10 justify-end'>
+                                                <div>
+                                                    <img 
+                                                        to={`/admin/properties/edit/${property.id}`}
+                                                        className='flex-1 text-center cursor-pointer w-5 h-5'
+                                                        src='/edit.png' alt='edit'
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <img 
+                                                        onClick={() => handleDelete(property.id)}
+                                                        className='flex-1 text-center cursor-pointer w-5 h-5'
+                                                        src='/delete.png' alt='delete'
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,29 +156,27 @@ const ManageProperties = () => {
                                     {filteredProperties.length} properties
                                 </div>
                                 <div className='flex gap-2 '>
-                                    <button
+                                    <img
                                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                                         disabled={currentPage === 1}
-                                        className='px-4 py-2 border rounded duration-300 easy-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                                    >
-                                        Previous
-                                    </button>
+                                        className='px-4 py-2 duration-300 easy-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                                        src="/left_arrow.svg" alt='Previous'
+                                    />
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                                         <button
                                             key={page}
                                             onClick={() => setCurrentPage(page)}
-                                            className={`px-4 py-2 border rounded duration-300 easy-in-out hover:bg-blue-900 hover:text-white ${currentPage === page ? 'bg-blue-900 text-white' : ''}`}
+                                            className={`px-4 py-2 duration-300 easy-in-out hover:bg-blue-900 hover:text-white ${currentPage === page ? 'bg-blue-900 text-white' : ''}`}
                                         >
                                             {page}
                                         </button>
                                     ))}
-                                    <button
+                                    <img
                                         onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                                         disabled={currentPage === totalPages}
-                                        className='px-4 py-2 border rounded duration-300 easy-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                                    >
-                                        Next
-                                    </button>
+                                        className='px-4 py-2 duration-300 easy-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed rotate-180'
+                                        src="/left_arrow.svg" alt='Next'
+                                    />
                                 </div>
                             </div>
                         )}
