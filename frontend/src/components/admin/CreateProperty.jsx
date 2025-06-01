@@ -63,7 +63,8 @@ const CreateProperty = () => {
                 }
             });
             console.log('Property created:', response.data);
-
+            toast.success('Property created successfully');
+            navigate('/admin');
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to create property');
         } finally {
