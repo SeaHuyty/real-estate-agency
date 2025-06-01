@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const BASE_URL = 'http://localhost:3000';
 const ITEMS_PER_PAGE = 6;
-const token = import.meta.env.VITE_ACCESS_TOKEN;
 
 const ManageProperties = () => {
     const [properties, setProperties] = useState([]);
@@ -16,10 +17,10 @@ const ManageProperties = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
 
 
     useEffect(() => {
-        // fetchUser();
         fetchProperties();
     }, []);
 
@@ -28,7 +29,6 @@ const ManageProperties = () => {
         setError(null);
 
         try {
-            const token = localStorage.getItem('accessToken');
             if (!token) {
                 throw new Error('No token found. Please login again');
             }
@@ -52,7 +52,7 @@ const ManageProperties = () => {
         if (!window.confirm('Are you sure you want to delete this property?')) return;
 
         try {
-            const response = await axios.post(`${BASE_URL}/api/admins/${id}`, {
+            const response = await axios.delete(`${BASE_URL}/api/admins/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

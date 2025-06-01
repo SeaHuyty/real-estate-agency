@@ -22,6 +22,6 @@ router.get('/check-auth', (req, res) => {
 
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
-router.post('/:id', deleteProperty);
+router.delete('/:id', deleteProperty);
 
 export default router;
