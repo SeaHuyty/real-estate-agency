@@ -3,9 +3,11 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
+import { useNavigate } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:3000';
 const ITEMS_PER_PAGE = 6;
+const token = import.meta.env.VITE_ACCESS_TOKEN;
 
 const ManageProperties = () => {
     const [properties, setProperties] = useState([]);
@@ -13,6 +15,7 @@ const ManageProperties = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -49,7 +52,7 @@ const ManageProperties = () => {
         if (!window.confirm('Are you sure you want to delete this property?')) return;
 
         try {
-            const response = await axios.delete(`${BASE_URL}/api/admin/properties/${id}`, {
+            const response = await axios.post(`${BASE_URL}/api/admins/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -57,9 +60,10 @@ const ManageProperties = () => {
 
             if (response.data.success) {
                 setProperties(properties.filter(property => property.id !== id));
+                toast.success('Property deleted successfully');
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to delete property');
+            setError('Error deleting property: ' + (err.response?.data?.message || err.message));;
         }
     };
 
@@ -142,7 +146,7 @@ const ManageProperties = () => {
                                             <div className='flex gap-3 mt-2 w-full h-10 justify-end'>
                                                 <div>
                                                     <img 
-                                                        to={`/admin/properties/edit/${property.id}`}
+                                                        onClick={() => navigate(`/admin/edit/${property.id}`)}
                                                         className='flex-1 text-center cursor-pointer w-5 h-5'
                                                         src='/edit.png' alt='edit'
                                                     />

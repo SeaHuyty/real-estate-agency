@@ -14,7 +14,7 @@ router.post('/login', login);
 router.post('/register', register);
 
 
-router.use(authenticateToken);
+// router.use(authenticateToken);
 
 router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });

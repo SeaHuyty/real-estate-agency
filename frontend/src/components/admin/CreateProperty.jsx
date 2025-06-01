@@ -10,10 +10,12 @@ const BASE_URL = 'http://localhost:3000';
 
 const CreateProperty = () => {
     const navigate = useNavigate();
+    const token = import.meta.env.VITE_TOKEN_SECRET;
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         property_type: '',
+        thumbnail: '',
         address: '',
         city: '',
         province: '',
@@ -21,7 +23,7 @@ const CreateProperty = () => {
         size: '',
         bedrooms: '',
         bathrooms: '',
-        images: []
+        location_url: '',
     });
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
@@ -31,50 +33,38 @@ const CreateProperty = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleImageUpload = async (e) => {
-        const files = Array.from(e.target.files);
-        if (files.length + formData.images.length > 10) {
-            toast.error('Maximum 10 images allowed');
-            return;
-        }
+    const [imageUrls, setImageUrls] = useState(['']);
 
-        const imageUrls = files.map(file => ({
-            url: URL.createObjectURL(file),
-            file
-        }));
-        setFormData(prev => ({
-            ...prev,
-            images: [...prev.images, ...imageUrls]
-        }));
+    const handleImageUrlChange = (value, index) => {
+        const newUrls = [...imageUrls];
+        newUrls[index] = value;
+        setImageUrls(newUrls);
     };
 
-    const removeImage = (index) => {
-        setFormData(prev => ({
-            ...prev,
-            images: prev.images.filter((_, i) => i !== index)
-        }));
+    const handleAddImageInput = () => {
+        if (imageUrls.length < 30) {
+            setImageUrls([...imageUrls, '']);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        console.log('Submitting form data:', formData);
+
+        console.log('tOKEN', token);
 
         try {
             // In a real app, you would upload images to cloud storage first
-            const response = await axios.post(`${BASE_URL}/api/admin/properties`, {
-                ...formData,
-                images: formData.images.map(img => img.url) // Just URLs for demo
-            }, {
+            const response = await axios.post(`${BASE_URL}/api/admins`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${process.env.REACT_APP_ADMIN_SECRET}`
+                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_SECRET}`
                 }
             });
-
-            if (response.data.success) {
-                toast.success('Property created successfully!');
-                navigate('/admin/properties/manage');
-            }
+            console.log('Property created:', response.data);
+            toast.success('Property created successfully');
+            navigate('/admin');
         } catch (err) {
             toast.error(err.response?.data?.message || 'Failed to create property');
         } finally {
@@ -104,6 +94,18 @@ const CreateProperty = () => {
                                 onClick={() => setActiveTab('details')}
                             >
                                 Details
+                            </button>
+                            <button
+                                className={`py-2 px-4 font-medium ${activeTab === 'location' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+                                onClick={() => setActiveTab('location')}
+                            >
+                                Location
+                            </button>
+                            <button
+                                className={`py-2 px-4 font-medium ${activeTab === 'amenities' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
+                                onClick={() => setActiveTab('amenities')}
+                            >
+                                Amenities
                             </button>
                             <button
                                 className={`py-2 px-4 font-medium ${activeTab === 'media' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
@@ -147,16 +149,35 @@ const CreateProperty = () => {
                                         </select>
                                     </div>
 
-                                    <div className='md:col-span-2'>
+                                    <div>
                                         <label className='block text-sm font-medium text-gray-700 mb-1'>Description</label>
                                         <textarea
                                             name='description'
                                             value={formData.description}
                                             onChange={handleChange}
-                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[120px]'
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 min-h-[300px]'
                                             required
                                             placeholder='Describe the property features and amenities...'
                                         />
+                                    </div>
+
+                                    <div>
+                                        <div>
+                                            <label className='block text-sm font-medium text-gray-700 mb-1'>Thumbnail</label>
+                                            <input
+                                                name='thumbnail'
+                                                value={formData.thumbnail}
+                                                onChange={handleChange}
+                                                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                                required
+                                                placeholder='Property Thumbnail URL'
+                                            />
+                                        </div>
+                                        {formData.thumbnail && (
+                                            <div className='mt-2 h-62 w-full justify-center flex items-center'>
+                                                <img src={formData.thumbnail} alt="Property Thumbnail" className='h-full object-cover' />
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
@@ -268,53 +289,55 @@ const CreateProperty = () => {
                                 </div>
                             )}
 
-                            {/* Media Tab */}
-                            {activeTab === 'media' && (
-                                <div>
-                                    <div className='mb-6'>
-                                        <label className='block text-sm font-medium text-gray-700 mb-2'>Upload Images (Max 10)</label>
-                                        <div className='flex items-center justify-center w-full'>
-                                            <label className='flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100'>
-                                                <div className='flex flex-col items-center justify-center pt-5 pb-6'>
-                                                    <svg className='w-8 h-8 mb-4 text-gray-500' aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 16'>
-                                                        <path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2'/>
-                                                    </svg>
-                                                    <p className='mb-2 text-sm text-gray-500'><span className='font-semibold'>Click to upload</span> or drag and drop</p>
-                                                    <p className='text-xs text-gray-500'>PNG, JPG, JPEG (MAX. 10MB each)</p>
-                                                </div>
-                                                <input 
-                                                    type='file' 
-                                                    multiple 
-                                                    onChange={handleImageUpload} 
-                                                    className='hidden' 
-                                                    accept='image/*' 
-                                                />
-                                            </label>
-                                        </div>
-                                    </div>
+                            {activeTab === 'location' && (
+                                <div className='mb-6'>
+                                    <label className='block text-sm font-medium text-gray-700 mb-2'>Location URL</label>
+                                    <input
+                                        type='text'
+                                        name='location_url'
+                                        value={formData.location_url}
+                                        onChange={handleChange}
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                        required
+                                        placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16004.860910661548!2d104.92720480000001!3d11.509877949999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109512f138297f1%3A0x34ef8a478031b776!2sISPP%20-%20International%20School%20of%20Phnom%20Penh!5e1!3m2!1sen!2skh!4v1748704813210!5m2!1sen!2skh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                                    />
+                                </div>
+                            )}
 
-                                    {formData.images.length > 0 && (
-                                        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-                                            {formData.images.map((img, index) => (
-                                                <div key={index} className='relative group'>
-                                                    <img 
-                                                        src={img.url} 
-                                                        alt={`Preview ${index}`} 
-                                                        className='w-full h-32 object-cover rounded-lg'
-                                                    />
-                                                    <button
-                                                        type='button'
-                                                        onClick={() => removeImage(index)}
-                                                        className='absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity'
-                                                    >
-                                                        <svg xmlns='http://www.w3.org/2000/svg' className='h-4 w-4' viewBox='0 0 20 20' fill='currentColor'>
-                                                            <path fillRule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clipRule='evenodd' />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
+                            {activeTab === 'media' && (
+                            <div className='mb-6'>
+                                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                                    Image URLs (Max 30)
+                                </label>
+                                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
+                                    {imageUrls.map((url, index) => (
+                                    <div key={index}>
+                                        <input
+                                        type='text'
+                                        value={url}
+                                        onChange={(e) => handleImageUrlChange(e.target.value, index)}
+                                        placeholder={`Image URL ${index + 1}`}
+                                        className='w-full p-2 border rounded-md text-sm'
+                                        />
+                                        {url && (
+                                        <img
+                                            src={url}
+                                            alt={`Preview ${index + 1}`}
+                                            className='mt-2 w-full h-32 object-cover'
+                                        />
+                                        )}
+                                    </div>
+                                    ))}
+                                </div>
+                                {imageUrls.length < 30 && (
+                                    <button
+                                    type='button'
+                                    onClick={handleAddImageInput}
+                                    className='mt-4 px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700'
+                                    >
+                                    Add Image URL
+                                    </button>
+                                )}
                                 </div>
                             )}
 

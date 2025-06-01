@@ -63,7 +63,6 @@ export const login = async (req, res) => {
         return res.json({ success: true, accessToken: accessToken })
     } catch (error) {
         console.log('Error in login:', error);
-        res.status(500).json({ message: 'Username does not exist. Try again'});
     }
 }
 
@@ -80,7 +79,7 @@ export const deleteProperty = async (req, res) => {
             return res.status(404).json({ success: false, message: "Property not found" });
         }
 
-        res.status(200).json({ success: true, date: deletedProperty[0] });
+        res.status(200).json({ success: true, data: deletedProperty });
     } catch (error) {
         console.log('Error in deleteProperty:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -113,23 +112,30 @@ export const updateProperty = async (req, res) => {
 };
 
 export const createProperty = async (req, res) => {
-    const { title, description, property_type, address, city, province, price, size, bedrooms, bathrooms } = req.body;
-
-    if (!title || !description || !property_type || !address || !city || !province || !price || !size || !bedrooms || !bathrooms) {
-        return res.status(400).json({ success: false, message: 'Please fill all the fields' });
-    }
-
+    const { title, 
+            description, 
+            property_type, 
+            thumbnail,
+            address, 
+            city, 
+            province, 
+            price, 
+            size, 
+            bedrooms, 
+            bathrooms,
+            location_url } = req.body;
+    
+    console.log('res.body:', res.body);
     try {
         const newProperty = await sql `
-            INSERT INTO properties (title, description, property_type, address, city, province, price, size, bedrooms, bathrooms)
-            VALUES (${title}, ${description}, ${property_type}, ${address}, ${city}, ${province}, ${price}, ${size}, ${bedrooms}, ${bathrooms})
+            INSERT INTO properties (title, description, property_type, address, city, province, price, size, bedrooms, bathrooms, location_url, property_thumbnail)
+            VALUES (${title}, ${description}, ${property_type}, ${address}, ${city}, ${province}, ${price}, ${size}, ${bedrooms}, ${bathrooms}, ${location_url}, ${thumbnail})
             RETURNING *;
         `;
 
         console.log('New property added:', newProperty);
 
-        // Test with Postman
-        res.status(201).json({ success:true, data: newProperty[0] });
+        res.status(201).json({ success:true, data: newProperty });
     } catch (error) {
         console.log('Error in createProperty:', error);
         res.status(500).json({ success: false, message: error.message });

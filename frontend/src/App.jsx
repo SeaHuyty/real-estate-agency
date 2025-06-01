@@ -9,6 +9,8 @@ import AdminDashboard from './components/admin/AdminDashboard'
 import CreateProperty from './components/admin/CreateProperty'
 import ManageProperties from './components/admin/ManageProperties'
 import ProtectedRouted from './components/admin/protectedRoute'
+import UpdateProperty from './components/admin/UpdateProperty'
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +31,9 @@ function App() {
               <Route 
               path='/admin/properties/manage' 
               element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
-            
+              <Route
+                path='/admin/edit/:id'
+                element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
           </Routes>
       </div>
     </BrowserRouter>
