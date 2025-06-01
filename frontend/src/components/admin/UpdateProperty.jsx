@@ -11,7 +11,7 @@ const BASE_URL = 'http://localhost:3000';
 
 const UpdateProperty = () => {
     const navigate = useNavigate();
-    const token = import.meta.env.VITE_TOKEN_SECRET;
+    const token = localStorage.getItem('accessToken');
     const { id } = useParams();
     const [formData, setFormData] = useState({
         title: '',
@@ -58,7 +58,7 @@ const UpdateProperty = () => {
             const response = await axios.put(`${BASE_URL}/api/admins/${id}`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_SECRET}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             console.log('Property updated:', response.data);
@@ -103,8 +103,8 @@ const UpdateProperty = () => {
             <div className='container mx-auto px-4 py-8'>
                 <div className='max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden'>
                     <div className='p-6'>
-                        <h1 className='text-3xl font-bold text-gray-800 mb-2'>Create New Property</h1>
-                        <p className='text-gray-600 mb-6'>Fill in the details to list a new property</p>
+                        <h1 className='text-3xl font-bold text-gray-800 mb-2'>Update Property</h1>
+                        <p className='text-gray-600 mb-6'>Fill in the details to update property</p>
 
                         {/* Tab Navigation */}
                         <div className='flex border-b mb-6'>
