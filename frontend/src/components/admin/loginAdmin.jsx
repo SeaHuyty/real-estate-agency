@@ -18,9 +18,7 @@ const LoginAdmin = () => {
             const res = await axios.post(`${BASE_URL}/api/admins/login`, 
                 { username, password },
                 {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password}),
+                    headers: { 'Content-Type': 'application/json' }
                 }
             );
             const data = res.data;

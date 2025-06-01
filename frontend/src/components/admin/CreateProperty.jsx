@@ -10,7 +10,7 @@ const BASE_URL = 'http://localhost:3000';
 
 const CreateProperty = () => {
     const navigate = useNavigate();
-    const token = import.meta.env.VITE_TOKEN_SECRET;
+    const token = localStorage.getItem('accessToken');
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -59,7 +59,7 @@ const CreateProperty = () => {
             const response = await axios.post(`${BASE_URL}/api/admins`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_TOKEN_SECRET}`
+                    Authorization: `Bearer ${token}`
                 }
             });
             console.log('Property created:', response.data);
