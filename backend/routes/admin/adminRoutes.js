@@ -5,8 +5,10 @@ import {
     updateProperty,
     deleteProperty,
     login,
-    register
+    register,
+    uploadThumbnail
 } from '../../controllers/admin/adminControllers.js';
+import upload from '../../middleware/multer.js';
 
 const router = express.Router();
 
@@ -23,5 +25,6 @@ router.get('/check-auth', (req, res) => {
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);
+router.post('/upload/thumbnail', upload.single('thumbnail'), uploadThumbnail);
 
 export default router;
