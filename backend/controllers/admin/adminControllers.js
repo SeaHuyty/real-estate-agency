@@ -2,12 +2,13 @@ import { sql } from '../../config/db.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import cloudinary from '../../config/cloudinary.js';
 
 dotenv.config();
 
 export const register = async (req, res) => {
     const { username, password} = req.body;
-    //validate
+    // validate
     if (!username || !password) {
         return res.status(400).json({ success: false, message: 'Username and Password are required' })
     }
@@ -57,7 +58,7 @@ export const login = async (req, res) => {
 
         const payload = { id: user.id, username: user.username };
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: '15m' 
+            expiresIn: '1h' 
         });
 
         return res.json({ success: true, accessToken: accessToken })
@@ -112,33 +113,64 @@ export const updateProperty = async (req, res) => {
 };
 
 export const createProperty = async (req, res) => {
-    const { title, 
-            description, 
-            property_type, 
-            thumbnail,
-            address, 
-            city, 
-            province, 
-            price, 
-            size, 
-            bedrooms, 
-            bathrooms,
-            location_url } = req.body;
+    const { 
+        title, 
+        description, 
+        property_type, 
+        thumbnail,
+        address, 
+        city, 
+        province, 
+        price, 
+        size, 
+        bedrooms, 
+        bathrooms,
+        location_url,
+        images = [] 
+    } = req.body;
     
-    console.log('res.body:', res.body);
     try {
         const newProperty = await sql `
-            INSERT INTO properties (title, description, property_type, address, city, province, price, size, bedrooms, bathrooms, location_url, property_thumbnail)
-            VALUES (${title}, ${description}, ${property_type}, ${address}, ${city}, ${province}, ${price}, ${size}, ${bedrooms}, ${bathrooms}, ${location_url}, ${thumbnail})
-            RETURNING *;
+            INSERT INTO properties (
+                title, description, property_type, address, city, province, 
+                price, size, bedrooms, bathrooms, location_url, property_thumbnail
+            )
+            VALUES (
+                ${title}, ${description}, ${property_type}, ${address}, ${city}, 
+                ${province}, ${price}, ${size}, ${bedrooms}, ${bathrooms}, 
+                ${location_url}, ${thumbnail}
+            )
+            RETURNING id;
         `;
 
-        console.log('New property added:', newProperty);
+        // Insert images if any
+        if (images.length > 0) {
+            await Promise.all(images.map(imageUrl => 
+                sql`INSERT INTO property_images (property_id, image_url) VALUES (${newProperty[0].id}, ${imageUrl})`
+            ));
+        }
 
-        res.status(201).json({ success:true, data: newProperty });
+        res.status(201).json({ 
+            success: true, 
+            data: { ...newProperty[0], images }
+        });
     } catch (error) {
         console.log('Error in createProperty:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
 
+export const uploadThumbnail = async (req, res) => {
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'property_thumbnails',
+            use_filename: true,
+            unique_filename: false
+        });
+
+        res.status(200).json({ success: true, url: result.secure_url });
+    } catch (error) {
+        console.error('Error uploading thumbnail:', error);
+        res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
+    }
+}

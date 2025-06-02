@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -15,7 +16,6 @@ const CreateProperty = () => {
         title: '',
         description: '',
         property_type: '',
-        thumbnail: '',
         address: '',
         city: '',
         province: '',
@@ -27,48 +27,141 @@ const CreateProperty = () => {
     });
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
+    const [uploadProgress, setUploadProgress] = useState(0);
+
+    // Thumbnail state
+    const [thumbnailFile, setThumbnailFile] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState('');
+
+    // Images state
+    const [imageFiles, setImageFiles] = useState([]);
+    const [imagePreviews, setImagePreviews] = useState([]);
+
+    // Clean up object URLs
+    useEffect(() => {
+        return () => {
+            if (thumbnailPreview) URL.revokeObjectURL(thumbnailPreview);
+            imagePreviews.forEach(preview => URL.revokeObjectURL(preview.preview));
+        };
+    }, [thumbnailPreview, imagePreviews]);
+
+    // Thumbnail dropzone
+    const onThumbnailDrop = useCallback((acceptedFiles) => {
+        const file = acceptedFiles[0];
+        setThumbnailFile(file);
+        setThumbnailPreview(URL.createObjectURL(file));
+    }, []);
+
+    const { getRootProps: getThumbnailRootProps, getInputProps: getThumbnailInputProps } = useDropzone({
+        onDrop: onThumbnailDrop,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+        },
+        maxFiles: 1
+    });
+
+    // Images dropzone
+    const onImagesDrop = useCallback((acceptedFiles) => {
+        const newFiles = acceptedFiles.filter(file => 
+            file.type.startsWith('image/') && 
+            !imageFiles.some(existingFile => existingFile.name === file.name)
+        );
+        
+        if (newFiles.length + imageFiles.length > 30) {
+            toast.error('Maximum 30 images allowed');
+            return;
+        }
+
+        setImageFiles(prev => [...prev, ...newFiles]);
+        setImagePreviews(prev => [
+            ...prev, 
+            ...newFiles.map(file => ({
+                file,
+                preview: URL.createObjectURL(file)
+            }))
+        ]);
+    }, [imageFiles]);
+
+    const { getRootProps: getImagesRootProps, getInputProps: getImagesInputProps } = useDropzone({
+        onDrop: onImagesDrop,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+        },
+        maxFiles: 30
+    });
+
+    const removeImage = (index) => {
+        const newFiles = [...imageFiles];
+        const newPreviews = [...imagePreviews];
+        newFiles.splice(index, 1);
+        newPreviews.splice(index, 1);
+        setImageFiles(newFiles);
+        setImagePreviews(newPreviews);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const [imageUrls, setImageUrls] = useState(['']);
+    const uploadFile = async (file) => {
+        const formData = new FormData();
+        formData.append('thumbnail', file);
 
-    const handleImageUrlChange = (value, index) => {
-        const newUrls = [...imageUrls];
-        newUrls[index] = value;
-        setImageUrls(newUrls);
-    };
+        const response = await axios.post(`${BASE_URL}/api/admins/upload/thumbnail`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`
+            },
+            onUploadProgress: (progressEvent) => {
+                const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                setUploadProgress(progress);
+            }
+        });
 
-    const handleAddImageInput = () => {
-        if (imageUrls.length < 30) {
-            setImageUrls([...imageUrls, '']);
-        }
+        return response.data.url;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        console.log('Submitting form data:', formData);
-
-        console.log('tOKEN', token);
-
+        
         try {
-            // In a real app, you would upload images to cloud storage first
-            const response = await axios.post(`${BASE_URL}/api/admins`, formData, {
+            // Upload thumbnail
+            let thumbnailUrl = '';
+            if (thumbnailFile) {
+                thumbnailUrl = await uploadFile(thumbnailFile);
+            }
+
+            // Upload other images
+            const imageUrls = [];
+            for (const file of imageFiles) {
+                const url = await uploadFile(file);
+                imageUrls.push(url);
+            }
+
+            // Submit property data with image URLs
+            const propertyData = {
+                ...formData,
+                thumbnail: thumbnailUrl,
+                images: imageUrls
+            };
+
+            const response = await axios.post(`${BASE_URL}/api/admins`, propertyData, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log('Property created:', response.data);
+
             toast.success('Property created successfully');
-            navigate('/admin');
+            navigate('/admin/properties/manage');
         } catch (err) {
+            console.error('Error:', err);
             toast.error(err.response?.data?.message || 'Failed to create property');
         } finally {
             setLoading(false);
+            setUploadProgress(0);
         }
     };
 
@@ -162,22 +255,29 @@ const CreateProperty = () => {
                                     </div>
 
                                     <div>
-                                        <div>
-                                            <label className='block text-sm font-medium text-gray-700 mb-1'>Thumbnail</label>
-                                            <input
-                                                name='thumbnail'
-                                                value={formData.thumbnail}
-                                                onChange={handleChange}
-                                                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
-                                                required
-                                                placeholder='Property Thumbnail URL'
-                                            />
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Thumbnail</label>
+                                        <div 
+                                            {...getThumbnailRootProps()} 
+                                            className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer 
+                                                ${thumbnailFile ? 'border-green-500' : 'border-gray-300'}`}
+                                        >
+                                            <input {...getThumbnailInputProps()} type='file' name='thumbnail' />
+                                            {thumbnailPreview ? (
+                                                <div className='mt-2'>
+                                                    <img 
+                                                        src={thumbnailPreview} 
+                                                        alt="Thumbnail preview" 
+                                                        className='h-48 w-full object-contain mx-auto'
+                                                    />
+                                                    <p className='text-sm text-gray-500 mt-2'>Click to change or drag a new image</p>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <p className='text-gray-500'>Drag & drop a thumbnail image here, or click to select</p>
+                                                    <p className='text-xs text-gray-400 mt-1'>Recommended size: 800x600px</p>
+                                                </div>
+                                            )}
                                         </div>
-                                        {formData.thumbnail && (
-                                            <div className='mt-2 h-62 w-full justify-center flex items-center'>
-                                                <img src={formData.thumbnail} alt="Property Thumbnail" className='h-full object-cover' />
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             )}
@@ -305,39 +405,49 @@ const CreateProperty = () => {
                             )}
 
                             {activeTab === 'media' && (
-                            <div className='mb-6'>
-                                <label className='block text-sm font-medium text-gray-700 mb-2'>
-                                    Image URLs (Max 30)
-                                </label>
-                                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
-                                    {imageUrls.map((url, index) => (
-                                    <div key={index}>
-                                        <input
-                                        type='text'
-                                        value={url}
-                                        onChange={(e) => handleImageUrlChange(e.target.value, index)}
-                                        placeholder={`Image URL ${index + 1}`}
-                                        className='w-full p-2 border rounded-md text-sm'
-                                        />
-                                        {url && (
-                                        <img
-                                            src={url}
-                                            alt={`Preview ${index + 1}`}
-                                            className='mt-2 w-full h-32 object-cover'
-                                        />
-                                        )}
-                                    </div>
-                                    ))}
-                                </div>
-                                {imageUrls.length < 30 && (
-                                    <button
-                                    type='button'
-                                    onClick={handleAddImageInput}
-                                    className='mt-4 px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700'
+                                <div className='mb-6'>
+                                    <label className='block text-sm font-medium text-gray-700 mb-2'>
+                                        Property Images (Max 30)
+                                    </label>
+                                    <div 
+                                        {...getImagesRootProps()} 
+                                        className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center mb-4 cursor-pointer'
                                     >
-                                    Add Image URL
-                                    </button>
-                                )}
+                                        <input {...getImagesInputProps()} />
+                                        <p className='text-gray-500'>Drag & drop images here, or click to select</p>
+                                        <p className='text-xs text-gray-400 mt-1'>You can upload up to 30 images</p>
+                                    </div>
+
+                                    {uploadProgress > 0 && uploadProgress < 100 && (
+                                        <div className='mb-4'>
+                                            <div className='w-full bg-gray-200 rounded-full h-2.5'>
+                                                <div 
+                                                    className='bg-blue-600 h-2.5 rounded-full' 
+                                                    style={{ width: `${uploadProgress}%` }}
+                                                ></div>
+                                            </div>
+                                            <p className='text-sm text-gray-600 mt-1'>Uploading: {uploadProgress}%</p>
+                                        </div>
+                                    )}
+
+                                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
+                                        {imagePreviews.map((preview, index) => (
+                                            <div key={index} className='relative group'>
+                                                <img
+                                                    src={preview.preview}
+                                                    alt={`Preview ${index + 1}`}
+                                                    className='w-full h-32 object-cover rounded'
+                                                />
+                                                <button
+                                                    type='button'
+                                                    onClick={() => removeImage(index)}
+                                                    className='absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition'
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
 
