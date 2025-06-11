@@ -2,10 +2,6 @@
 
 A full-stack web application designed for individuals seeking to buy properties such as villas, apartments, penthouses, and houses. Built with modern web technologies, this project enables users to browse listings and manage real estate data through a user-friendly interface.
 
-## 📌 Project Overview
-
-**Real Estate Agency** is a university project aimed at simulating a digital platform for real estate transactions. It showcases properties and provides features tailored to people looking to purchase different types of homes.
-
 ## ⚙️ Tech Stack
 
 * **Frontend:** React.js, Tailwind CSS
