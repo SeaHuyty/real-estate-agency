@@ -114,4 +114,36 @@ export const getTopProperty = async (req, res) => {
         console.error('getTopProperty error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
+};
+
+export const getSimilarProperties = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const property = await sql `
+            SELECT
+                p.*
+            FROM properties p
+            WHERE p.province = (
+                SELECT
+                    province
+                FROM properties
+                WHERE id = ${id}
+            ) AND p.property_type = (
+                SELECT
+                    property_type
+                FROM properties
+                WHERE id = ${id}
+            ) AND p.id != ${id};
+        `;
+
+        if (property.length === 0) {
+            return res.status(404).json({ success: false, message: 'No similar properties found' });
+        }
+
+        res.status(200).json({ success: true, data: property });
+    } catch (error) {
+        console.error('getSimilarProperties error:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
 }
