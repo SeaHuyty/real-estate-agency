@@ -61,7 +61,7 @@ function Properties() {
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
-                    <h1 className='font-semibold text-[24px]'>Search results for<b> {properties[0]?.city}</b></h1>
+                    <h1 className='font-semibold text-[24px]'>{filteredProperties.length} Properties Found</h1>
                     <div className='flex gap-5 items-center'>
                         <div className="flex flex-col gap-[2px]">
                             <label htmlFor="type" className='text-[15px]'>Select Provinces</label>
@@ -130,7 +130,7 @@ function Properties() {
                                 />
                         </div>
                         <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="bedroom" className='text-[15px]'>Bedroom</label>
+                            <label htmlFor="bedroom" className='text-[15px]'>Search Property</label>
                             <input
                                 type='text'
                                 placeholder='Search properties...'
@@ -169,7 +169,7 @@ function Properties() {
                     <>
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                             {currentProperties.map(property => (
-                                <div key={property.id} className='flex flex-col gap-3'>
+                                <PropertyCard key={property.id} property={property} className='flex flex-col gap-3'>
                                     <div>
                                         {property.property_thumbnail ? (
                                             <img src={property.property_thumbnail} alt="property.title" className='w-full h-[300px] object-cover object-center' />
@@ -204,7 +204,7 @@ function Properties() {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </PropertyCard>
                             ))}
                         </div>
 

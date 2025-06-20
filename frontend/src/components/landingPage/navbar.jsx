@@ -10,7 +10,7 @@ const Navbar = () => {
                 <img src="/logo-blue-full.svg" alt="" className='w-20 py-2 px-2 transition duration-250 ease-in-out hover:scale-110'/>
                 <ul className='hidden md:flex gap-8 text-[16px] text-black'>
                     <Link to="/" className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Home</Link>
-                    <Link to="../Properties"  className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Properties</Link>                    
+                    <Link to="../properties"  className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Properties</Link>                    
                     <a href="#project" className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Project</a>
                     <a href="#customerRating" className='cursor-pointer transition duration-250 ease-in-out hover:scale-110'>Review</a>
                 </ul>

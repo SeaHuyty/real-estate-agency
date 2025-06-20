@@ -7,12 +7,14 @@ import Slider from './slider'
 import Map from './map'
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
+import PropertyCard from './PropertyCard';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const [property, setProperty] = useState(null);
     const [imageIndex, setImageIndex] = useState(null);
     const [result, setResult] = React.useState("");
+    const [similarProperties, setSimilarProperties] = useState([]);
 
     // Lock scroll when popup is active
     useEffect(() => {
@@ -63,6 +65,20 @@ const PropertyDetails = () => {
         };
 
         fetchProperty();
+    }, [id]);
+
+    useEffect(() => {
+        const fetchSimilarProperties = async () => {
+            try {
+                const res = await axios.get(`${BASE_URL}/api/properties/similar/${id}`);
+                const filteredProperties = res.data.data.sort(() => 0.5 - Math.random()).slice(0, 2);
+                setSimilarProperties(filteredProperties);
+            } catch (error) {
+                console.error('Failed to fetch similar properties', error);
+            }
+        };
+
+        fetchSimilarProperties();
     }, [id]);
 
     if (!property) return <p>Property not found</p>
@@ -208,6 +224,49 @@ const PropertyDetails = () => {
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div className='mt-12'>
+                        <h1 className='font-semibold text-[22px] mb-4'>Similar Properties</h1>
+                        <div className='grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-5'>
+                            {similarProperties.map(property => (
+                                <PropertyCard key={property.id} property={property} className='flex flex-col gap-3'>
+                                    <div>
+                                        {property.property_thumbnail ? (
+                                            <img src={property.property_thumbnail} alt="property.title" className='w-full h-[300px] object-cover object-center' />
+                                        ) : (
+                                            <div className='w-full h-48 bg-gray-200 rounded flex items-center justify-center' >
+                                                <span>No Image</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="flex flex-col justify-between gap-[10px]">
+                                        <div className="flex justify-between">
+                                            <h2 className="text-[20px] font-semibold">{property.title}</h2>
+                                            <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
+                                        </div>
+                                        <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
+                                            <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
+                                            <span>{property.address}, {property.city}</span>
+                                        </p>
+                                        <div className="flex gap-[20px] text-[14px]">
+                                            <div className="flex items-center gap-[5px] bg-white">
+                                                <img src="/bed.png" alt="" className='w-[20px] h-[20px]' />
+                                                <span>{property.bedrooms} bedroom</span>
+                                            </div>
+                                            <div className="flex items-center gap-[5px] bg-white">
+                                                <img src="/bath.png" alt="" className='w-[20px] h-[20px]' />
+                                                <span>{property.bathrooms} bathroom</span>
+                                            </div>
+                                            <div className="flex items-center gap-[5px] bg-white">
+                                                <img src="/size.png" alt="" className='w-[20px] h-[20px]' />
+                                                <span>{property.size} m²</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </PropertyCard>
+                            ))}
                         </div>
                     </div>
                 </div>
