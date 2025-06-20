@@ -35,7 +35,7 @@ const ProtectedRouted = ({ children }) => {
     if (isAuthenticated === null) {
         return <p>Loading ...</p>;
     }
-    return isAuthenticated ? children : <Navigate to="/login" />
+    return isAuthenticated ? children : <Navigate to="/register" />
 };
 
 export default ProtectedRouted

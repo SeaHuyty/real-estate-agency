@@ -6,6 +6,7 @@ import PropertyDetails from './components/houseListPage/PropertyDetails'
 import Properties from './components/houseListPage/properties'
 import Contact from './components/landingPage/contact'
 import LoginAdmin from './components/admin/loginAdmin'
+import RegisterAdmin from './components/admin/registerAdmin'
 import AdminDashboard from './components/admin/AdminDashboard'
 import CreateProperty from './components/admin/CreateProperty'
 import ManageProperties from './components/admin/ManageProperties'
@@ -23,7 +24,8 @@ function App() {
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
             <Route path='/Contact' element={<Contact />} />
-            <Route path='/login' element={<LoginAdmin />} />
+            <Route path='/admin/login' element={<LoginAdmin />} />
+            <Route path='/admin/register' element={<RegisterAdmin />} />
 
             <Route 
               path='/admin' 
