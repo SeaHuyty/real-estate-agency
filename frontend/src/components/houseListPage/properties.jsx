@@ -1,7 +1,7 @@
 import { usePropertyStore } from './listhouse.jsx';
 import PropertyCard from './PropertyCard.jsx';
 import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../landingPage/navbar.jsx';
 import Footer from '../landingPage/footer.jsx'
 
@@ -169,42 +169,44 @@ function Properties() {
                     <>
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
                             {currentProperties.map(property => (
-                                <div key={property.id} className='flex flex-col gap-3'>
-                                    <div>
-                                        {property.property_thumbnail ? (
-                                            <img src={property.property_thumbnail} alt="property.title" className='w-full h-[300px] object-cover object-center' />
-                                        ) : (
-                                            <div className='w-full h-48 bg-gray-200 rounded flex items-center justify-center' >
-                                                <span>No Image</span>
-                                            </div>
-                                        )}
-                                    </div>
+                                <Link to={`${property.id}`} key={property.id}>
+                                    <div className='flex flex-col gap-3'>
+                                        <div>
+                                            {property.property_thumbnail ? (
+                                                <img src={property.property_thumbnail} alt="property.title" className='w-full h-[300px] object-cover object-center transition duration-250 ease-in-out hover:scale-101' />
+                                            ) : (
+                                                <div className='w-full h-48 bg-gray-200 rounded flex items-center justify-center' >
+                                                    <span>No Image</span>
+                                                </div>
+                                            )}
+                                        </div>
 
-                                    <div className="flex flex-col justify-between gap-[10px]">
-                                        <div className="flex justify-between">
-                                            <h2 className="text-[20px] font-semibold">{property.title}</h2>
-                                            <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
-                                        </div>
-                                        <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
-                                            <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
-                                            <span>{property.address}, {property.city}</span>
-                                        </p>
-                                        <div className="flex gap-[20px] text-[14px]">
-                                            <div className="flex items-center gap-[5px] bg-white">
-                                                <img src="/bed.png" alt="" className='w-[20px] h-[20px]' />
-                                                <span>{property.bedrooms} bedroom</span>
+                                        <div className="flex flex-col justify-between gap-[10px]">
+                                            <div className="flex justify-between">
+                                                <h2 className="text-[20px] font-semibold">{property.title}</h2>
+                                                <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
                                             </div>
-                                            <div className="flex items-center gap-[5px] bg-white">
-                                                <img src="/bath.png" alt="" className='w-[20px] h-[20px]' />
-                                                <span>{property.bathrooms} bathroom</span>
-                                            </div>
-                                            <div className="flex items-center gap-[5px] bg-white">
-                                                <img src="/size.png" alt="" className='w-[20px] h-[20px]' />
-                                                <span>{property.size} m²</span>
+                                            <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
+                                                <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
+                                                <span>{property.address}, {property.city}</span>
+                                            </p>
+                                            <div className="flex gap-[20px] text-[14px]">
+                                                <div className="flex items-center gap-[5px] bg-white">
+                                                    <img src="/bed.png" alt="" className='w-[20px] h-[20px]' />
+                                                    <span>{property.bedrooms} bedroom</span>
+                                                </div>
+                                                <div className="flex items-center gap-[5px] bg-white">
+                                                    <img src="/bath.png" alt="" className='w-[20px] h-[20px]' />
+                                                    <span>{property.bathrooms} bathroom</span>
+                                                </div>
+                                                <div className="flex items-center gap-[5px] bg-white">
+                                                    <img src="/size.png" alt="" className='w-[20px] h-[20px]' />
+                                                    <span>{property.size} m²</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
 

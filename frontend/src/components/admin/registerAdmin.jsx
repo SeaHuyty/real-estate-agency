@@ -26,7 +26,8 @@ const registerAdmin = () => {
             const data = res.data;
             if (!data.success) {
                 throw new Error(data.message || 'Registration Failed');
-            }
+            } 
+            localStorage.setItem('accessToken', data.accessToken);
             navigate('/admin');
         } catch (err) {
             console.log("Registration error:", err);
@@ -72,6 +73,9 @@ const registerAdmin = () => {
                     >
                         {loading ? 'Logging in...' : 'Register'}
                     </button>
+                    <div className='mt-4 text-center'>
+                        <a href="/login" className='text-sm text-blue-600 hover:underline'>Sign Up here</a>
+                    </div>
                 </form>
             </div>
         </div>

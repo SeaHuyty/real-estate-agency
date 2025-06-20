@@ -72,6 +72,17 @@ const LoginAdmin = () => {
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
+                        {/* <div>
+                            <h1 className='mt-5 text-center'>Forget Your Password?</h1>
+                        </div> */}
+                        {/* <div className='mt-4 w-full h-[2px] bg-gray-300'>
+                        </div> */}
+                        <div className='mt-4 flex justify-center gap-2 items-center'>
+                            <p className='text-sm text-gray-600'>
+                                Don't have an account? 
+                            </p>
+                            <a href="/register" className='text-blue-600 hover:underline'> Register</a>
+                        </div>
                 </form>
             </div>
         </div>
