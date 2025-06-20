@@ -127,6 +127,11 @@ const CreateProperty = () => {
         setLoading(true);
         
         try {
+            // Extract src from iframe if needed
+            let rawIframe = formData.location_url;
+            let srcMatch = rawIframe.match(/src="([^"]+)"/);
+            let locationSrc = srcMatch ? srcMatch[1] : '';
+            
             // Upload thumbnail
             let thumbnailUrl = '';
             if (thumbnailFile) {
@@ -143,17 +148,21 @@ const CreateProperty = () => {
             // Submit property data with image URLs
             const propertyData = {
                 ...formData,
+                location_url: locationSrc,
                 thumbnail: thumbnailUrl,
                 images: imageUrls
             };
 
-            const response = await axios.post(`${BASE_URL}/api/admins`, propertyData, {
+            const res = await axios.post(`${BASE_URL}/api/admins`, propertyData, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 }
             });
-
+            const data = res.data;
+            if (!data.success) {
+                throw new Error(data.message || 'Created Failed');
+            } 
             toast.success('Property created successfully');
             navigate('/admin/properties/manage');
         } catch (err) {

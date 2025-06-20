@@ -54,8 +54,27 @@ const UpdateProperty = () => {
         setLoading(true);
 
         try {
+             // Extract src from iframe if needed
+            // let rawIframe = formData.location_url;
+            // let srcMatch = rawIframe.match(/src="([^"]+)"/);
+            // let locationSrc = srcMatch ? srcMatch[1] : '';
+            let locationInput = formData.location_url.trim();
+            let locationSrc = '';
+
+            if (locationInput.includes('<iframe')) {
+                const match = locationInput.match(/src="([^"]+)"/);
+                locationSrc = match ? match[1] : '';
+            } else {
+                locationSrc = locationInput;
+            }
+            console.log('Updating with location_url:', locationSrc);
+
+            const updatedFormData = {
+                ...formData,
+                location_url: locationSrc
+            };
             // In a real app, you would upload images to cloud storage first
-            const response = await axios.put(`${BASE_URL}/api/admins/${id}`, formData, {
+            const response = await axios.put(`${BASE_URL}/api/admins/${id}`, updatedFormData, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
