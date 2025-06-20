@@ -273,7 +273,7 @@ const PropertyDetails = () => {
                 <div className='flex flex-col flex-2'>
                     <div className='flex flex-col gap-2'>
                         <h1 className='font-semibold text-[20px]'>Location</h1>
-                        <Map />
+                        <Map src={property.location_url}/>
                     </div>
                     {/* contact form */}
                     <div className='mt-12 w-full flex justify-center items-center'>

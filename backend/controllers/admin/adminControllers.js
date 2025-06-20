@@ -27,10 +27,19 @@ export const register = async (req, res) => {
             insert into admins (username, password) values (${username}, ${hashedPassword})
             returning username 
         `
-        res.status(201).json({ success: true, user: insertAdmin[0] });
+        const user =  insertAdmin[0];
+        const payload = {id: user.id, username: user.username};
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: '1h' // Token will expire in 1 hour
+        });
+        res.status(201).json( {
+            success: true,
+            accessToken: accessToken
+        })
+        // res.status(201).json({ success: true, user: insertAdmin[0] });
     } catch (err) {
         console.error('Error in register:', err);
-        res.status(500).json({ success: false, message: 'Server error' });
+        // res.status(500).json({ success: false, message: 'Server error' });
     }
 }
 
