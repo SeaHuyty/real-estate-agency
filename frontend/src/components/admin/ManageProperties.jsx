@@ -12,10 +12,10 @@ const ITEMS_PER_PAGE = 6;
 
 const ManageProperties = () => {
     const [properties, setProperties] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
 

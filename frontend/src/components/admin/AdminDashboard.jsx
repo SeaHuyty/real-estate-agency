@@ -82,6 +82,20 @@ const AdminDashboard = () => {
             ),
             bgColor: "bg-gradient-to-br from-purple-50 to-purple-100",
             borderColor: "border-purple-200"
+        },
+        {
+            title: "Create New Admin",
+            description: "Add new admin users",
+            link: "/admin/register",
+            icon: (
+                <div className="p-3 bg-blue-100 rounded-full">
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12h4m-2 2v-4M4 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                    </svg>
+                </div>
+            ),
+            bgColor: "bg-gradient-to-br from-red-50 to-red-100",
+            borderColor: "border-red-200"
         }
     ];
 
@@ -92,7 +106,7 @@ const AdminDashboard = () => {
             <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">
                 {loading ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-xb-2 border-blue-500"></div>
                     </div>
                 ) : (
                     <div className="max-w-7xl mx-auto">
