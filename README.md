@@ -59,7 +59,7 @@ In separate terminals:
 
 ```bash
 cd backend
-npm start
+npm run dev
 ```
 
 #### Frontend
