@@ -54,20 +54,10 @@ const UpdateProperty = () => {
         setLoading(true);
 
         try {
-             // Extract src from iframe if needed
-            // let rawIframe = formData.location_url;
-            // let srcMatch = rawIframe.match(/src="([^"]+)"/);
-            // let locationSrc = srcMatch ? srcMatch[1] : '';
+            // Extract src from iframe if needed
             let locationInput = formData.location_url.trim();
-            let locationSrc = '';
-
-            if (locationInput.includes('<iframe')) {
-                const match = locationInput.match(/src="([^"]+)"/);
-                locationSrc = match ? match[1] : '';
-            } else {
-                locationSrc = locationInput;
-            }
-            console.log('Updating with location_url:', locationSrc);
+            const match = locationInput.match(/src=["']([^"']+)["']/);
+            const locationSrc = match ? match[1] : locationInput;
 
             const updatedFormData = {
                 ...formData,
@@ -347,7 +337,126 @@ const UpdateProperty = () => {
                                     />
                                 </div>
                             )}
+                            {activeTab === 'amenities' && (
+                                <div className='mb-6'>
+                                    <div className='amenities'>
+                                        <h1 className='font-semibold'>Amenities</h1>
+                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex justify-center items-center">
+                                                    <input id="vue-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="vue-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Swimming Pool</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/swimming.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center justify-center">
+                                                    <input id="react-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="react-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Parking lot</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="angular-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="angular-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
 
+                                                        <h1>Garden</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/garden.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Gym</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/gym.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className='Security mt-6'>
+                                        <h1 className='font-semibold'>Security</h1>
+                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Balcony</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/balcony.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Elevator</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/elevator.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Security</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/security.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Non-Flooding</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/nonflooding.png" alt="" /> 
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className='Security mt-6'>
+                                        <h1 className='font-semibold'>Common Area</h1>
+                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Commercial Area</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/commercial.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Playground</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/playground.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Common Area</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/common.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
                             {activeTab === 'media' && (
                             <div className='mb-6'>
                                 <label className='block text-sm font-medium text-gray-700 mb-2'>
