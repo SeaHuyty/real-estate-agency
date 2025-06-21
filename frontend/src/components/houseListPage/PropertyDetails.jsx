@@ -112,7 +112,7 @@ const PropertyDetails = () => {
                             <div className='details mt-3 flex flex-col gap-7 mt-10'>
                                 <div className='Details '>
                                     <h1 className='font-semibold'>Details</h1>
-                                    <div className='grid grid-cols-3 gap-7 mt-3 '>
+                                    <div className='grid grid-cols-3 gap-7 mt-5'>
                                         <div className='utility flex gap-3 items-center'>
                                             <img className='w-[30px] h-[30px]' src="/size.png" alt="" />
                                             <div>
@@ -133,97 +133,69 @@ const PropertyDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className='Amenities'>
-                                    <h1 className='font-semibold'>Amenities</h1>
-                                    <div className='grid grid-cols-3 gap-7 mt-3'>
-                                        <div className='w-full flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/swimming.png" alt="" />
-                                            <div>
-                                                <h1 className='w-[50px]'>Swimming Pool</h1>
-                                            </div>
-                                        </div>
-                                        <div className='flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
-                                            <div>
-                                                <h1>Parking lot</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/garden.png" alt="" />
-                                            <div>
-                                                <h1>Garden</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/gym.png" alt="" />
-                                            <div>
-                                                <h1>Gym</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/balcony.png" alt="" />
-                                            <div>
-                                                <h1>Balcony</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/elevator.png" alt="" />
-                                            <div>
-                                                <h1>Elevator</h1>
-                                            </div>
+                                {(property.security || property.fire_security || property.non_flooding) && (
+                                    <div className='security'>
+                                        <h1 className='font-semibold'>Security</h1>
+                                        <div className='grid grid-cols-3 gap-7 mt-5'>
+                                            {property.fire_security && (
+                                                <div className='utility flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/fire.png" alt="" />
+                                                    <div>
+                                                        <h1>Fire Security</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.security && (
+                                                <div className='pet flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/security.png" alt="" />
+                                                    <div>
+                                                        <h1>Security</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.non_flooding && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/nonflooding.png" alt="" />
+                                                    <div>
+                                                        <h1>Non-Flooding</h1>
+                                                    </div>
+                                                </div>                                        
+                                            )}
                                         </div>
                                     </div>
-                                    
-                                </div>
+                                )}
 
-                                <div className='security'>
-                                    <h1 className='font-semibold'>Security</h1>
-                                    <div className='grid grid-cols-3 gap-7 mt-3'>
-                                        <div className='utility flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/fire.png" alt="" />
-                                            <div>
-                                                <h1>Fire Security</h1>
-                                            </div>
-                                        </div>
-                                        <div className='pet flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/security.png" alt="" />
-                                            <div>
-                                                <h1>Security</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/nonflooding.png" alt="" />
-                                            <div>
-                                                <h1>Non-Flooding</h1>
-                                            </div>
-                                        </div>                                        
-                                    </div>
-                                </div>
-
-                                <div className='community'>
-                                    <h1 className='font-semibold'>Community Area</h1>
-                                    <div className='grid grid-cols-3 gap-7 mt-3'>
-                                        <div className='utility flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/commercial.png" alt="" />
-                                            <div>
-                                                <h1 className='w-[50px]'>Commercial Area</h1>
-                                            </div>
-                                        </div>
-                                        <div className='pet flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/playground.png" alt="" />
-                                            <div>
-                                                <h1>Playground</h1>
-                                            </div>
-                                        </div>
-                                        <div className='property fee flex gap-3 items-center'>
-                                            <img className='w-[30px] h-[30px]' src="/common.png" alt="" />
-                                            <div>
-                                                <h1>Common Area</h1>
-                                            </div>
+                                {(property.commercial_area || property.playground || property.common_area) && (
+                                    <div className='community'>
+                                        <h1 className='font-semibold'>Community Area</h1>
+                                        <div className='grid grid-cols-3 gap-7 mt-5'>
+                                            {property.commercial_area && (
+                                                <div className='utility flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/commercial.png" alt="" />
+                                                    <div>
+                                                        <h1 className='w-[50px]'>Commercial Area</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {(property.playground) && (
+                                                <div className='pet flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/playground.png" alt="" />
+                                                    <div>
+                                                        <h1>Playground</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.common_area && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/common.png" alt="" />
+                                                    <div>
+                                                        <h1>Common Area</h1>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>
