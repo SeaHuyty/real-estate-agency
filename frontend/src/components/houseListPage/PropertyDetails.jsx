@@ -133,6 +133,63 @@ const PropertyDetails = () => {
                                         </div>
                                     </div>
                                 </div>
+
+                                {(property.swimming_pool || property.gym || property.parking_lot || property.garden || property.balcony || property.elevator) && (
+                                    <div className='General'>
+                                        <h1 className='font-semibold'>Amenities</h1>
+                                        <div className='grid grid-cols-3 gap-7 mt-5'>
+                                            {property.swimming_pool && (
+                                                <div className='w-full flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/swimming.png" alt="" />
+                                                    <div>
+                                                        <h1 className='w-[50px]'>Swimming Pool</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.parking_lot && (
+                                                <div className='flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
+                                                    <div>
+                                                        <h1>Parking lot</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.garden && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/garden.png" alt="" />
+                                                    <div>
+                                                        <h1>Garden</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.gym && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/gym.png" alt="" />
+                                                    <div>
+                                                        <h1>Gym</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.balcony && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/balcony.png" alt="" />
+                                                    <div>
+                                                        <h1>Balcony</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            {property.elevator && (
+                                                <div className='property fee flex gap-3 items-center'>
+                                                    <img className='w-[30px] h-[30px]' src="/elevator.png" alt="" />
+                                                    <div>
+                                                        <h1>Elevator</h1>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+
                                 {(property.security || property.fire_security || property.non_flooding) && (
                                     <div className='security'>
                                         <h1 className='font-semibold'>Security</h1>
