@@ -26,6 +26,18 @@ const UpdateProperty = () => {
         bedrooms: '',
         bathrooms: '',
         location_url: '',
+        swimming_pool: false,
+        gym: false,
+        parking_lot: false,
+        garden: false,
+        balcony: false,
+        security: false,
+        fire_security: false,
+        elevator: false,
+        commercial_area: false,
+        non_flooding: false,
+        playground: false,
+        common_area: false
     });
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
@@ -33,6 +45,11 @@ const UpdateProperty = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCheckBoxChange = (e) => {
+        const { name, checked } = e.target;
+        setFormData(prev => ({ ...prev, [name]: checked }));
     };
 
     const [imageUrls, setImageUrls] = useState(['']);
@@ -96,7 +113,19 @@ const UpdateProperty = () => {
                     size: response.data.data.size,
                     bedrooms: response.data.data.bedrooms,
                     bathrooms: response.data.data.bathrooms,
-                    location_url: response.data.data.location_url
+                    location_url: response.data.data.location_url,
+                    swimming_pool: response.data.data.swimming_pool,
+                    gym: response.data.data.gym,
+                    parking_lot: response.data.data.parking_lot,
+                    garden: response.data.data.garden,
+                    balcony: response.data.data.balcony,
+                    security: response.data.data.security,
+                    fire_security: response.data.data.fire_security,
+                    elevator: response.data.data.elevator,
+                    commercial_area: response.data.data.commercial_area,
+                    non_flooding: response.data.data.non_flooding,
+                    playground: response.data.data.playground,
+                    common_area: response.data.data.common_area
                 });
 
             } catch (error) {
@@ -344,7 +373,7 @@ const UpdateProperty = () => {
                                         <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex justify-center items-center">
-                                                    <input id="vue-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="vue-checkbox-list" type="checkbox" checked={formData.swimming_pool} name='swimming_pool' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="vue-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Swimming Pool</h1>
                                                         <img className='w-[30px] h-[30px]' src="/swimming.png" alt="" />
@@ -353,7 +382,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center justify-center">
-                                                    <input id="react-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="react-checkbox-list" type="checkbox" checked={formData.parking_lot} name='parking_lot' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="react-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Parking lot</h1>
                                                         <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
@@ -362,9 +391,8 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="angular-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="angular-checkbox-list" type="checkbox" checked={formData.garden} name='garden' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="angular-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-
                                                         <h1>Garden</h1>
                                                         <img className='w-[30px] h-[30px]' src="/garden.png" alt="" />
                                                     </label>
@@ -372,7 +400,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="gym-checkbox-list" type="checkbox" checked={formData.gym} name='gym' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Gym</h1>
                                                         <img className='w-[30px] h-[30px]' src="/gym.png" alt="" />
@@ -386,7 +414,7 @@ const UpdateProperty = () => {
                                         <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                                             <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="balcony-checkbox-list" type="checkbox" checked={formData.balcony} name='balcony' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Balcony</h1>
                                                         <img className='w-[30px] h-[30px]' src="/balcony.png" alt="" />
@@ -395,7 +423,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="elevator-checkbox-list" type="checkbox" checked={formData.elevator} name='elevator' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Elevator</h1>
                                                         <img className='w-[30px] h-[30px]' src="/elevator.png" alt="" />
@@ -404,7 +432,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="gym-checkbox-list" type="checkbox" checked={formData.security} name='security' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Security</h1>
                                                         <img className='w-[30px] h-[30px]' src="/security.png" alt="" />
@@ -413,7 +441,16 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="gym-checkbox-list" type="checkbox" checked={formData.fire_security} name='fire_security' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
+                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                        <h1>Fire Security</h1>
+                                                        <img className='w-[30px] h-[30px]' src="/fire.png" alt="" />
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                <div class="flex items-center">
+                                                    <input id="gym-checkbox-list" type="checkbox" checked={formData.non_flooding} name='non_flooding' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Non-Flooding</h1>
                                                         <img className='w-[30px] h-[30px]' src="/nonflooding.png" alt="" /> 
@@ -427,7 +464,7 @@ const UpdateProperty = () => {
                                         <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="balcony-checkbox-list" type="checkbox" checked={formData.commercial_area} name='commercial_area' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Commercial Area</h1>
                                                         <img className='w-[30px] h-[30px]' src="/commercial.png" alt="" />
@@ -436,7 +473,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="elevator-checkbox-list" type="checkbox" checked={formData.playground} name='playground' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Playground</h1>
                                                         <img className='w-[30px] h-[30px]' src="/playground.png" alt="" />
@@ -445,7 +482,7 @@ const UpdateProperty = () => {
                                             </li>
                                             <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                                 <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
+                                                    <input id="gym-checkbox-list" type="checkbox" checked={formData.common_area} name='common_area' class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" onChange={handleCheckBoxChange} />
                                                     <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                                         <h1>Common Area</h1>
                                                         <img className='w-[30px] h-[30px]' src="/common.png" alt="" />
