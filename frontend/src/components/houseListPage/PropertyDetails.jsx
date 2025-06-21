@@ -134,7 +134,7 @@ const PropertyDetails = () => {
                                     </div>
                                 </div>
 
-                                <div className='General'>
+                                <div className='Amenities'>
                                     <h1 className='font-semibold'>Amenities</h1>
                                     <div className='grid grid-cols-3 gap-7 mt-3'>
                                         <div className='w-full flex gap-3 items-center'>
@@ -174,6 +174,7 @@ const PropertyDetails = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
 
                                 <div className='security'>
@@ -238,7 +239,7 @@ const PropertyDetails = () => {
                 <div className='flex flex-col flex-2'>
                     <div className='flex flex-col gap-2'>
                         <h1 className='font-semibold text-[20px]'>Location</h1>
-                        <Map src={property.location_url}/>
+                        <Map key={property.location_url} src={property.location_url}/>
                     </div>
                     {/* contact form */}
                     <div className='mt-12 w-full flex justify-center items-center'>
