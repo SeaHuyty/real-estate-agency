@@ -13,6 +13,7 @@
   import ProtectedRouted from './components/admin/protectedRoute'
   import UpdateProperty from './components/admin/UpdateProperty'
   import Analytics from './components/admin/Analytics';
+  import ManageVisitRequests from './components/admin/ManageVisitRequests';
 
   function App() {
     return (
@@ -40,6 +41,7 @@
                   path='/admin/edit/:id'
                   element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
                   <Route path='/admin/analytics' element={<Analytics />} />
+                  <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
             </Routes>
         </div>
       </BrowserRouter>

@@ -5,6 +5,7 @@ import cors from "cors";
 import dotenv from 'dotenv';
 import propertiesRoutes from './routes/propertiesRoutes.js';
 import adminRoutes from './routes/admin/adminRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
 import { sql } from './config/db.js';
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(morgan("dev")); // log the requests to the console
 
 app.use('/api/properties', propertiesRoutes);
 app.use('/api/admins', adminRoutes);
+app.use('/api/requests', requestRoutes);
 
 async function initDB() {
     try {
@@ -129,7 +131,7 @@ async function initDB() {
         `;
 
         await sql `
-            CREATE TABLE IF NOT EXISTS requests (
+            CREATE TABLE IF NOT EXISTS visit_requests (
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER NOT NULL,
                 property_id INTEGER NOT NULL,
