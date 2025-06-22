@@ -6,7 +6,8 @@ import {
     deleteProperty,
     login,
     register,
-    uploadThumbnail
+    uploadThumbnail,
+    getEmployees
 } from '../../controllers/admin/adminControllers.js';
 import upload from '../../middleware/multer.js';
 
@@ -21,7 +22,7 @@ router.use(authenticateToken);
 router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });
 });
-
+router.get('/employees', getEmployees);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);

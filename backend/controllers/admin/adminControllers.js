@@ -6,6 +6,18 @@ import cloudinary from '../../config/cloudinary.js';
 
 dotenv.config();
 
+export const getEmployees = async (req, res) => {
+    try {
+        const employees = await sql`
+            SELECT id, first_name, last_name FROM employees;
+        `;
+        res.status(200).json({ success: true, data: employees });
+    } catch (error) {
+        console.error('Error in getEmployees:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 export const register = async (req, res) => {
     const { username, password} = req.body;
     // validate
@@ -48,8 +60,7 @@ export const login = async (req, res) => {
     const { username, password } = req.body;
     try {
         const query = await sql `
-            select * 
-                from admins 
+            select * from admins 
                 where username = ${username};
         `;
 
