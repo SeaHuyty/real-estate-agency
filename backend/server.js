@@ -77,6 +77,70 @@ async function initDB() {
             );
         `;
 
+        await sql `
+            CREATE TABLE IF NOT EXISTS customers (
+                id SERIAL PRIMARY KEY,
+                google_id TEXT UNIQUE NOT NULL,
+                name VARCHAR(100) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                phone VARCHAR(20) NOT NULL,
+                address TEXT,
+                picture TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+
+        await sql `
+            CREATE TABLE IF NOT EXISTS logs (
+                id SERIAL PRIMARY KEY,
+                log_time TIMESTAMP DEFAULT NOW(),
+                method VARCHAR(10),
+                route TEXT,
+                ip_address VARCHAR(45)
+            );
+        `;
+
+        await sql `
+            CREATE TABLE IF NOT EXISTS employees (
+                id SERIAL PRIMARY KEY,
+                first_name VARCHAR(100) NOT NULL,
+                last_name VARCHAR(100) NOT NULL,
+                email VARCHAR(100) UNIQUE NOT NULL,
+                phone VARCHAR(20),
+                date_of_birth DATE,
+                hire_date DATE NOT NULL,
+                job_title VARCHAR(100),
+                department VARCHAR(100),
+                salary NUMERIC(12, 2),
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+
+        await sql `
+            CREATE TABLE IF NOT EXISTS employee_auth (
+                employee_id INT PRIMARY KEY REFERENCES employees(id) ON DELETE CASCADE,
+                username VARCHAR(100) UNIQUE NOT NULL,
+                password_hash TEXT NOT NULL,
+                role VARCHAR(50) NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+        `;
+
+        await sql `
+            CREATE TABLE IF NOT EXISTS requests (
+                id SERIAL PRIMARY KEY,
+                user_id INTEGER NOT NULL,
+                property_id INTEGER NOT NULL,
+                preferred_date DATE,
+                status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'assigned', 'completed')),
+                assigned_agency_id INTEGER,
+                notes TEXT,
+                created_at TIMESTAMP DEFAULT NOW()
+            );
+        `;
+
         console.log('Database initialized successfully');
 
     } catch (error) {
