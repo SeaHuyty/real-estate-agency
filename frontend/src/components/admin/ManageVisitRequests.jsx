@@ -2,6 +2,8 @@ import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { FaSync, FaSearch, FaFilter, FaSort, FaCalendarAlt, FaBuilding, FaUser, FaCheckCircle, FaClock, FaUserTie } from 'react-icons/fa';
+import Navbar from '../landingPage/navbar';
+import Footer from '../landingPage/footer';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -149,7 +151,7 @@ const ManageVisitRequests = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
+            <Navbar />
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
                 <div className="container mx-auto px-4 py-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between">
@@ -391,12 +393,7 @@ const ManageVisitRequests = () => {
                 )}
             </div>
             
-            {/* Footer */}
-            <div className="bg-gray-800 text-white py-6 mt-12">
-                <div className="container mx-auto px-4 text-center">
-                    <p>© {new Date().getFullYear()} Property Management System. All rights reserved.</p>
-                </div>
-            </div>
+            <Footer />  
         </div>
     );
 };
