@@ -27,21 +27,13 @@
               <Route path='/Contact' element={<Contact />} />
               <Route path='/login' element={<LoginAdmin />} />
               <Route path='/register' element={<RegisterAdmin />} />
-
-              <Route 
-                path='/admin' 
-                element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
-                <Route 
-                  path='/admin/properties/create' 
-                  element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
-                <Route 
-                path='/admin/properties/manage' 
-                element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
-                <Route
-                  path='/admin/edit/:id'
-                  element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
-                  <Route path='/admin/analytics' element={<Analytics />} />
-                  <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
+              <Route path='/admin' element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
+              <Route path='/admin/properties/create' element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
+              <Route path='/admin/properties/manage' element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
+              <Route path='/admin/edit/:id' element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
+              <Route path='/admin/analytics' element={<Analytics />} />
+              <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
+              <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
             </Routes>
         </div>
       </BrowserRouter>

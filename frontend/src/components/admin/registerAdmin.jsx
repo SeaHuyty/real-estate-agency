@@ -8,6 +8,7 @@ const BASE_URL = 'http://localhost:3000';
 const registerAdmin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [id, setId] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -18,7 +19,7 @@ const registerAdmin = () => {
 
         try {
             const res = await axios.post(`${BASE_URL}/api/admins/register`,
-                {username, password},
+                {username, password, id},
                 {
                     headers: { 'Content-Type': 'application/json'}
                 }
@@ -66,6 +67,17 @@ const registerAdmin = () => {
                         />
                     </div>
                     
+                    <div className='mb-6'>
+                        <label className='block text-gray-700 mb-2'>Employee ID</label>
+                        <input
+                            type='number'
+                            value={id}
+                            onChange={(e) => setId(e.target.value)}
+                            className='w-full p-2 border rounded'
+                            required
+                        />
+                    </div>
+
                     <button
                         type='submit'
                         disabled={loading}

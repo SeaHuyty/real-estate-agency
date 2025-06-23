@@ -4,22 +4,30 @@ import { Link } from 'react-router-dom';
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import { useNavigate } from 'react-router-dom';
+import Properties from '../houseListPage/properties';
 
 const BASE_URL = 'http://localhost:3000';
 
 const AdminDashboard = () => {
     const [user, setUser] = useState(null);
+    const [property, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Remove the accessToken from localStorage
         localStorage.removeItem('accessToken');
-        // Then redirect to the login page
         navigate('/login');
     };
 
     useEffect(() => {
+        const fetchProperties = async () => {
+            try {
+                const res = await axios.get(`${BASE_URL}/api/properties`);
+                setProperties(res.data.data);
+            } catch (err) {
+                console.error('Failed to fetch properties:', err);
+            }
+        }
         const fetchAdmin = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
@@ -38,6 +46,7 @@ const AdminDashboard = () => {
             }
         };
         fetchAdmin();
+        fetchProperties();
     }, [navigate]);
 
     const dashboardCards = [
@@ -156,7 +165,7 @@ const AdminDashboard = () => {
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-500">Total Properties</p>
-                                        <p className="text-2xl font-semibold text-gray-900">24</p>
+                                        <p className="text-2xl font-semibold text-gray-900">{property.length}</p>
                                     </div>
                                 </div>
                             </div>
