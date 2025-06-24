@@ -19,15 +19,19 @@ export const getEmployees = async (req, res) => {
 };
 
 export const register = async (req, res) => {
-    const { username, password} = req.body;
+    const { username, password, id } = req.body;
     // validate
-    if (!username || !password) {
-        return res.status(400).json({ success: false, message: 'Username and Password are required' })
+    console.log(id);
+    if (isNaN(id) || id <= 0) {
+        return res.status(400).json({ success: false, message: 'not a valid Employee ID' })
     }
+    if (!username || !password || !id) {
+        return res.status(400).json({ success: false, message: 'Username, Password and Employee ID are required' })
+    } 
+
     try {
         const query = await sql `
-            select username 
-                from admins 
+            select username from employee_auth
                 where username = ${username};
         `;
         if (query.length > 0) {
@@ -36,9 +40,9 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
         const insertAdmin = await sql `
-            insert into admins (username, password) values (${username}, ${hashedPassword})
+            insert into employee_auth (employee_id, username, password_hash, role) values (${id}, ${username}, ${hashedPassword}, 'admin')
             returning username 
-        `
+        `;
         const user =  insertAdmin[0];
         const payload = {id: user.id, username: user.username};
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
@@ -48,19 +52,16 @@ export const register = async (req, res) => {
             success: true,
             accessToken: accessToken
         })
-        // res.status(201).json({ success: true, user: insertAdmin[0] });
     } catch (err) {
         console.error('Error in register:', err);
-        // res.status(500).json({ success: false, message: 'Server error' });
     }
 }
 
 export const login = async (req, res) => {
-    // const username = req.body.username
     const { username, password } = req.body;
     try {
         const query = await sql `
-            select * from admins 
+            select * from employee_auth
                 where username = ${username};
         `;
 
@@ -70,7 +71,7 @@ export const login = async (req, res) => {
 
         const user = query[0];
 
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.password_hash);
 
         if (!(match)) {
             return res.status(401).json({ success: false, message: 'Invalid password. Try again' });

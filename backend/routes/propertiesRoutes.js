@@ -3,7 +3,8 @@ import {
     getAllProperties, 
     getProperty,
     getTopProperty,
-    getSimilarProperties
+    getSimilarProperties,
+    countProperties
 } from '../controllers/propertyController.js';
 import log from '../middleware/log.js';
 
@@ -12,6 +13,7 @@ const router = express.Router();
 router.use(log);
 
 router.get('/', getAllProperties);
+router.get('/', countProperties);
 router.get('/top', getTopProperty);
 router.get('/:id', getProperty);
 router.get('/similar/:id', getSimilarProperties);

@@ -55,7 +55,18 @@ export const getAllProperties = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
-
+export const countProperties = async (req, res) => {
+    try {
+        const result = await sql `
+            select count(*)
+            from properties
+        `;
+        res.status(200).json({ success: true, data: result });
+    } catch (err) {
+        console.error('countProperties error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
 export const getProperty = async (req, res) => {
     const { id } = req.params;
 
