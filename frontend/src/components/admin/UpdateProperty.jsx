@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import { useParams } from 'react-router-dom';
+import Map from '../houseListPage/map.jsx';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -364,6 +365,9 @@ const UpdateProperty = () => {
                                         required
                                         placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16004.860910661548!2d104.92720480000001!3d11.509877949999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109512f138297f1%3A0x34ef8a478031b776!2sISPP%20-%20International%20School%20of%20Phnom%20Penh!5e1!3m2!1sen!2skh!4v1748704813210!5m2!1sen!2skh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
                                     />
+                                    <div className='px-10 mt-5'>
+                                        <Map key={formData.location_url} src={formData.location_url}/>
+                                    </div>
                                 </div>
                             )}
                             {activeTab === 'amenities' && (
