@@ -34,19 +34,57 @@ export const getAllRequests = async (req, res) => {
 export const updateRequest = async (req, res) => {
     const { id } = req.params;
     const { status, assignedAgencyId, notes } = req.body;
+    
     try {
+        // Convert empty string to null for assigned_agency_id
+        const agencyId = assignedAgencyId === '' ? null : assignedAgencyId;
+        
         const updatedRequest = await sql`
             UPDATE visit_requests
-            SET status = ${status}, assigned_agency_id = ${assignedAgencyId}, notes = ${notes}
+            SET 
+                status = ${status}, 
+                assigned_agency_id = ${agencyId}, 
+                notes = ${notes}
             WHERE id = ${id}
             RETURNING *;
         `;
+        
         if (updatedRequest.length === 0) {
             return res.status(404).json({ success: false, message: 'Request not found' });
         }
+        
         res.status(200).json({ success: true, data: updatedRequest[0] });
     } catch (error) {
         console.error('Error in updateRequest:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+export const getRequestById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const request = await sql`
+            SELECT 
+                r.*, 
+                p.title AS property_title,
+                p.property_thumbnail,
+                ARRAY_AGG(pi.image_url) AS property_images,
+                u.name AS user_name
+            FROM visit_requests r
+            LEFT JOIN properties p ON r.property_id = p.id
+            LEFT JOIN property_images pi ON p.id = pi.property_id
+            LEFT JOIN customers u ON r.user_id = u.id
+            WHERE r.id = ${id}
+            GROUP BY r.id, p.id, u.id
+        `;
+
+        if (request.length === 0) {
+            return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+
+        res.status(200).json({ success: true, data: request[0] });
+    } catch (error) {
+        console.error('Error in getRequestById:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
