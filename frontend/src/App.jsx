@@ -14,6 +14,7 @@
   import UpdateProperty from './components/admin/UpdateProperty'
   import Analytics from './components/admin/Analytics';
   import ManageVisitRequests from './components/admin/ManageVisitRequests';
+  import VisitRequestDetails from './components/admin/VisitRequestDetails';
 
   function App() {
     return (
@@ -34,6 +35,7 @@
               <Route path='/admin/analytics' element={<Analytics />} />
               <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
               <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
+              <Route path='/admin/requests/:id' element={<ProtectedRouted><VisitRequestDetails /></ProtectedRouted>} />
             </Routes>
         </div>
       </BrowserRouter>
