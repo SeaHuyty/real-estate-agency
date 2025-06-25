@@ -14,6 +14,8 @@
   import UpdateProperty from './components/admin/UpdateProperty'
   import Analytics from './components/admin/Analytics';
   import ManageVisitRequests from './components/admin/ManageVisitRequests';
+  import CreateEmployee from './components/admin/createEmployee';
+  import EmployeeDashboard from './components/admin/EmployeeDashboard';
 
   function App() {
     return (
@@ -27,6 +29,8 @@
               <Route path='/Contact' element={<Contact />} />
               <Route path='/login' element={<LoginAdmin />} />
               <Route path='/register' element={<RegisterAdmin />} />
+              <Route path='/hr' element={<EmployeeDashboard />} />
+              <Route path='/hr/createEmployee' element={<CreateEmployee />} />
               <Route path='/admin' element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
               <Route path='/admin/properties/create' element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
               <Route path='/admin/properties/manage' element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />

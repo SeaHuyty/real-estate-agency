@@ -17,7 +17,37 @@ export const getEmployees = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
-
+export const createEmployee = async (req, res) => {
+    const { 
+        id,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        dob,
+        hireDate,
+        jobTitle,
+        department,
+        salary
+    } = req.body;
+    try {
+        const checkId = await sql `
+            select id from employees where id = ${id};
+        `;
+        if (checkId.length > 0) {
+            return res.status(400).json({ success: false, message: 'Employee ID already exists' });
+        }
+        const query = await sql `
+            insert into employees (id, first_name, last_name, email, phone, date_of_birth, hire_date, job_title, department, salary)
+            values (${id}, ${firstName}, ${lastName}, ${email}, ${phoneNumber}, ${dob}, ${hireDate}, ${jobTitle}, ${department}, ${salary})
+            returning id;
+        `
+        res.status(201).json({ success: true, id: query[0].id });
+    } catch (err) {
+        console.error('Error in createEmployee:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+}
 export const register = async (req, res) => {
     const { username, password, id } = req.body;
     // validate
