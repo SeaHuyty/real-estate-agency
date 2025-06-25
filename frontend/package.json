@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.2",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.10.0",
     "cloudinary": "^2.6.1",
     "framer-motion": "^12.19.1",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "motion": "^12.12.1",
     "multer": "^2.0.0",
