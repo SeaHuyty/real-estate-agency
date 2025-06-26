@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import propertiesRoutes from './routes/propertiesRoutes.js';
 import adminRoutes from './routes/admin/adminRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
+import userRoutes from './routes/user/userRoutes.js';
 import { sql } from './config/db.js';
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(morgan("dev")); // log the requests to the console
 app.use('/api/properties', propertiesRoutes);
 app.use('/api/admins', adminRoutes);
 app.use('/api/requests', requestRoutes);
+app.use('/api/user', userRoutes);
 
 async function initDB() {
     try {
@@ -82,11 +84,12 @@ async function initDB() {
         await sql `
             CREATE TABLE IF NOT EXISTS customers (
                 id SERIAL PRIMARY KEY,
-                google_id TEXT UNIQUE NOT NULL,
+                provider VARCHAR(20) NOT NULL DEFAULT 'local',
+                password TEXT,
+                google_id TEXT UNIQUE,
                 name VARCHAR(100) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
-                phone VARCHAR(20) NOT NULL,
-                address TEXT,
+                phone VARCHAR(20),
                 picture TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
