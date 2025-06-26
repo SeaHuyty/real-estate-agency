@@ -1,6 +1,7 @@
 import express from 'express';
 import authenticateToken from '../../middleware/authenticateToken.js';
 import {
+    createEmployee,
     createProperty,
     updateProperty,
     deleteProperty,
@@ -15,7 +16,8 @@ const router = express.Router();
 
 router.post('/login', login);
 router.post('/register', register);
-
+router.post('/createEmployee', createEmployee);
+router.get('/employees', getEmployees);
 
 router.use(authenticateToken);
 
@@ -23,7 +25,6 @@ router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
-router.get('/employees', getEmployees);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);

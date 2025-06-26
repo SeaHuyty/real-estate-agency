@@ -14,6 +14,8 @@ import ProtectedRouted from './components/admin/protectedRoute'
 import UpdateProperty from './components/admin/UpdateProperty'
 import Analytics from './components/admin/Analytics';
 import ManageVisitRequests from './components/admin/ManageVisitRequests';
+import CreateEmployee from './components/admin/createEmployee';
+import EmployeeDashboard from './components/admin/EmployeeDashboard';
 import Signup from './components/user/Signup.jsx';
 import User from './components/user/User.jsx';
 
@@ -38,6 +40,8 @@ function App() {
             <Route path='/admin/analytics' element={<Analytics />} />
             <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
             <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
+            <Route path='/hr' element={<EmployeeDashboard />} />
+            <Route path='/hr/createEmployee' element={<CreateEmployee />} />
           </Routes>
       </div>
     </BrowserRouter>
