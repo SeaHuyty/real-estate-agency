@@ -9,7 +9,11 @@ import {
     register,
     uploadThumbnail,
     getEmployees,
-    uploadEmployeeProfile
+    uploadEmployeeProfile,
+    getEmployeeProfile,
+    updateEmployee,
+    deleteEmployee,
+    getEmployeeById
 } from '../../controllers/admin/adminControllers.js';
 import upload from '../../middleware/multer.js';
 
@@ -19,6 +23,10 @@ router.post('/login', login);
 router.post('/register', register);
 router.post('/createEmployee', createEmployee);
 router.get('/employees', getEmployees);
+router.get('/employeeProfile', getEmployeeProfile);
+router.get('/employees/:id', getEmployeeById);
+router.put('/employees/:id', updateEmployee);
+router.delete('/employees/:id', deleteEmployee);
 router.post('/upload/employeeProfile', upload.single('employeeProfile'), uploadEmployeeProfile);
 
 router.use(authenticateToken);

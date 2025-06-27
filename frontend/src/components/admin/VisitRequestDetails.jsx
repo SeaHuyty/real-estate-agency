@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import { 
   FaCalendarAlt, 
   FaUser, 
@@ -248,7 +249,7 @@ const VisitRequestDetail = () => {
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
             <Navbar />
             
-            <div className="container mx-auto px-4 py-8 max-w-6xl">
+            <div className="container mx-auto px-20 py-8">
                 <motion.button 
                     whileHover={{ x: -5 }}
                     onClick={() => navigate('/admin/requests')}
@@ -294,9 +295,75 @@ const VisitRequestDetail = () => {
                         </div>
                     </div>
                     
-                    <div className="p-6">
+                    <div className="p-6 h-full">
                         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                            {/* Left Column - User Info */}
+                            <Link to={`/properties/${request.property_id}`}>
+                                {/* Left Column - Property Info */}
+                                <div className="lg:col-span-1">
+                                    <div className="bg-gray-50 rounded-xl p-5 shadow-sm h-full">
+                                        <h2 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 flex items-center">
+                                            <FaBuilding className="mr-2 text-blue-500" /> Property Details
+                                        </h2>
+                                        
+                                        <div className="flex flex-col h-full">
+                                            <div className="mb-5">
+                                                <div className="bg-white rounded-lg overflow-hidden shadow-md">
+                                                    {request.property_thumbnail ? (
+                                                        <motion.div 
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ duration: 0.5 }}
+                                                        >
+                                                            <img 
+                                                                src={request.property_thumbnail} 
+                                                                alt={request.property_title}
+                                                                className="w-full h-48 object-cover"
+                                                                onLoad={() => setImageLoading(false)}
+                                                            />
+                                                            {imageLoading && (
+                                                                <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
+                                                            )}
+                                                        </motion.div>
+                                                    ) : request.property_images?.length > 0 ? (
+                                                        <motion.div 
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ duration: 0.5 }}
+                                                        >
+                                                            <img 
+                                                                src={request.property_images[0]} 
+                                                                alt={request.property_title}
+                                                                className="w-full h-48 object-cover"
+                                                                onLoad={() => setImageLoading(false)}
+                                                            />
+                                                            {imageLoading && (
+                                                                <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
+                                                            )}
+                                                        </motion.div>
+                                                    ) : (
+                                                        <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                                                            <FaImage className="text-gray-400 text-4xl" />
+                                                        </div>
+                                                    )}
+                                                    <div className="p-4">
+                                                        <div className="flex justify-between items-start">
+                                                            <h3 className="text-xl font-bold text-gray-800">{request.property_title}</h3>
+                                                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                                                                ID: {request.property_id}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-gray-600 mt-2 flex items-center">
+                                                            <FaMapMarkerAlt className="mr-2 text-blue-500" />
+                                                            {request.property_address || 'Address not available'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                            {/* Middle Column - User Info */}
                             <div className="lg:col-span-1">
                                 <div className="bg-gray-50 rounded-xl p-5 shadow-sm">
                                     <h2 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 flex items-center">
@@ -346,87 +413,7 @@ const VisitRequestDetail = () => {
                                 </div>
                             </div>
                             
-                            {/* Middle Column - Property Info */}
-                            <div className="lg:col-span-1">
-                                <div className="bg-gray-50 rounded-xl p-5 shadow-sm h-full">
-                                    <h2 className="text-lg font-semibold mb-4 pb-2 border-b border-gray-200 flex items-center">
-                                        <FaBuilding className="mr-2 text-blue-500" /> Property Details
-                                    </h2>
-                                    
-                                    <div className="flex flex-col h-full">
-                                        <div className="mb-5">
-                                            <div className="bg-white rounded-lg overflow-hidden shadow-md">
-                                                {request.property_thumbnail ? (
-                                                    <motion.div 
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        transition={{ duration: 0.5 }}
-                                                    >
-                                                        <img 
-                                                            src={request.property_thumbnail} 
-                                                            alt={request.property_title}
-                                                            className="w-full h-48 object-cover"
-                                                            onLoad={() => setImageLoading(false)}
-                                                        />
-                                                        {imageLoading && (
-                                                            <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
-                                                        )}
-                                                    </motion.div>
-                                                ) : request.property_images?.length > 0 ? (
-                                                    <motion.div 
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        transition={{ duration: 0.5 }}
-                                                    >
-                                                        <img 
-                                                            src={request.property_images[0]} 
-                                                            alt={request.property_title}
-                                                            className="w-full h-48 object-cover"
-                                                            onLoad={() => setImageLoading(false)}
-                                                        />
-                                                        {imageLoading && (
-                                                            <div className="absolute inset-0 bg-gray-200 animate-pulse"></div>
-                                                        )}
-                                                    </motion.div>
-                                                ) : (
-                                                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                                                        <FaImage className="text-gray-400 text-4xl" />
-                                                    </div>
-                                                )}
-                                                <div className="p-4">
-                                                    <div className="flex justify-between items-start">
-                                                        <h3 className="text-xl font-bold text-gray-800">{request.property_title}</h3>
-                                                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
-                                                            ID: {request.property_id}
-                                                        </span>
-                                                    </div>
-                                                    <p className="text-gray-600 mt-2 flex items-center">
-                                                        <FaMapMarkerAlt className="mr-2 text-blue-500" />
-                                                        {request.property_address || 'Address not available'}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="mt-auto">
-                                            <h3 className="font-medium text-gray-700 mb-4 flex items-center">
-                                                <FaRulerCombined className="mr-2 text-blue-500" /> Property Features
-                                            </h3>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                {propertyFeatures.map((feature, index) => (
-                                                    <FeatureCard 
-                                                        key={index}
-                                                        icon={feature.icon}
-                                                        label={feature.label}
-                                                        value={feature.value}
-                                                        delay={index}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             
                             {/* Right Column - Update Form */}
                             <div className="lg:col-span-1">

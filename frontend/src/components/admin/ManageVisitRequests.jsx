@@ -227,8 +227,8 @@ const ManageVisitRequests = () => {
             <Navbar />
             
             {/* Header */}
-            <div className="bg-white shadow-sm">
-                <div className="container mx-auto px-4 py-6">
+            <div className="bg-white shadow-sm ">
+                <div className="container mx-auto px-20 py-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-800">Visit Requests</h1>
@@ -251,8 +251,8 @@ const ManageVisitRequests = () => {
             </div>
             
             {/* Status Overview */}
-            <div className="bg-white border-b border-gray-200 py-4">
-                <div className="container mx-auto px-4">
+            <div className="bg-white border-b border-gray-200 py-4 px-20">
+                <div className="container mx-auto">
                     <div className="flex items-center justify-between mb-3">
                         <h2 className="text-sm font-semibold text-gray-700 flex items-center">
                             <FaChartBar className="mr-2 text-blue-500" />
@@ -292,7 +292,7 @@ const ManageVisitRequests = () => {
             </div>
             
             {/* Main Content */}
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto px-20 py-6">
                 {/* Controls */}
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
                     <div className="flex flex-col gap-4">

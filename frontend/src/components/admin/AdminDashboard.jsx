@@ -4,16 +4,19 @@ import { Link } from 'react-router-dom';
 import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import { useNavigate } from 'react-router-dom';
-import Properties from '../houseListPage/properties';
+import { jwtDecode } from 'jwt-decode';
+// import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
+// import Properties from '../houseListPage/properties';
 
 const BASE_URL = 'http://localhost:3000';
 
 const AdminDashboard = () => {
-    const [user, setUser] = useState(null);
+    const [admin, setAdmin] = useState(null);
+    const [userId, setUserId] = useState(null);
     const [property, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+    const [employee, setEmployees] = useState([]);
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         navigate('/login');
@@ -38,14 +41,34 @@ const AdminDashboard = () => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setUser(res.data.user);
+                setAdmin(res.data.user);
             } catch (err) {
                 console.error('Failed to load current admin:', err);
             } finally {
                 setLoading(false)
             }
         };
+        const fetchEmployee = async () => {
+            const token = localStorage.getItem('accessToken');
+            if (!token) throw new Error('No token found');
+
+            const userInfo = jwtDecode(token);
+
+            try {
+                const res = await axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
+                    params: { id: userInfo.id }
+                });
+                const data = res.data;
+                if (!data.success) {
+                    throw new Error(data.message || 'Failed to fetch employees');
+                }
+                setEmployees(data.data);
+            } catch (err) {
+                console.log('Failed to load Employee Profile');
+            }
+        }
         fetchAdmin();
+        fetchEmployee();
         fetchProperties();
     }, [navigate]);
 
@@ -137,8 +160,11 @@ const AdminDashboard = () => {
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                             <div>
                                 <h1 className="text-3xl font-bold text-gray-900">
-                                    Welcome back, <span className="text-blue-600">{user?.username}</span>
+                                    Welcome back, <span className="text-blue-600">{admin.username} {admin.id}</span>
                                 </h1>
+                                <div className='px-4 py-2 bg-center bg-cover'>
+                                    <img src={employee.profile} className="w-15 h-15 rounded-full object-cover" />
+                                </div>
                                 <p className="mt-2 text-gray-600">
                                     Here's what's happening with your properties today
                                 </p>
