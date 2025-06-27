@@ -9,6 +9,7 @@ import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import PropertyCard from './PropertyCard';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const PropertyDetails = () => {
     const { id } = useParams();
@@ -18,27 +19,39 @@ const PropertyDetails = () => {
     const [showVisitForm, setShowVisitForm] = useState(false);
     const [visitDate, setVisitDate] = useState('');
     const [visitNotes, setVisitNotes] = useState('');
+    const navigate = useNavigate();
 
-    const handleRequestVisit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            toast.error("Please login to request a visit.");
-            return;
-        }
-        // This is a placeholder for the actual user ID.
-        // In a real application, you would get this from the logged-in user's context or token.
-        const userId = 1;
+    // const handleRequestVisit = async (e) => {
+    //     e.preventDefault();
+    //     const token = localStorage.getItem('accessToken');
+    //     if (!token) {
+    //         toast.error("Please login to request a visit.");
+    //         return;
+    //     }
+    //     // This is a placeholder for the actual user ID.
+    //     // In a real application, you would get this from the logged-in user's context or token.
+    //     const userId = 1;
 
-        try {
-            await axios.post(`${BASE_URL}/api/requests`, 
-                { userId, propertyId: id, preferredDate: visitDate, notes: visitNotes },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            toast.success("Visit request submitted successfully!");
-            setShowVisitForm(false);
-        } catch (error) {
-            toast.error("Failed to submit visit request.");
+    //     try {
+    //         await axios.post(`${BASE_URL}/api/requests`, 
+    //             { userId, propertyId: id, preferredDate: visitDate, notes: visitNotes },
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+    //         toast.success("Visit request submitted successfully!");
+    //         setShowVisitForm(false);
+    //     } catch (error) {
+    //         toast.error("Failed to submit visit request.");
+    //     }
+    // };
+
+    const handleVisitRequest = () => {
+        const token = localStorage.getItem('userToken');
+
+        if (token) {
+            navigate(`/properties/${id}/request-visit`);
+        } else {
+            toast.error('Please login to request a visit.');
+            navigate('/signup');
         }
     };
 
@@ -108,13 +121,13 @@ const PropertyDetails = () => {
                                     <div className='w-max rounded-[5px] font-semibold text-[20px] text-green-600'>$ {Number(property.price).toLocaleString()}</div>
                                 </div>
                                 <button
-                                    onClick={() => setShowVisitForm(true)}
+                                    onClick={handleVisitRequest}
                                     className="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition h-fit"
                                 >
                                     Request Visit
                                 </button>
                             </div>
-                            {showVisitForm && (
+                            {/* {showVisitForm && (
                                 <form onSubmit={handleRequestVisit} className="mt-4 p-4 border rounded-lg">
                                     <h3 className="font-semibold mb-2">Request a Visit</h3>
                                     <div className="mb-2">
@@ -128,7 +141,7 @@ const PropertyDetails = () => {
                                     <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Submit Request</button>
                                     <button type="button" onClick={() => setShowVisitForm(false)} className="ml-2 text-gray-600">Cancel</button>
                                 </form>
-                            )}
+                            )} */}
                             <div className='mt-[15px] text-[14px] text-gray-500 leading-[20px]'>
                                 {property.description}
                             </div>

@@ -18,6 +18,7 @@ import CreateEmployee from './components/admin/createEmployee';
 import EmployeeDashboard from './components/admin/EmployeeDashboard';
 import Signup from './components/user/Signup.jsx';
 import User from './components/user/User.jsx';
+import RequestVisit from './components/houseListPage/RequestVisit.jsx';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
             <Route path='/hr' element={<EmployeeDashboard />} />
             <Route path='/hr/createEmployee' element={<CreateEmployee />} />
+            <Route path='/properties/:id/request-visit' element={<RequestVisit />} />
           </Routes>
       </div>
     </BrowserRouter>
