@@ -9,6 +9,7 @@ import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import PropertyCard from './PropertyCard';
 import { toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
 
 const PropertyDetails = () => {
@@ -16,10 +17,11 @@ const PropertyDetails = () => {
     const [property, setProperty] = useState(null);
     const [imageIndex, setImageIndex] = useState(null);
     const [similarProperties, setSimilarProperties] = useState([]);
-    const [showVisitForm, setShowVisitForm] = useState(false);
-    const [visitDate, setVisitDate] = useState('');
-    const [visitNotes, setVisitNotes] = useState('');
+    // const [showVisitForm, setShowVisitForm] = useState(false);
+    // const [visitDate, setVisitDate] = useState('');
+    // const [visitNotes, setVisitNotes] = useState('');
     const navigate = useNavigate();
+    const [showLogin, setShowLogin] = useState(false);
 
     // const handleRequestVisit = async (e) => {
     //     e.preventDefault();
@@ -50,8 +52,25 @@ const PropertyDetails = () => {
         if (token) {
             navigate(`/properties/${id}/request-visit`);
         } else {
-            toast.error('Please login to request a visit.');
-            navigate('/signup');
+            setShowLogin(true);
+        }
+    };
+
+    const handleLoginSuccess = async (credentialResponse) => {
+        try {
+            const res = await axios.post(`${BASE_URL}/api/user/auth/google-login`, {
+                token: credentialResponse.credential,
+            });
+
+            if (res.data.token) {
+                localStorage.setItem('userToken', res.data.token);
+                setShowLogin(false);
+                navigate(`/properties/${id}/request-visit`);
+            } else {
+                console.error('Login failed: No token received:', res.data.error);
+            }
+        } catch (error) {
+            console.error('Login failed:', error);
         }
     };
 
@@ -127,6 +146,25 @@ const PropertyDetails = () => {
                                     Request Visit
                                 </button>
                             </div>
+                            {showLogin && (
+                                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-black/50">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                                        <p className="mb-4">Please login to continue</p>
+                                        <GoogleLogin
+                                            onSuccess={handleLoginSuccess}
+                                            onError={() => {
+                                                console.log('Login Failed');
+                                            }}
+                                        />
+                                        <button
+                                            className="mt-4 text-sm text-red-600 underline"
+                                            onClick={() => setShowLogin(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                             {/* {showVisitForm && (
                                 <form onSubmit={handleRequestVisit} className="mt-4 p-4 border rounded-lg">
                                     <h3 className="font-semibold mb-2">Request a Visit</h3>
