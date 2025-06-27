@@ -8,7 +8,8 @@ import {
     login,
     register,
     uploadThumbnail,
-    getEmployees
+    getEmployees,
+    uploadEmployeeProfile
 } from '../../controllers/admin/adminControllers.js';
 import upload from '../../middleware/multer.js';
 
@@ -18,6 +19,7 @@ router.post('/login', login);
 router.post('/register', register);
 router.post('/createEmployee', createEmployee);
 router.get('/employees', getEmployees);
+router.post('/upload/employeeProfile', upload.single('employeeProfile'), uploadEmployeeProfile);
 
 router.use(authenticateToken);
 

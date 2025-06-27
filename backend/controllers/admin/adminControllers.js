@@ -9,7 +9,7 @@ dotenv.config();
 export const getEmployees = async (req, res) => {
     try {
         const employees = await sql`
-            SELECT id, first_name, last_name FROM employees;
+            SELECT profile, id, first_name, last_name FROM employees;
         `;
         res.status(200).json({ success: true, data: employees });
     } catch (error) {
@@ -28,7 +28,8 @@ export const createEmployee = async (req, res) => {
         hireDate,
         jobTitle,
         department,
-        salary
+        salary,
+        profile
     } = req.body;
     try {
         const checkId = await sql `
@@ -38,8 +39,8 @@ export const createEmployee = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Employee ID already exists' });
         }
         const query = await sql `
-            insert into employees (id, first_name, last_name, email, phone, date_of_birth, hire_date, job_title, department, salary)
-            values (${id}, ${firstName}, ${lastName}, ${email}, ${phoneNumber}, ${dob}, ${hireDate}, ${jobTitle}, ${department}, ${salary})
+            insert into employees (id, first_name, last_name, email, phone, date_of_birth, hire_date, job_title, department, salary, profile)
+            values (${id}, ${firstName}, ${lastName}, ${email}, ${phoneNumber}, ${dob}, ${hireDate}, ${jobTitle}, ${department}, ${salary}, ${profile})
             returning id;
         `
         res.status(201).json({ success: true, id: query[0].id });
@@ -244,4 +245,19 @@ export const uploadThumbnail = async (req, res) => {
         console.error('Error uploading thumbnail:', error);
         res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
     }
-}
+};
+
+export const uploadEmployeeProfile = async (req, res) => {
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: 'employeeProfile',
+            use_filename: true,
+            unique_filename: false
+        });
+
+        res.status(200).json({ success: true, url: result.secure_url });
+    } catch (error) {
+        console.error('Error uploading thumbnail:', error);
+        res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
+    }
+};

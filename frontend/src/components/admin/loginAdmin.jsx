@@ -73,12 +73,12 @@ const LoginAdmin = () => {
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
 
-                    <div className='mt-4 flex justify-center gap-2 items-center'>
+                    {/* <div className='mt-4 flex justify-center gap-2 items-center'>
                         <p className='text-sm text-gray-600'>
                             Don't have an account? 
                         </p>
                         <a href="/register" className='text-blue-600 hover:underline'> Register</a>
-                    </div>
+                    </div> */}
                 </form>
             </div>
         </div>

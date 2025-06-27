@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
 
 const EmployeeDashboard = () => {
     const BASE_URL = 'http://localhost:3000';
@@ -29,13 +30,13 @@ const EmployeeDashboard = () => {
     return (
         <div>
             <Sidebar />
-            {/* ml-32 w-full flex flex-col gap-5 items-center justify-center h-screen */}
             <div className="ml-64 flex flex-col mt-10 h-screen p-10  bg-gray-50">
                 <h1 className="text-3xl font-bold mb-6">Employee List</h1>
                 <div className="bg-white shadow-md rounded-lg p-6">
                     <table className="w-full table-auto text-sm text-left text-gray-700">
                         <thead className="text-xs uppercase bg-blue-100">
                         <tr>
+                            <th className="px-4 py-2">Profile</th>
                             <th className="px-4 py-2">ID</th>
                             <th className="px-4 py-2">Name</th>
                             <th className="px-4 py-2">Email</th>
@@ -47,6 +48,15 @@ const EmployeeDashboard = () => {
                         <tbody>
                         {employee.map(emp => (
                             <tr key={emp.id} className="border-b cursor-pointer hover:bg-gray-100">
+                            <td className="px-4 py-2 bg-center bg-cover">
+                                {emp.profile ? (
+                                    <img src={emp.profile} className="w-15 h-15 rounded-full object-cover" />
+                                ):(
+                                    <div className="w-15 h-15 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
+                                        <HiUser className="w-6 h-6" />
+                                    </div>
+                                )}
+                            </td>
                             <td className="px-4 py-2">{emp.id}</td>
                             <td className="px-4 py-2">{emp.first_name} {emp.last_name}</td>
                             <td className="px-4 py-2">{emp.email}</td>
