@@ -115,7 +115,8 @@ async function initDB() {
                 department VARCHAR(100),
                 salary NUMERIC(12, 2),
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                profile TEXT
             );
         `;
 

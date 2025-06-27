@@ -28,7 +28,6 @@
               <Route path='/properties' element={<Properties />} />
               <Route path='/Contact' element={<Contact />} />
               <Route path='/login' element={<LoginAdmin />} />
-              <Route path='/register' element={<RegisterAdmin />} />
               <Route path='/hr' element={<EmployeeDashboard />} />
               <Route path='/hr/createEmployee' element={<CreateEmployee />} />
               <Route path='/admin' element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>

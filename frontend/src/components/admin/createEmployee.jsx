@@ -1,13 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, use } from 'react';
+import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './Sidebar'
-
+import 'react-toastify/dist/ReactToastify.css';
+import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
+import { HiPlus } from "react-icons/hi";
 const CreateEmployee = () => {
     const BASE_URL = 'http://localhost:3000';
-    const navigate = useNavigate();
     const [formData, setFormdata] = useState({
         id: '',
         firstName: '',
@@ -18,8 +18,35 @@ const CreateEmployee = () => {
         hireDate: '',
         jobTitle: '',
         department: '',
-        salary: ''
+        salary: '',
+        profile: ''
     });
+
+    const [file, setFile] = useState();
+    const[previewUrl, setPreviewUrl] = useState();
+    
+    const onDropProfile = useCallback((acceptedFile) => {
+        setFile(acceptedFile[0])
+        setPreviewUrl(URL.createObjectURL(acceptedFile[0]));
+    }, []);
+
+    const { getRootProps, getInputProps } = useDropzone({
+        onDrop: onDropProfile,
+        accept: {
+            'image/*': ['.jpeg', '.jpg', '.png', '.webp']
+        },
+        maxFiles: 1
+    })
+
+    const uploadProfile = async (file) => {
+        const formData = new FormData();
+
+        formData.append('employeeProfile', file);
+
+        const res = await axios.post(`${BASE_URL}/api/admins/upload/employeeProfile`, formData)
+        return res.data.url;
+    }
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormdata((prev) => ({
@@ -27,10 +54,22 @@ const CreateEmployee = () => {
             [id]: value
         }));
     };
+    const removeSelectedImage = () => {
+        setFile(null);
+        setPreviewUrl(null);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault(); 
+        // Step 1: Upload image file to Cloudinary via your backend
+        const imageUrl = await uploadProfile(file); // returns secure_url
+
+        const payload = {
+            ...formData,
+            profile: imageUrl
+        }
         try {
-            const res = await axios.post(`${BASE_URL}/api/admins/createEmployee`, formData)
+            const res = await axios.post(`${BASE_URL}/api/admins/createEmployee`, payload);
             const data = res.data;
             if (!data.success) {
                 throw new Error(data.message || 'Created Failed');
@@ -45,12 +84,36 @@ const CreateEmployee = () => {
         <div>
             <Sidebar />
             <div className='ml-32 w-full flex flex-col gap-5 items-center justify-center h-screen'>
-                <h1 className='text-[25px] font-bold'>Add Employee</h1>
-                {/* <div className='flex justify-center gap-5'> */}
+                <h1 className='mr-260 text-[25px] font-bold'>Add Employee</h1>
                     <form onSubmit={handleSubmit} className='w-full flex justify-center gap-5'>
                         <div className='w-150 border border-gray-300 rounded-lg p-5'>
                             <h1 className='font-bold'>Personal Information</h1>
-                            <div className='mt-5 grid grid-cols-2 gap-5'>
+                            <div className='mt-5 gap-5 flex justify-center items-center'>
+                                <div {...getRootProps()} className="relative w-24 h-24 flex items-center justify-center bg-gray-100 rounded-full cursor-pointer border-2 border-dashed border-gray-300">
+                                    <input {...getInputProps()} />
+                                    {previewUrl ? (
+                                        <img src={previewUrl} alt="Preview" className="w-24 h-24 object-cover rounded-full" />
+                                    ) : (
+                                        <>
+                                        <HiUser className="w-12 h-12 text-blue-900" />
+                                        <span className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-blue-900 flex items-center justify-center">
+                                            <HiPlus className="w-4 h-4 text-white" />
+                                        </span>
+                                        </>
+                                    )}
+                                    {previewUrl && (
+                                        <button 
+                                            type="button"
+                                            onClick={removeSelectedImage}
+                                            className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                                            title="Remove"
+                                        >
+                                            ×
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                            <div className='mt-10 grid grid-cols-2 gap-5'>
                                 <div className="mb-4 w-full">
                                     <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id</label>
                                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" 
