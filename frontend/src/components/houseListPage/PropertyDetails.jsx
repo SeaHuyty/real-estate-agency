@@ -9,36 +9,68 @@ import Navbar from '../landingPage/navbar';
 import Footer from '../landingPage/footer';
 import PropertyCard from './PropertyCard';
 import { toast } from 'react-toastify';
+import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from 'react-router-dom';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const [property, setProperty] = useState(null);
     const [imageIndex, setImageIndex] = useState(null);
     const [similarProperties, setSimilarProperties] = useState([]);
-    const [showVisitForm, setShowVisitForm] = useState(false);
-    const [visitDate, setVisitDate] = useState('');
-    const [visitNotes, setVisitNotes] = useState('');
+    // const [showVisitForm, setShowVisitForm] = useState(false);
+    // const [visitDate, setVisitDate] = useState('');
+    // const [visitNotes, setVisitNotes] = useState('');
+    const navigate = useNavigate();
+    const [showLogin, setShowLogin] = useState(false);
 
-    const handleRequestVisit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('accessToken');
-        if (!token) {
-            toast.error("Please login to request a visit.");
-            return;
+    // const handleRequestVisit = async (e) => {
+    //     e.preventDefault();
+    //     const token = localStorage.getItem('accessToken');
+    //     if (!token) {
+    //         toast.error("Please login to request a visit.");
+    //         return;
+    //     }
+    //     // This is a placeholder for the actual user ID.
+    //     // In a real application, you would get this from the logged-in user's context or token.
+    //     const userId = 1;
+
+    //     try {
+    //         await axios.post(`${BASE_URL}/api/requests`, 
+    //             { userId, propertyId: id, preferredDate: visitDate, notes: visitNotes },
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+    //         toast.success("Visit request submitted successfully!");
+    //         setShowVisitForm(false);
+    //     } catch (error) {
+    //         toast.error("Failed to submit visit request.");
+    //     }
+    // };
+
+    const handleVisitRequest = () => {
+        const token = localStorage.getItem('userToken');
+
+        if (token) {
+            navigate(`/properties/${id}/request-visit`);
+        } else {
+            setShowLogin(true);
         }
-        // This is a placeholder for the actual user ID.
-        // In a real application, you would get this from the logged-in user's context or token.
-        const userId = 1;
+    };
 
+    const handleLoginSuccess = async (credentialResponse) => {
         try {
-            await axios.post(`${BASE_URL}/api/requests`, 
-                { userId, propertyId: id, preferredDate: visitDate, notes: visitNotes },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            toast.success("Visit request submitted successfully!");
-            setShowVisitForm(false);
+            const res = await axios.post(`${BASE_URL}/api/user/auth/google-login`, {
+                token: credentialResponse.credential,
+            });
+
+            if (res.data.token) {
+                localStorage.setItem('userToken', res.data.token);
+                setShowLogin(false);
+                navigate(`/properties/${id}/request-visit`);
+            } else {
+                console.error('Login failed: No token received:', res.data.error);
+            }
         } catch (error) {
-            toast.error("Failed to submit visit request.");
+            console.error('Login failed:', error);
         }
     };
 
@@ -108,13 +140,32 @@ const PropertyDetails = () => {
                                     <div className='w-max rounded-[5px] font-semibold text-[20px] text-green-600'>$ {Number(property.price).toLocaleString()}</div>
                                 </div>
                                 <button
-                                    onClick={() => setShowVisitForm(true)}
+                                    onClick={handleVisitRequest}
                                     className="bg-blue-900 text-white px-6 py-2 rounded-lg hover:bg-blue-800 transition h-fit"
                                 >
                                     Request Visit
                                 </button>
                             </div>
-                            {showVisitForm && (
+                            {showLogin && (
+                                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center z-50 bg-black/50">
+                                    <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+                                        <p className="mb-4">Please login to continue</p>
+                                        <GoogleLogin
+                                            onSuccess={handleLoginSuccess}
+                                            onError={() => {
+                                                console.log('Login Failed');
+                                            }}
+                                        />
+                                        <button
+                                            className="mt-4 text-sm text-red-600 underline"
+                                            onClick={() => setShowLogin(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                            {/* {showVisitForm && (
                                 <form onSubmit={handleRequestVisit} className="mt-4 p-4 border rounded-lg">
                                     <h3 className="font-semibold mb-2">Request a Visit</h3>
                                     <div className="mb-2">
@@ -128,7 +179,7 @@ const PropertyDetails = () => {
                                     <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Submit Request</button>
                                     <button type="button" onClick={() => setShowVisitForm(false)} className="ml-2 text-gray-600">Cancel</button>
                                 </form>
-                            )}
+                            )} */}
                             <div className='mt-[15px] text-[14px] text-gray-500 leading-[20px]'>
                                 {property.description}
                             </div>

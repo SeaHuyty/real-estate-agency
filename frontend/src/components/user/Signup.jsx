@@ -29,7 +29,7 @@ const Signup = () => {
             onError={() => {
                 console.log('Login Failed');
             }}
-            />;
+            />
         </>
     );
 }

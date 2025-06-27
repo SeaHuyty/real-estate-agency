@@ -20,6 +20,7 @@ import EmployeeDashboard from './components/admin/EmployeeDashboard';
 import Signup from './components/user/Signup.jsx';
 import User from './components/user/User.jsx';
 import UpdateEmployee from './components/admin/UpdateEmployee.jsx'
+import RequestVisit from './components/houseListPage/RequestVisit.jsx';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <Route path='/hr' element={<EmployeeDashboard />} />
             <Route path='/hr/createEmployee' element={<CreateEmployee />} />
             <Route path='/hr/:id' element={<UpdateEmployee />} />
+            <Route path='/properties/:id/request-visit' element={<RequestVisit />} />
           </Routes>
       </div>
     </BrowserRouter>
