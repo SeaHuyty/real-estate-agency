@@ -13,11 +13,13 @@ import ManageProperties from './components/admin/ManageProperties'
 import ProtectedRouted from './components/admin/protectedRoute'
 import UpdateProperty from './components/admin/UpdateProperty'
 import Analytics from './components/admin/Analytics';
-import ManageVisitRequests from './components/admin/ManageVisitRequests';
 import CreateEmployee from './components/admin/createEmployee';
+import ManageVisitRequests from './components/admin/ManageVisitRequests';
+import VisitRequestDetail from './components/admin/VisitRequestDetails.jsx';
 import EmployeeDashboard from './components/admin/EmployeeDashboard';
 import Signup from './components/user/Signup.jsx';
 import User from './components/user/User.jsx';
+import UpdateEmployee from './components/admin/UpdateEmployee.jsx'
 import RequestVisit from './components/houseListPage/RequestVisit.jsx';
 
 function App() {
@@ -31,7 +33,6 @@ function App() {
             <Route path='/properties' element={<Properties />} />
             <Route path='/Contact' element={<Contact />} />
             <Route path='/login' element={<LoginAdmin />} />
-            <Route path='/register' element={<RegisterAdmin />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/user' element={<User />} />
             <Route path='/admin' element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
@@ -40,9 +41,11 @@ function App() {
             <Route path='/admin/edit/:id' element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
             <Route path='/admin/analytics' element={<Analytics />} />
             <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
+            <Route path='/admin/requests/:id' element={<ProtectedRouted><VisitRequestDetail /></ProtectedRouted>} />
             <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
             <Route path='/hr' element={<EmployeeDashboard />} />
             <Route path='/hr/createEmployee' element={<CreateEmployee />} />
+            <Route path='/hr/:id' element={<UpdateEmployee />} />
             <Route path='/properties/:id/request-visit' element={<RequestVisit />} />
           </Routes>
       </div>

@@ -9,7 +9,7 @@ dotenv.config();
 export const getEmployees = async (req, res) => {
     try {
         const employees = await sql`
-            SELECT profile, id, first_name, last_name FROM employees;
+            SELECT * FROM employees;
         `;
         res.status(200).json({ success: true, data: employees });
     } catch (error) {
@@ -17,6 +17,36 @@ export const getEmployees = async (req, res) => {
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
+
+export const getEmployeeById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const employeeResult = await sql `
+            select * from employees where id = ${id};
+        `;
+        if (employeeResult.length === 0) {
+            return res.status(404).json({ success: false, message: 'Employee not found' });
+        }
+        res.status(200).json({ success: true, data: employeeResult[0] });
+    } catch (err) {
+        console.error('Error to get employee by id', err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+}
+export const getEmployeeProfile = async (req, res) => {
+    const { id } = req.query;
+    try {
+        const employees = await sql`
+            SELECT profile, id, first_name, last_name FROM employees
+            where id = ${id};
+        `;
+        res.status(200).json({ success: true, data: employees[0] });
+    } catch (error) {
+        console.error('Error in getEmployees:', error);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
 export const createEmployee = async (req, res) => {
     const { 
         id,
@@ -49,6 +79,61 @@ export const createEmployee = async (req, res) => {
         res.status(500).json({ success: false, message: err.message });
     }
 }
+
+export const updateEmployee = async (req, res) => {
+    const { id } = req.params;
+    
+    const { 
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        dob,
+        hireDate,
+        jobTitle,
+        department,
+        salary,
+        profile
+    } = req.body;
+    
+    try {
+        console.log('hello');
+        const updateEmployee = await sql `
+            update employees
+            set 
+                first_name = ${firstName}, last_name = ${lastName}, email = ${email}, phone = ${phoneNumber},
+                date_of_birth = ${dob}, hire_date = ${hireDate}, job_title = ${jobTitle}, department = ${department},
+                salary = ${salary}, profile = ${profile}
+            where id = ${id} returning *;
+        `
+        if (updateEmployee.length === 0) {
+            return res.status(404).json( { success: false, message: 'Employee not found' });
+        }
+        res.status(200).json({ success: true, data: updateEmployee[0] });
+        // res.status(200).json({ success: true, updateEmployee[0] });
+    } catch (err) { 
+        console.log('Error in update employee', err);
+    }
+}
+
+export const deleteEmployee = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const deleteEmployee = await sql `
+            delete from employees where id = ${id} 
+            returning *;
+        `;
+        if (deleteEmployee.length === 0) {
+            return res.status(404).json({ success: false, message: "Employee not found" });
+        }
+        res.status(200).json({ success: true, data: deleteEmployee });
+    } catch (err) {
+        console.log('Error Delete employee', err);
+        res.status(500).json({ success: false, message: error.message });
+    }
+}
+
 export const register = async (req, res) => {
     const { username, password, id } = req.body;
     // validate
@@ -108,7 +193,7 @@ export const login = async (req, res) => {
             return res.status(401).json({ success: false, message: 'Invalid password. Try again' });
         }
 
-        const payload = { id: user.id, username: user.username };
+        const payload = { id: user.employee_id, username: user.username };
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1h' 
         });
@@ -143,7 +228,7 @@ export const updateProperty = async (req, res) => {
     const { id } = req.params;
 
     const { title, description, property_type, address, city, province, price, size, bedrooms, bathrooms, location_url,
-            swimming_pool, gym, parking_lot, garden, balcony, security, fire_security, elevator, commercial_area, non_flooding, playground, common_area
+        swimming_pool, gym, parking_lot, garden, balcony, security, fire_security, elevator, commercial_area, non_flooding, playground, common_area
     } = req.body;
 
     try {
@@ -258,6 +343,6 @@ export const uploadEmployeeProfile = async (req, res) => {
         res.status(200).json({ success: true, url: result.secure_url });
     } catch (error) {
         console.error('Error uploading thumbnail:', error);
-        res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
+        res.status(500).json({ success: false, message: 'Failed to upload profile' });
     }
 };
