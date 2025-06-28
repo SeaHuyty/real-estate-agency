@@ -227,21 +227,41 @@ export const deleteProperty = async (req, res) => {
 export const updateProperty = async (req, res) => {
     const { id } = req.params;
 
-    const { title, description, property_type, address, city, province, price, size, bedrooms, bathrooms, location_url,
-        swimming_pool, gym, parking_lot, garden, balcony, security, fire_security, elevator, commercial_area, non_flooding, playground, common_area
+    const { 
+        title, description, property_type, address, city, province, price, size, bedrooms, bathrooms, location_url,
+        swimming_pool, gym, parking_lot, garden, balcony, security, fire_security, elevator, commercial_area, non_flooding, playground, common_area,
+        images, // Expect an array of image URLs
+        thumbnail // Expect the thumbnail URL
     } = req.body;
 
     try {
         const updatedProperty = await sql `
             UPDATE properties
-            SET title = ${title}, description = ${description}, property_type = ${property_type}, address = ${address}, city = ${city}, province = ${province}, price = ${price}, size = ${size}, bedrooms = ${bedrooms}, bathrooms = ${bathrooms}, location_url = ${location_url}
+            SET 
+                title = ${title}, 
+                description = ${description}, 
+                property_type = ${property_type}, 
+                address = ${address}, 
+                city = ${city}, 
+                province = ${province}, 
+                price = ${price}, 
+                size = ${size}, 
+                bedrooms = ${bedrooms}, 
+                bathrooms = ${bathrooms}, 
+                location_url = ${location_url},
+                property_thumbnail = ${thumbnail}
             WHERE id = ${id}
             RETURNING *;
         `;
 
-        const updatedAmenities = await sql `
+        if (updatedProperty.length === 0) {
+            return res.status(404).json({ success: false, message: 'Property not found' });
+        }
+
+        await sql `
             UPDATE amenities
-            SET gym = ${gym},
+            SET 
+                gym = ${gym},
                 swimming_pool = ${swimming_pool},
                 parking_lot = ${parking_lot},
                 garden = ${garden},
@@ -253,15 +273,33 @@ export const updateProperty = async (req, res) => {
                 non_flooding = ${non_flooding},
                 playground = ${playground},
                 common_area = ${common_area}
-            WHERE property_id = ${id}
-            RETURNING *;
+            WHERE property_id = ${id};
         `;
+        
+        // If images array is provided, update the images
+        if (images !== undefined) {
+            // Delete old images first
+            await sql`DELETE FROM property_images WHERE property_id = ${id}`;
 
-        if (updatedProperty.length === 0) {
-            return res.status(404).json({ success: false, message: 'Property not found' });
+            // Insert new images if any
+            if (Array.isArray(images) && images.length > 0) {
+                await Promise.all(images.map(imageUrl => 
+                    sql`INSERT INTO property_images (property_id, image_url) VALUES (${id}, ${imageUrl})`
+                ));
+            }
         }
 
-        res.status(200).json({ success: true, data: updatedProperty[0] });
+        // Fetch the fully updated property data to return
+        const finalData = await sql`
+            SELECT p.*, a.*, 
+                   (SELECT json_agg(pi.image_url) FROM property_images pi WHERE pi.property_id = p.id) as images
+            FROM properties p
+            LEFT JOIN amenities a ON p.id = a.property_id
+            WHERE p.id = ${id}
+            GROUP BY p.id, a.property_id;
+        `;
+
+        res.status(200).json({ success: true, data: finalData[0] });
 
     } catch (error) {
         console.log('Error in updateProperty:', error);
@@ -283,7 +321,8 @@ export const createProperty = async (req, res) => {
         bedrooms, 
         bathrooms,
         location_url,
-        images = [] 
+        images = [],
+        amenities = {}
     } = req.body;
     
     try {
@@ -300,16 +339,44 @@ export const createProperty = async (req, res) => {
             RETURNING id;
         `;
 
+        const propertyId = newProperty[0].id;
+
         // Insert images if any
         if (images.length > 0) {
             await Promise.all(images.map(imageUrl => 
-                sql`INSERT INTO property_images (property_id, image_url) VALUES (${newProperty[0].id}, ${imageUrl})`
+                sql`INSERT INTO property_images (property_id, image_url) VALUES (${propertyId}, ${imageUrl})`
             ));
         }
 
+        const {
+            swimming_pool = false,
+            gym = false,
+            parking_lot = false,
+            garden = false,
+            balcony = false,
+            security = false,
+            fire_security = false,
+            elevator = false,
+            commercial_area = false,
+            non_flooding = false,
+            playground = false,
+            common_area = false
+        } = amenities;
+
+        await sql`
+            INSERT INTO amenities (
+                property_id, swimming_pool, gym, parking_lot, garden, balcony, security,
+                fire_security, elevator, commercial_area, non_flooding, playground, common_area
+            )
+            VALUES (
+                ${propertyId}, ${swimming_pool}, ${gym}, ${parking_lot}, ${garden}, ${balcony}, ${security},
+                ${fire_security}, ${elevator}, ${commercial_area}, ${non_flooding}, ${playground}, ${common_area}
+            );
+        `;
+
         res.status(201).json({ 
             success: true, 
-            data: { ...newProperty[0], images }
+            data: { id: propertyId, images, amenities }
         });
     } catch (error) {
         console.log('Error in createProperty:', error);
