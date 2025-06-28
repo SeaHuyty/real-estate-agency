@@ -25,6 +25,20 @@ const CreateProperty = () => {
         bathrooms: '',
         location_url: '',
     });
+    const [amenities, setAmenities] = useState({
+        swimming_pool: false,
+        gym: false,
+        parking_lot: false,
+        garden: false,
+        balcony: false,
+        security: false,
+        fire_security: false,
+        elevator: false,
+        commercial_area: false,
+        non_flooding: false,
+        playground: false,
+        common_area: false
+    });
     const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('basic');
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -104,6 +118,11 @@ const CreateProperty = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleAmenityChange = (e) => {
+        const { name, checked } = e.target;
+        setAmenities(prev => ({ ...prev, [name]: checked }));
+    };
+
     const uploadFile = async (file) => {
         const formData = new FormData();
         formData.append('thumbnail', file);
@@ -151,7 +170,8 @@ const CreateProperty = () => {
                 ...formData,
                 location_url: locationSrc,
                 thumbnail: thumbnailUrl,
-                images: imageUrls
+                images: imageUrls,
+                amenities: amenities
             };
 
             const res = await axios.post(`${BASE_URL}/api/admins`, propertyData, {
@@ -417,118 +437,25 @@ const CreateProperty = () => {
                                 <div className='mb-6'>
                                     <div className='amenities'>
                                         <h1 className='font-semibold'>Amenities</h1>
-                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex justify-center items-center">
-                                                    <input id="vue-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="vue-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Swimming Pool</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/swimming.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center justify-center">
-                                                    <input id="react-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="react-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Parking lot</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="angular-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="angular-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-
-                                                        <h1>Garden</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/garden.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Gym</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/gym.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className='Security mt-6'>
-                                        <h1 className='font-semibold'>Security</h1>
-                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Balcony</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/balcony.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Elevator</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/elevator.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Security</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/security.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3  border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Non-Flooding</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/nonflooding.png" alt="" /> 
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className='Security mt-6'>
-                                        <h1 className='font-semibold'>Common Area</h1>
-                                        <ul class="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="balcony-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="balcony-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Commercial Area</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/commercial.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="elevator-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="elevator-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Playground</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/playground.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            <li class="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                                <div class="flex items-center">
-                                                    <input id="gym-checkbox-list" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm" />
-                                                    <label for="gym-checkbox-list" class="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        <h1>Common Area</h1>
-                                                        <img className='w-[30px] h-[30px]' src="/common.png" alt="" />
-                                                    </label>
-                                                </div>
-                                            </li>
-                                            
+                                        <ul className="grid grid-cols-4 font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+                                            {Object.keys(amenities).map((amenity) => (
+                                                <li key={amenity} className="w-full flex ps-3 border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                                                    <div className="flex justify-center items-center">
+                                                        <input 
+                                                            id={`${amenity}-checkbox-list`} 
+                                                            type="checkbox" 
+                                                            name={amenity} 
+                                                            checked={amenities[amenity]} 
+                                                            onChange={handleAmenityChange} 
+                                                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm"
+                                                        />
+                                                        <label htmlFor={`${amenity}-checkbox-list`} className="w-full flex gap-2 items-center py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 capitalize">
+                                                            <h1>{amenity.replace('_', ' ')}</h1>
+                                                            <img className='w-[30px] h-[30px]' src={`/${amenity.split('_')[0]}.png`} alt="" />
+                                                        </label>
+                                                    </div>
+                                                </li>
+                                            ))}
                                         </ul>
                                     </div>
                                 </div>
@@ -584,7 +511,12 @@ const CreateProperty = () => {
                                 {activeTab !== 'basic' && (
                                     <button
                                         type='button'
-                                        onClick={() => setActiveTab(activeTab === 'details' ? 'basic' : 'details')}
+                                        onClick={() => setActiveTab(
+                                            activeTab === 'details' ? 'basic' :
+                                            activeTab === 'location' ? 'details' :
+                                            activeTab === 'amenities' ? 'location' :
+                                            'amenities'
+                                        )}
                                         className='px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition'
                                     >
                                         Back
@@ -595,7 +527,12 @@ const CreateProperty = () => {
                                     {activeTab !== 'media' ? (
                                         <button
                                             type='button'
-                                            onClick={() => setActiveTab(activeTab === 'basic' ? 'details' : 'media')}
+                                            onClick={() => setActiveTab(
+                                                activeTab === 'basic' ? 'details' :
+                                                activeTab === 'details' ? 'location' :
+                                                activeTab === 'location' ? 'amenities' :
+                                                'media'
+                                            )}
                                             className='px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-700 transition'
                                         >
                                             Next
