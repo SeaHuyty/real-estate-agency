@@ -24,7 +24,7 @@ const CreateEmployee = () => {
 
     const [file, setFile] = useState();
     const[previewUrl, setPreviewUrl] = useState();
-    
+    const [loading, setLoading] = useState(false);
     const onDropProfile = useCallback((acceptedFile) => {
         setFile(acceptedFile[0])
         setPreviewUrl(URL.createObjectURL(acceptedFile[0]));
@@ -62,8 +62,16 @@ const CreateEmployee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
         // Step 1: Upload image file to Cloudinary via your backend
-        const imageUrl = await uploadProfile(file); // returns secure_url
-
+        setLoading(true);
+        let imageUrl = '';
+        if (file) {
+            try {
+                imageUrl = await uploadProfile(file);
+            } catch (err) {
+                toast.error('Failed to upload profile image');
+                return;
+            }
+        }
         const payload = {
             ...formData,
             profile: imageUrl
@@ -78,6 +86,8 @@ const CreateEmployee = () => {
         } catch (err) {
             console.error('Error in handleSubmit:', err);
             toast.error(err.response?.data?.message || 'Failed to create property');
+        } finally {
+            setLoading(false);
         }
     }
     return (
@@ -210,7 +220,11 @@ const CreateEmployee = () => {
                                     />
                                 </div>
                                 <div className="mb-4">
-                                    <button type='submit' className="w-full bg-blue-900 border border-gray-300 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition duration-250 ease-in-out hover:bg-blue-700"> Submit </button>
+                                    <button 
+                                    type='submit'
+                                    disabled={loading}
+                                    className="w-full bg-blue-900 border border-gray-300 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition duration-250 ease-in-out hover:bg-blue-700"
+                                    > {loading ? 'In Progress...' : 'Submit'} </button>
                                 </div>
                             </div>
                         </div>
