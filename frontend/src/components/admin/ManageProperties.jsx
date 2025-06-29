@@ -32,7 +32,7 @@ const ManageProperties = () => {
             if (!token) {
                 throw new Error('No token found. Please login again');
             }
-            const response = await axios.get(`${BASE_URL}/api/properties`, {
+            const response = await axios.get(`${BASE_URL}/api/admins`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
