@@ -1,12 +1,12 @@
 import { sql } from '../config/db.js';
+import { client } from '../config/redisClient.js';
 
 export const getAllProperties = async (req, res) => {
+    const { province, type, minprice, maxprice, bedrooms } = req.query;
+    const conditions = [];
+    const params = [];
+
     try {
-        const { province, type, minprice, maxprice, bedrooms } = req.query;
-
-        const conditions = [];
-        const params = [];
-
         if (province) {
             params.push(province);
             conditions.push(`p.province = $${params.length}`);
@@ -55,22 +55,44 @@ export const getAllProperties = async (req, res) => {
         res.status(500).json({ success: false, message: error.message });
     }
 };
+
 export const countProperties = async (req, res) => {
+    const cacheKey = 'countProperties';
     try {
+        // Check Redis cache first
+        const cachedData = await client.get(cacheKey);
+        if (cachedData) {
+            return res.status(200).json({ success: true, source: 'redis', data: cachedData });
+        }
+
+        // If no cache data, retrieve from database
         const result = await sql `
             select count(*)
             from properties
         `;
-        res.status(200).json({ success: true, data: result });
+
+        // Cache the data in Redis for 5 minutes (300 seconds)
+        await client.setEx(cacheKey, 300, result);
+
+        res.status(200).json({ success: true, source: 'database', data: result });
     } catch (err) {
         console.error('countProperties error:', err);
         res.status(500).json({ success: false, message: err.message });
     }
 }
+
 export const getProperty = async (req, res) => {
     const { id } = req.params;
+    const cacheKey = `property:${id}`;
 
     try {
+        // Check Redis cache first
+        const cachedData = await client.get(cacheKey);
+        if (cachedData) {
+            return res.status(200).json({ success: true, source: 'redis', data: JSON.parse(cachedData) });
+        }
+
+        // If no cache data, retrieve from database
         const property = await sql `
             SELECT 
                 p.*, 
@@ -96,6 +118,9 @@ export const getProperty = async (req, res) => {
                      a.fire_security, a.elevator, a.commercial_area, a.non_flooding, a.playground, a.common_area;
         `;
 
+        // Cache the data in Redis for 5 minutes (300 seconds)
+        await client.setEx(cacheKey, 300, JSON.stringify(property[0]));
+
         if (property.length === 0) {
             return res.status(404).json({ success: false, message: 'Property not found' });
         }
@@ -108,7 +133,13 @@ export const getProperty = async (req, res) => {
 };
 
 export const getTopProperty = async (req, res) => {
+    const cacheKey = 'topProperty';
     try {
+        const cachedData = await client.get('topProperty');
+        if (cachedData) {
+            return res.status(200).json({ success: true, data: JSON.parse(cachedData) });
+        }
+
         const result = await sql `
             SELECT
                 id,
@@ -120,6 +151,9 @@ export const getTopProperty = async (req, res) => {
             ORDER BY price DESC
             LIMIT 6
         `;
+
+        await client.setEx(cacheKey, 300, JSON.stringify(result));
+
         res.status(200).json({ success: true, data: result });
     } catch (error) {
         console.error('getTopProperty error:', error);

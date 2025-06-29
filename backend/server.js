@@ -8,11 +8,14 @@ import adminRoutes from './routes/admin/adminRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
 import userRoutes from './routes/user/userRoutes.js';
 import { sql } from './config/db.js';
+import { connectRedis } from './config/redisClient.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT;
+
+connectRedis();
 
 app.use(express.json());
 app.use(cors()); // enable CORS for all routes
