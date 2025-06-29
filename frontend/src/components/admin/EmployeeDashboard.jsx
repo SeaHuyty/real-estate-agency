@@ -4,13 +4,16 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { HiUser, HiPencil, HiTrash } from "react-icons/hi2";
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
+
 const EmployeeDashboard = () => {
     const BASE_URL = 'http://localhost:3000';
     const [employee, setEmployees] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filteredEmployee, setFilteredEmployee] = useState([]);
+    const [jobFilter, setJobFilter] = useState(); 
 
-    useEffect(() => {
+    useEffect(() => {   
         const fetchEmployees = async () => {
             try {
                 const res = await axios.get(`${BASE_URL}/api/admins/employees`);
@@ -20,6 +23,7 @@ const EmployeeDashboard = () => {
                 }
                 toast.success('Employees fetched successfully');
                 setEmployees(data.data);
+                setFilteredEmployee(data.data);
             } catch (err) {
                 console.log('Error Fetching Employees:', err);
                 toast.error(err.response?.data?.message || 'Failed to fetch employees');
@@ -45,25 +49,63 @@ const EmployeeDashboard = () => {
             toast.error(err.response?.data?.message || "Failed to delete employee");
         }
     }
+    useEffect (() => {
+        let searchEmployee = [...employee];
+        // if (!search) {
+        //     setFilteredEmployee(employee);
+        //     return;
+        // }
+        if (search && search.trim() !== '') {
+            searchEmployee = searchEmployee.filter(emp =>
+                emp.first_name.toLowerCase().includes(search.toLowerCase()) ||
+                emp.last_name.toLowerCase().includes(search.toLowerCase()) ||
+                emp.job_title.toLowerCase().includes(search.toLowerCase()) ||
+                emp.department.toLowerCase().includes(search.toLowerCase()) ||
+                emp.id.toString().includes(search)
+                
+            );
+        }
+
+        if (jobFilter && jobFilter.trim() !== '') {
+            searchEmployee = searchEmployee.filter(emp => emp.job_title === jobFilter);
+        }
+        setFilteredEmployee(searchEmployee);
+    }, [search, employee, jobFilter]);
 
     return (
         <div>
             <Sidebar />
             <div className="ml-64 flex flex-col h-screen p-5">
                 <div className='flex justify-between items-center'>
-                    <h1 className="text-3xl font-bold w-full text-blue-900">Employee List</h1>
-                    <form class="w-full">   
-                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                        <div class="relative">
+                    <h1 className="text-3xl font-bold text-blue-900">Employee List</h1>
+                    <div className='flex gap-5'>
+                        <div class="relative w-100">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Employees" required />
-                            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                            <input 
+                                type="search"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                class="block rounded-lg w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 bg-gray-50 focus:ring-blue-500" placeholder="Search Employees" required />
                         </div>
-                    </form>
+                        <div>
+                            <select
+                                value={jobFilter}
+                                onChange={(e) => setJobFilter(e.target.value)}
+                                className="rounded-lg px-4 py-2 text-sm text-gray-500 border border-gray-300 bg-gray-50"
+                            >   
+                                <option value="">All Job Title</option>
+                                {
+                                    [...new Set(employee.map(emp => emp.job_title))].map(title => (
+                                        <option key={title} value={title}>{title}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div className="bg-white shadow-md p-6 mt-6">
                     <table className="w-full table-auto text-sm text-left text-gray-700">
@@ -80,7 +122,7 @@ const EmployeeDashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {employee.map(emp => (
+                            {filteredEmployee.map(emp => (
                                 <tr key={emp.id} className="border-b cursor-pointer hover:bg-gray-100">
                                     <td className="px-4 py-2 bg-center bg-cover">
                                         {emp.profile ? (
@@ -114,7 +156,7 @@ const EmployeeDashboard = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {employee.length === 0 && (
+                            {filteredEmployee.length === 0 && (
                                 <tr>
                                     <td colSpan="6" className="text-center py-4 text-gray-500">
                                         No employees found.
