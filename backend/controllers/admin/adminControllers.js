@@ -9,7 +9,7 @@ dotenv.config();
 export const getEmployees = async (req, res) => {
     try {
         const employees = await sql`
-            SELECT * FROM employees;
+            SELECT * FROM employees order by id asc
         `;
         res.status(200).json({ success: true, data: employees });
     } catch (error) {
@@ -29,7 +29,7 @@ export const getEmployeeById = async (req, res) => {
         }
         res.status(200).json({ success: true, data: employeeResult[0] });
     } catch (err) {
-        console.error('Error to get employee by id', err);
+        console.log('Error to get employee by id', err);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 }
@@ -42,7 +42,7 @@ export const getEmployeeProfile = async (req, res) => {
         `;
         res.status(200).json({ success: true, data: employees[0] });
     } catch (error) {
-        console.error('Error in getEmployees:', error);
+        console.log('Error in getEmployees:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
@@ -75,7 +75,7 @@ export const createEmployee = async (req, res) => {
         `
         res.status(201).json({ success: true, id: query[0].id });
     } catch (err) {
-        console.error('Error in createEmployee:', err);
+        console.log('Error in createEmployee:', err);
         res.status(500).json({ success: false, message: err.message });
     }
 }

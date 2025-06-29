@@ -20,7 +20,6 @@ import upload from '../../middleware/multer.js';
 const router = express.Router();
 
 router.post('/login', login);
-router.post('/register', register);
 router.post('/createEmployee', createEmployee);
 router.get('/employees', getEmployees);
 router.get('/employeeProfile', getEmployeeProfile);
@@ -35,6 +34,7 @@ router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
+router.post('/register', register);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);
