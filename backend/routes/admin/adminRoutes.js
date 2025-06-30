@@ -21,7 +21,6 @@ import { getAllProperties } from '../../controllers/admin/property.js';
 const router = express.Router();
 
 router.post('/login', login);
-router.post('/register', register);
 router.post('/createEmployee', createEmployee);
 router.get('/employees', getEmployees);
 router.get('/employeeProfile', getEmployeeProfile);
@@ -37,6 +36,7 @@ router.get('/check-auth', (req, res) => {
 });
 
 router.get('/', getAllProperties);
+router.post('/register', register);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);
