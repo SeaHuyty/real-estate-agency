@@ -1,13 +1,18 @@
-import { sql } from '../config/db.js';
+import Customer from "../models/Customer.js";
+import Property from "../models/Property.js";
+import VisitRequest from "../models/VisitRequest.js";
+import PropertyImages from "../models/PropertyImages.js";
 
 export const createRequest = async (req, res) => {
     const { userId, propertyId, preferredDate, notes } = req.body;
     try {
-        const newRequest = await sql`
-            INSERT INTO visit_requests (user_id, property_id, preferred_date, notes)
-            VALUES (${userId}, ${propertyId}, ${preferredDate}, ${notes})
-            RETURNING *;
-        `;
+        const newRequest = await VisitRequest.create({
+            user_id: userId,
+            property_id: propertyId,
+            preferred_date: preferredDate,
+            notes: notes
+        });
+        
         res.status(201).json({ success: true, data: newRequest[0] });
     } catch (error) {
         console.error('Error in createRequest:', error);
@@ -17,13 +22,22 @@ export const createRequest = async (req, res) => {
 
 export const getAllRequests = async (req, res) => {
     try {
-        const requests = await sql`
-            SELECT r.*, p.title as property_title, u.name as user_name
-            FROM visit_requests r
-            LEFT JOIN properties p ON r.property_id = p.id
-            LEFT JOIN customers u ON r.user_id = u.id
-            ORDER BY r.created_at DESC;
-        `;
+        const requests = await VisitRequest.findAll({
+            include: [
+                {
+                    model: Property,
+                    as: 'property',
+                    attributes: ['title']
+                },
+                {
+                    model: Customer,
+                    as: 'customer',
+                    attributes: ['name']
+                }
+            ],
+            order: [['created_at', 'DESC']]
+        });
+
         res.status(200).json({ success: true, data: requests });
     } catch (error) {
         console.error('Error in getAllRequests:', error);
@@ -39,17 +53,17 @@ export const updateRequest = async (req, res) => {
         // Convert empty string to null for assigned_agency_id
         const agencyId = assignedAgencyId === '' ? null : assignedAgencyId;
         
-        const updatedRequest = await sql`
-            UPDATE visit_requests
-            SET 
-                status = ${status}, 
-                assigned_agency_id = ${agencyId}, 
-                notes = ${notes}
-            WHERE id = ${id}
-            RETURNING *;
-        `;
+        // Count is the number of row affected, updateRequest is the value we get from { returning: true }
+        const [count, updatedRequest] = await VisitRequest.update({
+            status: status,
+            assigned_agency_id: agencyId,
+            notes: notes,
+        }, {
+            where: { id: id },
+            returning: true
+        });
         
-        if (updatedRequest.length === 0) {
+        if (count === 0) {
             return res.status(404).json({ success: false, message: 'Request not found' });
         }
         
@@ -63,20 +77,27 @@ export const updateRequest = async (req, res) => {
 export const getRequestById = async (req, res) => {
     const { id } = req.params;
     try {
-        const request = await sql`
-            SELECT 
-                r.*, 
-                p.title AS property_title,
-                p.property_thumbnail,
-                ARRAY_AGG(pi.image_url) AS property_images,
-                u.name AS user_name
-            FROM visit_requests r
-            LEFT JOIN properties p ON r.property_id = p.id
-            LEFT JOIN property_images pi ON p.id = pi.property_id
-            LEFT JOIN customers u ON r.user_id = u.id
-            WHERE r.id = ${id}
-            GROUP BY r.id, p.id, u.id
-        `;
+        const request = await VisitRequest.findOne({
+            where: { id: id },
+            include: [
+                {
+                    model: Property,
+                    as: 'property',
+                    attributes: ['title', 'property_thumbnail'],
+                    include: [
+                        {
+                            model: PropertyImages,
+                            as: 'images',
+                            attributes: ['image_url']
+                        }
+                    ]
+                }, {
+                    model: Customer,
+                    as: 'customer',
+                    attributes: ['name']
+                }
+            ]
+        });
 
         if (request.length === 0) {
             return res.status(404).json({ success: false, message: 'Request not found' });

@@ -1,7 +1,7 @@
 import { OAuth2Client } from "google-auth-library";
 import jwt from 'jsonwebtoken';
-import { sql } from '../../config/db.js';
 import dotenv from 'dotenv';
+import Customer from "../../models/Customer.js";
 
 dotenv.config();
 
@@ -21,27 +21,25 @@ export const verifyUser = async (req, res) => {
         const picture = payload.picture.split('=')[0];
 
         // Look for the user in the database
-        const user = await sql `
-            SELECT * FROM customers WHERE google_id = ${googleId}
-        `;
+        let user = await Customer.findOne({
+            where: { google_id: googleId},
+            attributes: ['id', 'email']
+        });
 
-        let finalUser;
-
-        if (user.length === 0) {
+        if (!user) {
             // If user does not exist, create a new user
-            const [newUser] = await sql `
-                INSERT INTO customers (provider, google_id, name, email, picture)
-                VALUES ('google', ${googleId}, ${payload.name}, ${payload.email}, ${picture})
-                RETURNING *;
-            `;
-            finalUser = newUser;
-        } else {
-            finalUser = user[0];
+            user = await Customer.create({
+                provider: 'google',
+                google_id: googleId,
+                name: payload.name,
+                email: payload.email,
+                picture: picture
+            });
         }
 
         // Generate JWT token for the user
         const tokenData = jwt.sign(
-            { id: finalUser.id, email: finalUser.email },
+            { id: user.id, email: user.email },
             process.env.JWT_USER_SECRET,
             { expiresIn: '1h' }
         );
@@ -49,8 +47,8 @@ export const verifyUser = async (req, res) => {
         res.status(200).json({ token: tokenData });
 
     } catch (error) {
-        res.status(401).json({ error: 'Invalid Google Token' });
         console.error('Google Token verification failed:', error);
+        res.status(401).json({ error: 'Invalid Google Token' });
     }
 };
 
@@ -65,13 +63,15 @@ export const getUser = async (req, res) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_USER_SECRET);
-        const [user] = await sql `
-            SELECT id, name, email, picture FROM customers WHERE id = ${decoded.id}
-        `;
+        const user = await Customer.findOne({
+            where: { id: decoded.id },
+            attributes: ['id', 'name', 'email', 'picture']
+        });
+    
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        return res.status(200).json(user);
+        return res.status(200).json({ success: true, data: user });
     } catch (error) {
         console.error('Error fetching user:', error);
         return res.status(401).json({ error: 'Invalid token' });
