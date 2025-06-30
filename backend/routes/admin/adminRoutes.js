@@ -16,6 +16,7 @@ import {
     getEmployeeById
 } from '../../controllers/admin/adminControllers.js';
 import upload from '../../middleware/multer.js';
+import { getAllProperties } from '../../controllers/admin/property.js';
 
 const router = express.Router();
 
@@ -34,6 +35,7 @@ router.get('/check-auth', (req, res) => {
     res.json({ success: true, user: req.user });
 });
 
+router.get('/', getAllProperties);
 router.post('/register', register);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);

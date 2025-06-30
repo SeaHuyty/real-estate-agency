@@ -38,6 +38,7 @@ function Properties() {
 
         navigate(`/properties?${queryString}`);
         setFilters(updatedFilters);
+        setCurrentPage(1);
     };
 
     // Filter properties based on search term
