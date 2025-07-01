@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { assets, ceoData, testimonialsData, province } from '../../assets/assets'
+import { assets, ceoData, testimonialsData, province } from '../assets/assets'
 import { motion } from "motion/react"
 import React from 'react';
 import { Link } from 'react-router-dom';

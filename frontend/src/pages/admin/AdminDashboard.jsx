@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 // import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2

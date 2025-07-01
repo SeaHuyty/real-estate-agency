@@ -20,8 +20,8 @@ import {
   FaChartArea
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:3000';

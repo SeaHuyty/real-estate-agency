@@ -55,9 +55,9 @@ export const countProperties = async (req, res) => {
         await client.setEx(cacheKey, 300, result);
 
         res.status(200).json({ success: true, source: 'database', data: result });
-    } catch (err) {
-        console.error('countProperties error:', err);
-        res.status(500).json({ success: false, message: err.message });
+    } catch (error) {
+        console.error('countProperties error:', error);
+        res.status(500).json({ success: false, message: error.message });
     }
 }
 

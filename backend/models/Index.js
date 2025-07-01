@@ -1,11 +1,11 @@
-import Amenity from "./Amenity.js";
-import Customer from "./Customer.js";
-import Employee from "./Employee.js";
-import EmployeeAuth from "./EmployeeAuth.js";
-import Log from "./Log.js";
-import Property from "./Property.js";
-import PropertyImages from "./PropertyImages.js";
-import VisitRequest from "./VisitRequest.js";
+import Amenity from "./Amenity.model.js";
+import Customer from "./Customer.model.js";
+import Employee from "./Employee.model.js";
+import EmployeeAuth from "./EmployeeAuth.model.js";
+import Log from "./Log.model.js";
+import Property from "./Property.model.js";
+import PropertyImages from "./PropertyImages.model.js";
+import VisitRequest from "./VisitRequest.model.js";
 
 // Property Relations
 Property.hasMany(PropertyImages, { foreignKey: 'property_id', as: 'images', onDelete: 'CASCADE' });
