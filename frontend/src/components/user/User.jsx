@@ -17,8 +17,9 @@ const User = () => {
                     },
                 });
                 
-                if (user.data) {
-                    setUser(user.data);
+                // Safely access the data only if the object is not null or undefined.
+                if (user.data?.data) {
+                    setUser(user.data.data);
                 } else {
                     console.error('No user data found:', user.data.error);
                 }

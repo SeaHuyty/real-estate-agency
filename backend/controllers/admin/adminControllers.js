@@ -1,16 +1,19 @@
-import { sql } from '../../config/db.js'; 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cloudinary from '../../config/cloudinary.js';
+import Employee from '../../models/Employee.js';
+import EmployeeAuth from '../../models/EmployeeAuth.js';
+import Property from '../../models/Property.js';
+import Amenity from '../../models/Amenity.js';
+import PropertyImages from '../../models/PropertyImages.js';
 
 dotenv.config();
 
 export const getEmployees = async (req, res) => {
     try {
-        const employees = await sql`
-            SELECT * FROM employees order by id asc
-        `;
+        const employees = await Employee.findAll({})
+        
         res.status(200).json({ success: true, data: employees });
     } catch (error) {
         console.error('Error in getEmployees:', error);
@@ -21,26 +24,27 @@ export const getEmployees = async (req, res) => {
 export const getEmployeeById = async (req, res) => {
     const { id } = req.params;
     try {
-        const employeeResult = await sql `
-            select * from employees where id = ${id};
-        `;
+        const employeeResult = await Employee.findByPk(id);
+
         if (employeeResult.length === 0) {
             return res.status(404).json({ success: false, message: 'Employee not found' });
         }
-        res.status(200).json({ success: true, data: employeeResult[0] });
+        res.status(200).json({ success: true, data: employeeResult });
     } catch (err) {
         console.log('Error to get employee by id', err);
         res.status(500).json({ success: false, message: 'Server error' });
     }
-}
+};
+
 export const getEmployeeProfile = async (req, res) => {
     const { id } = req.query;
     try {
-        const employees = await sql`
-            SELECT profile, id, first_name, last_name FROM employees
-            where id = ${id};
-        `;
-        res.status(200).json({ success: true, data: employees[0] });
+        const employees = await Employee.findOne({
+            where: { id: id },
+            attributes: ['profile', 'id', 'first_name', 'last_name']
+        });
+
+        res.status(200).json({ success: true, data: employees });
     } catch (error) {
         console.log('Error in getEmployees:', error);
         res.status(500).json({ success: false, message: 'Server error' });
@@ -49,7 +53,6 @@ export const getEmployeeProfile = async (req, res) => {
 
 export const createEmployee = async (req, res) => {
     const { 
-        id,
         firstName,
         lastName,
         email,
@@ -61,24 +64,27 @@ export const createEmployee = async (req, res) => {
         salary,
         profile
     } = req.body;
+
     try {
-        const checkId = await sql `
-            select id from employees where id = ${id};
-        `;
-        if (checkId.length > 0) {
-            return res.status(400).json({ success: false, message: 'Employee ID already exists' });
-        }
-        const query = await sql `
-            insert into employees (id, first_name, last_name, email, phone, date_of_birth, hire_date, job_title, department, salary, profile)
-            values (${id}, ${firstName}, ${lastName}, ${email}, ${phoneNumber}, ${dob}, ${hireDate}, ${jobTitle}, ${department}, ${salary}, ${profile})
-            returning id;
-        `
-        res.status(201).json({ success: true, id: query[0].id });
+        const query = await Employee.create({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone: phoneNumber,
+            date_of_birth: dob,
+            hire_date: hireDate,
+            job_title: jobTitle,
+            department: department,
+            salary: salary,
+            profile: profile
+        });
+        
+        res.status(201).json({ success: true, id: query.id });
     } catch (err) {
         console.log('Error in createEmployee:', err);
         res.status(500).json({ success: false, message: err.message });
     }
-}
+};
 
 export const updateEmployee = async (req, res) => {
     const { id } = req.params;
@@ -97,100 +103,109 @@ export const updateEmployee = async (req, res) => {
     } = req.body;
     
     try {
-        console.log('hello');
-        const updateEmployee = await sql `
-            update employees
-            set 
-                first_name = ${firstName}, last_name = ${lastName}, email = ${email}, phone = ${phoneNumber},
-                date_of_birth = ${dob}, hire_date = ${hireDate}, job_title = ${jobTitle}, department = ${department},
-                salary = ${salary}, profile = ${profile}
-            where id = ${id} returning *;
-        `
-        if (updateEmployee.length === 0) {
+        const [count, updateEmployee] = await Employee.update({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone: phoneNumber,
+            date_of_birth: dob,
+            hire_date: hireDate,
+            job_title: jobTitle,
+            department: department,
+            salary: salary,
+            profile: profile
+        }, {
+            where: { id: id },
+            returning: true
+        });
+        
+        if (count === 0) {
             return res.status(404).json( { success: false, message: 'Employee not found' });
         }
         res.status(200).json({ success: true, data: updateEmployee[0] });
-        // res.status(200).json({ success: true, updateEmployee[0] });
-    } catch (err) { 
-        console.log('Error in update employee', err);
+    } catch (error) { 
+        console.log('Error in update employee', error);
+        res.status(500).json({ success: false, message: 'Internal Server error' });
     }
-}
+};
 
 export const deleteEmployee = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const deleteEmployee = await sql `
-            delete from employees where id = ${id} 
-            returning *;
-        `;
-        if (deleteEmployee.length === 0) {
+        const deleteCount = await Employee.destroy({
+            where: { id: id }
+        });
+        
+        if (deleteCount === 0) {
             return res.status(404).json({ success: false, message: "Employee not found" });
         }
-        res.status(200).json({ success: true, data: deleteEmployee });
-    } catch (err) {
-        console.log('Error Delete employee', err);
-        res.status(500).json({ success: false, message: error.message });
+        res.status(200).json({ success: true, message: 'Employee deleted successfully' });
+    } catch (error) {
+        console.log('Error DeleteEmployee', error);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-}
+};
 
 export const register = async (req, res) => {
     const { username, password, id } = req.body;
-    // validate
-    console.log(id);
+
+    // NOTE: You might wanna check if the id exist in the employee table
+
     if (isNaN(id) || id <= 0) {
         return res.status(400).json({ success: false, message: 'not a valid Employee ID' })
     }
+
     if (!username || !password || !id) {
         return res.status(400).json({ success: false, message: 'Username, Password and Employee ID are required' })
     } 
 
     try {
-        const query = await sql `
-            select username from employee_auth
-                where username = ${username};
-        `;
-        if (query.length > 0) {
-            return res.status(404).json({ success: false, message: 'Username already exists' })
+        const query = await EmployeeAuth.findOne({
+            where: { username: username },
+            attributes: ['username']
+        });
+        
+        if (query) {
+            return res.status(409).json({ success: false, message: 'Username already exists' })
         }
+
         const hashedPassword = await bcrypt.hash(req.body.password, 10)
 
-        const insertAdmin = await sql `
-            insert into employee_auth (employee_id, username, password_hash, role) values (${id}, ${username}, ${hashedPassword}, 'admin')
-            returning username 
-        `;
-        const user =  insertAdmin[0];
-        const payload = {id: user.id, username: user.username};
+        const insertAdmin = await EmployeeAuth.create({
+            employee_id: id,
+            username: username,
+            password_hash: hashedPassword,
+            role: 'admin'
+        });
+
+        const payload = {id: insertAdmin.id, username: insertAdmin.username};
         const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
             expiresIn: '1h' // Token will expire in 1 hour
         });
-        res.status(201).json( {
-            success: true,
-            accessToken: accessToken
-        })
-    } catch (err) {
-        console.error('Error in register:', err);
+
+        res.status(201).json({ success: true, accessToken: accessToken });
+    } catch (error) {
+        console.error('Error in register:', error);
+        res.status(500).json({ success: false, message: 'Error Internal Server' });
     }
-}
+};
 
 export const login = async (req, res) => {
     const { username, password } = req.body;
     try {
-        const query = await sql `
-            select * from employee_auth
-                where username = ${username};
-        `;
+        const user = await EmployeeAuth.findOne({
+            where: { username: username }
+        });
 
-        if (query.length === 0) {
+        if (!user) {
             return res.status(404).json({ success: false, message: 'This user does not exist. Please register'})
         }
 
-        const user = query[0];
-
         const match = await bcrypt.compare(password, user.password_hash);
 
-        if (!(match)) {
-            return res.status(401).json({ success: false, message: 'Invalid password. Try again' });
+        if (!match) {
+            return res.status(401).json({ success: false, message: 'Invalid Credentials' });
         }
 
         const payload = { id: user.employee_id, username: user.username };
@@ -200,27 +215,28 @@ export const login = async (req, res) => {
 
         return res.json({ success: true, accessToken: accessToken })
     } catch (error) {
-        console.log('Error in login:', error);
+        console.log('Error in login:', error.message);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-}
+};
 
 export const deleteProperty = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const deletedProperty = await sql `
-            DELETE FROM properties WHERE id = ${id} RETURNING *;
-        `;
+        const deletedCount = await Property.destroy({
+            where: { id: id }
+        });
 
-        // check if product was deleted
-        if (deletedProperty.length === 0) {
+        // Check if product was deleted
+        if (deletedCount === 0) {
             return res.status(404).json({ success: false, message: "Property not found" });
         }
 
-        res.status(200).json({ success: true, data: deletedProperty });
+        res.status(200).json({ success: true, message: 'Property deleted successfully' });
     } catch (error) {
-        console.log('Error in deleteProperty:', error);
-        res.status(500).json({ success: false, message: error.message });
+        console.log('Error in deleteProperty:', error.message);
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 };
 
@@ -235,71 +251,67 @@ export const updateProperty = async (req, res) => {
     } = req.body;
 
     try {
-        const updatedProperty = await sql `
-            UPDATE properties
-            SET 
-                title = ${title}, 
-                description = ${description}, 
-                property_type = ${property_type}, 
-                address = ${address}, 
-                city = ${city}, 
-                province = ${province}, 
-                price = ${price}, 
-                size = ${size}, 
-                bedrooms = ${bedrooms}, 
-                bathrooms = ${bathrooms}, 
-                location_url = ${location_url},
-                property_thumbnail = ${thumbnail}
-            WHERE id = ${id}
-            RETURNING *;
-        `;
+        const [propertyCount] = await Property.update({
+            title: title,
+            description: description,
+            property_type: property_type,
+            address: address,
+            city: city,
+            province: province,
+            price: price,
+            size: size,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            location_url: location_url,
+            property_thumbnail: thumbnail
+        }, {
+            where: { id: id },
+        });
 
-        if (updatedProperty.length === 0) {
+        if (propertyCount === 0) {
             return res.status(404).json({ success: false, message: 'Property not found' });
         }
 
-        await sql `
-            UPDATE amenities
-            SET 
-                gym = ${gym},
-                swimming_pool = ${swimming_pool},
-                parking_lot = ${parking_lot},
-                garden = ${garden},
-                balcony = ${balcony},
-                security = ${security},
-                fire_security = ${fire_security},
-                elevator = ${elevator},
-                commercial_area = ${commercial_area},
-                non_flooding = ${non_flooding},
-                playground = ${playground},
-                common_area = ${common_area}
-            WHERE property_id = ${id};
-        `;
+        const [amenityCount] = await Amenity.update({
+            gym: gym,
+            swimming_pool: swimming_pool,
+            parking_lot: parking_lot,
+            garden: garden,
+            balcony: balcony,
+            security: security,
+            fire_security: fire_security,
+            elevator: elevator,
+            commercial_area: commercial_area,
+            non_flooding: non_flooding,
+            playground: playground,
+            common_area: common_area
+        }, {
+            where: { property_id: id }
+        });
+
+        if (amenityCount === 0) {
+            return res.status(404).json({ success: false, message: 'Property Amenity not found' });
+        }
         
         // If images array is provided, update the images
         if (images !== undefined) {
             // Delete old images first
-            await sql`DELETE FROM property_images WHERE property_id = ${id}`;
+            await PropertyImages.destroy({
+                where: { property_id: id }
+            });
 
             // Insert new images if any
             if (Array.isArray(images) && images.length > 0) {
                 await Promise.all(images.map(imageUrl => 
-                    sql`INSERT INTO property_images (property_id, image_url) VALUES (${id}, ${imageUrl})`
+                    PropertyImages.create({
+                        property_id: id,
+                        image_url: imageUrl
+                    })
                 ));
             }
         }
 
-        // Fetch the fully updated property data to return
-        const finalData = await sql`
-            SELECT p.*, a.*, 
-                   (SELECT json_agg(pi.image_url) FROM property_images pi WHERE pi.property_id = p.id) as images
-            FROM properties p
-            LEFT JOIN amenities a ON p.id = a.property_id
-            WHERE p.id = ${id}
-            GROUP BY p.id, a.property_id;
-        `;
-
-        res.status(200).json({ success: true, data: finalData[0] });
+        res.status(200).json({ success: true, message: 'Property Updated Successfully' });
 
     } catch (error) {
         console.log('Error in updateProperty:', error);
@@ -326,25 +338,30 @@ export const createProperty = async (req, res) => {
     } = req.body;
     
     try {
-        const newProperty = await sql `
-            INSERT INTO properties (
-                title, description, property_type, address, city, province, 
-                price, size, bedrooms, bathrooms, location_url, property_thumbnail
-            )
-            VALUES (
-                ${title}, ${description}, ${property_type}, ${address}, ${city}, 
-                ${province}, ${price}, ${size}, ${bedrooms}, ${bathrooms}, 
-                ${location_url}, ${thumbnail}
-            )
-            RETURNING id;
-        `;
+        const newProperty = await Property.create({
+            title: title,
+            description: description,
+            property_type: property_type,
+            address: address,
+            city: city,
+            province: province,
+            price: price,
+            size: size,
+            bedrooms: bedrooms,
+            bathrooms: bathrooms,
+            location_url: location_url,
+            property_thumbnail: thumbnail
+        });
 
-        const propertyId = newProperty[0].id;
+        const propertyId = newProperty.id;
 
         // Insert images if any
         if (images.length > 0) {
             await Promise.all(images.map(imageUrl => 
-                sql`INSERT INTO property_images (property_id, image_url) VALUES (${propertyId}, ${imageUrl})`
+                PropertyImages.create({
+                    property_id: propertyId,
+                    image_url: imageUrl
+                })
             ));
         }
 
@@ -363,21 +380,23 @@ export const createProperty = async (req, res) => {
             common_area = false
         } = amenities;
 
-        await sql`
-            INSERT INTO amenities (
-                property_id, swimming_pool, gym, parking_lot, garden, balcony, security,
-                fire_security, elevator, commercial_area, non_flooding, playground, common_area
-            )
-            VALUES (
-                ${propertyId}, ${swimming_pool}, ${gym}, ${parking_lot}, ${garden}, ${balcony}, ${security},
-                ${fire_security}, ${elevator}, ${commercial_area}, ${non_flooding}, ${playground}, ${common_area}
-            );
-        `;
-
-        res.status(201).json({ 
-            success: true, 
-            data: { id: propertyId, images, amenities }
+        await Amenity.create({
+            property_id: propertyId,
+            swimming_pool: swimming_pool,
+            gym: gym,
+            parking_lot: parking_lot,
+            garden: garden,
+            balcony: balcony,
+            security: security,
+            fire_security: fire_security, 
+            elevator: elevator, 
+            commercial_area: commercial_area, 
+            non_flooding: non_flooding, 
+            playground: playground, 
+            common_area: common_area
         });
+
+        res.status(201).json({ success: true, message: 'Property Created Successfully' });
     } catch (error) {
         console.log('Error in createProperty:', error);
         res.status(500).json({ success: false, message: error.message });

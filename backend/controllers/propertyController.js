@@ -1,55 +1,38 @@
-import { sql } from '../config/db.js';
 import { client } from '../config/redisClient.js';
+import { Amenity, Property, PropertyImages } from '../models/Index.js';
+import { Op } from 'sequelize';
 
 export const getAllProperties = async (req, res) => {
     const { province, type, minprice, maxprice, bedrooms } = req.query;
-    const conditions = [];
-    const params = [];
 
     try {
-        if (province) {
-            params.push(province);
-            conditions.push(`p.province = $${params.length}`);
-        }
+        // Build where clause with status = 'available' always
+        const where = { status: 'available' };
 
-        if (type) {
-            params.push(type);
-            conditions.push(`p.property_type = $${params.length}`);
-        }
+        if (province) where.province = province;
+        if (type) where.property_type = type;
+        if (minprice) where.price = { ...(where.price || {}), [Op.gte]: parseFloat(minprice) };
+        if (maxprice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(maxprice) };
+        if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
 
-        if (minprice) {
-            params.push(minprice);
-            conditions.push(`p.price >= $${params.length}`);
-        }
+        // Find properties with only selected attributes
+        const properties = await Property.findAll({
+            where,
+            attributes: [
+                'id',
+                'property_thumbnail',
+                'title',
+                'bedrooms',
+                'bathrooms',
+                'price',
+                'size',
+                'address',
+                'city',
+            ],
+            order: [['listed_date', 'DESC']],
+        });
 
-        if (maxprice) {
-            params.push(maxprice);
-            conditions.push(`p.price <= $${params.length}`);
-        }
-        
-        if (bedrooms) {
-            params.push(bedrooms);
-            conditions.push(`p.bedrooms >= $${params.length}`);
-        }
-
-        const whereClause = conditions.length
-        ? `WHERE ${conditions.join(' AND ')}`
-        : '';
-
-        const query = `
-            SELECT 
-                p.*, 
-                ARRAY_AGG(pi.image_url) AS images
-            FROM properties p
-            LEFT JOIN property_images pi ON p.id = pi.property_id
-            ${whereClause}
-            GROUP BY p.id
-            ORDER BY p.listed_date DESC
-        `;
-
-        const result = await sql.query(query, params);
-        res.status(200).json({ success: true, data: result });
-
+        res.status(200).json({ success: true, data: properties });
     } catch (error) {
         console.error('getAllProperties error:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -66,10 +49,7 @@ export const countProperties = async (req, res) => {
         }
 
         // If no cache data, retrieve from database
-        const result = await sql `
-            select count(*)
-            from properties
-        `;
+        const result = await Property.count();
 
         // Cache the data in Redis for 5 minutes (300 seconds)
         await client.setEx(cacheKey, 300, result);
@@ -86,48 +66,56 @@ export const getProperty = async (req, res) => {
     const cacheKey = `property:${id}`;
 
     try {
-        // Check Redis cache first
-        const cachedData = await client.get(cacheKey);
-        if (cachedData) {
-            return res.status(200).json({ success: true, source: 'redis', data: JSON.parse(cachedData) });
+        const cached = await client.get(cacheKey);
+        if (cached) {
+            return res.status(200).json({ success: true, source: 'redis', data: JSON.parse(cached) });
         }
 
-        // If no cache data, retrieve from database
-        const property = await sql `
-            SELECT 
-                p.*, 
-                ARRAY_AGG(pi.image_url) AS images,
-                a.gym,
-                a.swimming_pool,
-                a.parking_lot,
-                a.garden,
-                a.balcony,
-                a.security,
-                a.fire_security,
-                a.elevator,
-                a.commercial_area,
-                a.non_flooding,
-                a.playground,
-                a.common_area
-            FROM properties p
-            LEFT JOIN property_images pi ON p.id = pi.property_id
-            LEFT JOIN amenities a ON p.id = a.property_id
-            WHERE p.id = ${id}
-            GROUP BY p.id, 
-                     a.gym, a.swimming_pool, a.parking_lot, a.garden, a.balcony, a.security, 
-                     a.fire_security, a.elevator, a.commercial_area, a.non_flooding, a.playground, a.common_area;
-        `;
+        const property = await Property.findOne({
+            where: { id },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            },
+            include: [
+                {
+                    model: PropertyImages,
+                    as: 'images',
+                    attributes: ['image_url']
+                },
+                {
+                    model: Amenity,
+                    as: 'amenities',
+                    attributes: [
+                        'gym', 'swimming_pool', 'parking_lot', 'garden', 'balcony',
+                        'security', 'fire_security', 'elevator', 'commercial_area',
+                        'non_flooding', 'playground', 'common_area'
+                    ]
+                }
+            ]
+        });
 
-        // Cache the data in Redis for 5 minutes (300 seconds)
-        await client.setEx(cacheKey, 300, JSON.stringify(property[0]));
-
-        if (property.length === 0) {
+        if (!property) {
             return res.status(404).json({ success: false, message: 'Property not found' });
         }
 
-        res.status(200).json({ success: true, data: property[0] });
+        const raw = property.toJSON();
+
+        // Flatten image URLs from [{ image_url: ... }] → [url1, url2]
+        raw.images = raw.images.map(img => img.image_url);
+
+        // Flatten amenities into top-level keys
+        if (raw.amenities) {
+            Object.assign(raw, raw.amenities);
+            delete raw.amenities;
+        }
+
+        // Cache it for 5 minutes
+        await client.setEx(cacheKey, 300, JSON.stringify(raw));
+
+        res.status(200).json({ success: true, data: raw });
+
     } catch (error) {
-        console.log('Error in getProperty:', error);
+        console.error('Error in getProperty:', error);
         res.status(500).json({ success: false, message: error.message });
     }
 };
@@ -140,17 +128,13 @@ export const getTopProperty = async (req, res) => {
             return res.status(200).json({ success: true, data: JSON.parse(cachedData) });
         }
 
-        const result = await sql `
-            SELECT
-                id,
-                title,
-                price,
-                city,
-                property_thumbnail
-            FROM properties
-            ORDER BY price DESC
-            LIMIT 6
-        `;
+        const result = await Property.findAll({
+            attributes: {
+                include: ['id', 'title', 'price', 'city', 'property_thumbnail']
+            },
+            order: [['price', 'DESC']],
+            limit: 6
+        });
 
         await client.setEx(cacheKey, 300, JSON.stringify(result));
 
@@ -165,30 +149,41 @@ export const getSimilarProperties = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const property = await sql `
-            SELECT
-                p.*
-            FROM properties p
-            WHERE p.province = (
-                SELECT
-                    province
-                FROM properties
-                WHERE id = ${id}
-            ) AND p.property_type = (
-                SELECT
-                    property_type
-                FROM properties
-                WHERE id = ${id}
-            ) AND p.id != ${id};
-        `;
+        // Get the property info for the given ID
+        const reference = await Property.findOne({
+            where: { id },
+            attributes: ['province', 'property_type']
+        });
 
-        if (property.length === 0) {
+        if (!reference) {
+            return res.status(404).json({ success: false, message: 'Reference property not found' });
+        }
+
+        // Query for similar properties
+        const similarProperties = await Property.findAll({
+            where: {
+                province: reference.province,
+                property_type: reference.property_type,
+                id: { [Op.ne]: id } // not equal
+            },
+            attributes: [
+                'id',
+                'title',
+                'price',
+                'city',
+                'property_thumbnail',
+                'bedrooms',
+                'bathrooms'
+            ]
+        });
+
+        if (similarProperties.length === 0) {
             return res.status(404).json({ success: false, message: 'No similar properties found' });
         }
 
-        res.status(200).json({ success: true, data: property });
+        res.status(200).json({ success: true, data: similarProperties });
     } catch (error) {
         console.error('getSimilarProperties error:', error);
         res.status(500).json({ success: false, message: error.message });
     }
-}
+};
