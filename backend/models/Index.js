@@ -25,7 +25,7 @@ Customer.hasMany(VisitRequest, { foreignKey: 'user_id', as: 'visit_requests' });
 
 // Employee Auth
 Employee.hasOne(EmployeeAuth, { foreignKey: 'employee_id', as: 'auth' });
-Employee.belongsTo(EmployeeAuth, { foreignKey: 'employee_id', as: 'employee' });
+EmployeeAuth.belongsTo(Employee, { foreignKey: 'employee_id', as: 'employee' });
 
 export {
     Property,

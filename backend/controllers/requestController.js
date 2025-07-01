@@ -1,7 +1,4 @@
-import Customer from "../models/Customer.js";
-import Property from "../models/Property.js";
-import VisitRequest from "../models/VisitRequest.js";
-import PropertyImages from "../models/PropertyImages.js";
+import { Customer, Property, VisitRequest, PropertyImages } from '../models/Index.js';
 
 export const createRequest = async (req, res) => {
     const { userId, propertyId, preferredDate, notes } = req.body;

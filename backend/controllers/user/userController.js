@@ -1,7 +1,7 @@
 import { OAuth2Client } from "google-auth-library";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import Customer from "../../models/Customer.js";
+import { Customer } from '../../models/Index.js';
 
 dotenv.config();
 
