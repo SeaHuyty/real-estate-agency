@@ -31,7 +31,22 @@ export const getEmployeeById = async (req, res) => {
         }
         res.status(200).json({ success: true, data: employeeResult });
     } catch (err) {
-        console.error('Error to get employee by id', err);
+        console.log('Error to get employee by id', err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
+
+export const getEmployeeProfile = async (req, res) => {
+    const { id } = req.query;
+    try {
+        const employees = await Employee.findOne({
+            where: { id: id },
+            attributes: ['profile', 'id', 'first_name', 'last_name']
+        });
+
+        res.status(200).json({ success: true, data: employees });
+    } catch (error) {
+        console.log('Error in getEmployees:', error);
         res.status(500).json({ success: false, message: 'Server error' });
     }
 };
@@ -66,7 +81,7 @@ export const createEmployee = async (req, res) => {
         
         res.status(201).json({ success: true, id: query.id });
     } catch (err) {
-        console.error('Error in createEmployee:', err);
+        console.log('Error in createEmployee:', err);
         res.status(500).json({ success: false, message: err.message });
     }
 };
