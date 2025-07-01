@@ -237,7 +237,7 @@ const CreateEmployee = () => {
                                     type='submit' 
                                     disabled={loading}
                                     className="w-full bg-blue-900 border border-gray-300 text-white text-sm rounded-lg block w-full p-2.5 cursor-pointer transition duration-250 ease-in-out hover:bg-blue-700"
-                                    > {loading} ? 'Updating...' Updated</button>
+                                    > {loading ? 'Updating...' : 'Updated'} </button>
                                 </div>
                             </div>
                         </div>
