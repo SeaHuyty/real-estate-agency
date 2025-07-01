@@ -36,21 +36,6 @@ export const getEmployeeById = async (req, res) => {
     }
 };
 
-export const getEmployeeProfile = async (req, res) => {
-    const { id } = req.query;
-    try {
-        const employees = await Employee.findOne({
-            where: { id: id },
-            attributes: ['profile', 'id', 'first_name', 'last_name']
-        });
-
-        res.status(200).json({ success: true, data: employees });
-    } catch (error) {
-        console.error('Error in getEmployees:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
-    }
-};
-
 export const createEmployee = async (req, res) => {
     const { 
         firstName,
@@ -415,20 +400,5 @@ export const uploadThumbnail = async (req, res) => {
     } catch (error) {
         console.error('Error uploading thumbnail:', error);
         res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
-    }
-};
-
-export const uploadEmployeeProfile = async (req, res) => {
-    try {
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'employeeProfile',
-            use_filename: true,
-            unique_filename: false
-        });
-
-        res.status(200).json({ success: true, url: result.secure_url });
-    } catch (error) {
-        console.error('Error uploading thumbnail:', error);
-        res.status(500).json({ success: false, message: 'Failed to upload profile' });
     }
 };
