@@ -2,17 +2,15 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import cloudinary from '../../config/cloudinary.js';
-import Employee from '../../models/Employee.js';
-import EmployeeAuth from '../../models/EmployeeAuth.js';
-import Property from '../../models/Property.js';
-import Amenity from '../../models/Amenity.js';
-import PropertyImages from '../../models/PropertyImages.js';
+import { Employee, EmployeeAuth, Property, Amenity, PropertyImages } from '../../models/Index.js';
 
 dotenv.config();
 
 export const getEmployees = async (req, res) => {
     try {
-        const employees = await Employee.findAll({})
+        const employees = await Employee.findAll({
+            order: [['id', 'ASC']]
+        });
         
         res.status(200).json({ success: true, data: employees });
     } catch (error) {
@@ -415,20 +413,5 @@ export const uploadThumbnail = async (req, res) => {
     } catch (error) {
         console.error('Error uploading thumbnail:', error);
         res.status(500).json({ success: false, message: 'Failed to upload thumbnail' });
-    }
-};
-
-export const uploadEmployeeProfile = async (req, res) => {
-    try {
-        const result = await cloudinary.uploader.upload(req.file.path, {
-            folder: 'employeeProfile',
-            use_filename: true,
-            unique_filename: false
-        });
-
-        res.status(200).json({ success: true, url: result.secure_url });
-    } catch (error) {
-        console.error('Error uploading thumbnail:', error);
-        res.status(500).json({ success: false, message: 'Failed to upload profile' });
     }
 };

@@ -3,8 +3,8 @@ import { DataTypes } from "sequelize";
 
 const Employee = sequelize.define('Employee', {
     first_name: {
-    type: DataTypes.STRING(100),
-    allowNull: false
+        type: DataTypes.STRING(100),
+        allowNull: false
     },
     last_name: {
         type: DataTypes.STRING(100),

@@ -1,4 +1,4 @@
-import Property from '../../models/Property.js';
+import { Property } from '../../models/Index.js';
 import { client } from '../../config/redisClient.js';
 
 export const getAllProperties = async (req, res) => {
