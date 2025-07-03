@@ -55,22 +55,20 @@ function Properties() {
         (currentPage - 1) * ITEMS_PER_PAGE,
         currentPage * ITEMS_PER_PAGE
     );
-
     return (
         <div className='w-full'>
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
                     <h1 className='font-semibold text-[24px]'>{filteredProperties.length} Properties Found</h1>
-                    <div className='flex gap-5 items-center'>
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="type" className='text-[15px]'>Select Provinces</label>
-                            <select
+                    <div className='w-full flex gap-5 items-center'>
+                        <form class="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Select Provinces</label>
+                            <select 
                                 name="province"
                                 value={filters.province}
                                 onChange={handleChange}
-                                class=" w-full p-2.5 bg-gray-50 border border-gray-500 text-gray-900 text-sm"
-                                >
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Select Province</option>
                                 <option value="phnompenh">Phnom Penh</option>
                                 <option value="siemreap">Siem Reap</option>
@@ -78,67 +76,61 @@ function Properties() {
                                 <option value="kompot">Kompot</option>
                                 <option value="kep">Kep</option>
                             </select>
-                        </div>
-
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="property" className='text-[15px]'>Property</label>
-                            <select
+                        </form>
+                        <form class="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Property</label>
+                            <select 
                                 name="type"
                                 value={filters.type}
                                 onChange={handleChange}
-                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
-                                >
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="">Select Type</option>
                                 <option value="Apartment">Apartment</option>
                                 <option value="Villa">Villa</option>
                                 <option value="House">House</option>
                                 <option value="Penthouse">Penthouse</option>
                             </select>
-                        </div>
-
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="minPrice" className='text-[15px]'>Min Price</label>
-                            <input
-                                type="number"
-                                name="minprice"
-                                placeholder="Min Price"
+                        </form> 
+                        <form class="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Minimum Price</label>
+                            <input 
+                                type="number" 
+                                name="minprice" 
+                                placeholder="Minimum Price"
                                 value={filters.minprice}
                                 onChange={handleChange}
-                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
-                                />
-                        </div>
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="maxPrice" className='text-[15px]'>Max Price</label>
-                            <input
-                                type="number"
-                                name="maxprice"
-                                placeholder="Max Price"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        </form>
+                        <form class="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Maximum Price</label>
+                            <input 
+                                type="number" 
+                                name="maxprice" 
+                                placeholder="Maximum Price"
                                 value={filters.maxprice}
                                 onChange={handleChange}
-                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="bedroom" className='text-[15px]'>Bedroom</label>
-                            <input
-                                type="number"
-                                name="bedrooms"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        </form>
+                        <form class="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Maximum Price</label>
+                            <input 
+                                type="number" 
+                                name="bedrooms" 
                                 placeholder="Bedroom"
-                                value={filters.bedrooms}
+                                value={filters.maxprice}
                                 onChange={handleChange}
-                                class="bg-gray-50 border border-gray-500 text-gray-900 text-sm w-full p-2.5"
-                                />
-                        </div>
-                        <div className="flex flex-col gap-[2px]">
-                            <label htmlFor="bedroom" className='text-[15px]'>Search Property</label>
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        </form>             
+                        <div className="w-full flex flex-col gap-[2px]">
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Search Properties</label>
                             <input
                                 type='text'
                                 placeholder='Search properties...'
-                                className='px-4 py-2 w-100 border'
+                                className='w-100 px-4 py-2 text-gray-900 bg-gray-50 border border-gray-300'
                                 value={searchTerm}
                                 onChange={(e) => {
                                     setSearchTerm(e.target.value);
-                                    setCurrentPage(1); // Reset to first page on search
+                                    setCurrentPage(1);
                                 }}
                             />
                         </div>
