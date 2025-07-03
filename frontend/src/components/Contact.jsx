@@ -1,7 +1,7 @@
 import React from 'react';
-import { assets } from '../../assets/assets';
-import Navbar from './navbar';
-import Footer from './footer';
+import { assets } from '../assets/assets';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 const Contact = () => {
     const [result, setResult] = React.useState("");

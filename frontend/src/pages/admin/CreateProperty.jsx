@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const BASE_URL = 'http://localhost:3000';
 

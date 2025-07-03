@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 const BASE_URL = 'http://localhost:3000';
 import React from 'react';
-import Slider from './slider'
-import Map from './map'
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Slider from './Slider'
+import Map from './Map'
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import PropertyCard from './PropertyCard';
 import { toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';

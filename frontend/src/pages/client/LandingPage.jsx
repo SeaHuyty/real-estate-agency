@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from './navbar'
-import Header from './header'
-import Container from './container'
-import Footer from './footer'
+import Navbar from '../../components/Navbar'
+import Header from '../../components/Header'
+import Container from '../../components/Container'
+import Footer from '../../components/Footer'
 
 const landingPage = () => {
     return (

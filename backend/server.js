@@ -3,12 +3,11 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from 'dotenv';
-import propertiesRoutes from './routes/propertiesRoutes.js';
-import adminRoutes from './routes/admin/adminRoutes.js';
-import requestRoutes from './routes/requestRoutes.js';
-import userRoutes from './routes/user/userRoutes.js';
+import propertiesRoutes from './routes/property.routes.js';
+import adminRoutes from './routes/admin/admin.routes.js';
+import requestRoutes from './routes/request.routes.js';
+import userRoutes from './routes/client/user.routes.js';
 import { connectRedis } from './config/redisClient.js';
-import sequelize from './config/db.js';
 
 dotenv.config();
 
