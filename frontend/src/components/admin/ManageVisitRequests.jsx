@@ -16,8 +16,8 @@ import {
   FaChartBar
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 
 const BASE_URL = 'http://localhost:3000';
 

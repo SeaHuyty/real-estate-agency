@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,7 +32,7 @@ const ManageProperties = () => {
             if (!token) {
                 throw new Error('No token found. Please login again');
             }
-            const response = await axios.get(`${BASE_URL}/api/properties`, {
+            const response = await axios.get(`${BASE_URL}/api/admins`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

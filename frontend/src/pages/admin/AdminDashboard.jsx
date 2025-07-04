@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from '../landingPage/navbar';
-import Footer from '../landingPage/footer';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 // import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
@@ -23,54 +23,36 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        const fetchProperties = async () => {
-            try {
-                const res = await axios.get(`${BASE_URL}/api/properties`);
-                setProperties(res.data.data);
-            } catch (err) {
-                console.error('Failed to fetch properties:', err);
-            }
+    const fetchData = async () => {
+        try {
+        const token = localStorage.getItem('accessToken');
+        if (!token) throw new Error('No token');
+
+        const decoded = jwtDecode(token);
+        if (!decoded?.id) throw new Error('Invalid token');
+
+        const [adminRes, employeeRes, propertiesRes] = await Promise.all([
+            axios.get(`${BASE_URL}/api/admins/check-auth`, {
+            headers: { Authorization: `Bearer ${token}` },
+            }),
+            axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
+            params: { id: decoded.id },
+            }),
+            axios.get(`${BASE_URL}/api/properties`),
+        ]);
+
+        setAdmin(adminRes.data.user);
+        setEmployees(employeeRes.data.data);
+        setProperties(propertiesRes.data.data);
+        } catch (err) {
+        console.error('Error loading dashboard data:', err);
+        } finally {
+        setLoading(false);
         }
-        const fetchAdmin = async () => {
-            try {
-                const token = localStorage.getItem('accessToken');
-                if (!token) throw new Error('No token found');
+    };
 
-                const res = await axios.get(`${BASE_URL}/api/admins/check-auth`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-                setAdmin(res.data.user);
-            } catch (err) {
-                console.error('Failed to load current admin:', err);
-            } finally {
-                setLoading(false)
-            }
-        };
-        const fetchEmployee = async () => {
-            const token = localStorage.getItem('accessToken');
-            if (!token) throw new Error('No token found');
-
-            const userInfo = jwtDecode(token);
-
-            try {
-                const res = await axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
-                    params: { id: userInfo.id }
-                });
-                const data = res.data;
-                if (!data.success) {
-                    throw new Error(data.message || 'Failed to fetch employees');
-                }
-                setEmployees(data.data);
-            } catch (err) {
-                console.log('Failed to load Employee Profile');
-            }
-        }
-        fetchAdmin();
-        fetchEmployee();
-        fetchProperties();
-    }, [navigate]);
+    fetchData();
+    }, []);
 
     const dashboardCards = [
         {

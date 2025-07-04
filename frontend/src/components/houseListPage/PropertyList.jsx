@@ -1,9 +1,9 @@
-import { usePropertyStore } from './listhouse.jsx';
+import { usePropertyStore } from './ListHouse.jsx';
 import PropertyCard from './PropertyCard.jsx';
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../landingPage/navbar.jsx';
-import Footer from '../landingPage/footer.jsx'
+import Navbar from '../Navbar.jsx';
+import Footer from '../Footer.jsx'
 
 function Properties() {
     const ITEMS_PER_PAGE = 6;
@@ -38,6 +38,7 @@ function Properties() {
 
         navigate(`/properties?${queryString}`);
         setFilters(updatedFilters);
+        setCurrentPage(1);
     };
 
     // Filter properties based on search term

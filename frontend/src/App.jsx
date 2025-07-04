@@ -3,22 +3,22 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './components/landingPage/landingPage'
 import PropertyDetails from './components/houseListPage/PropertyDetails'
-import Properties from './components/houseListPage/properties'
-import Contact from './components/landingPage/contact'
-import LoginAdmin from './components/admin/loginAdmin'
-import RegisterAdmin from './components/admin/registerAdmin'
+import Properties from './components/houseListPage/PropertyList.jsx'
+import Contact from './components/Contact.jsx'
+import LoginAdmin from './components/admin/LoginAdmin.jsx'
+import RegisterAdmin from './components/admin/RegisterAdmin.jsx'
 import AdminDashboard from './components/admin/AdminDashboard'
 import CreateProperty from './components/admin/CreateProperty'
 import ManageProperties from './components/admin/ManageProperties'
-import ProtectedRouted from './components/admin/protectedRoute'
+import ProtectedRouted from './components/admin/ProtectedRoute.jsx'
 import UpdateProperty from './components/admin/UpdateProperty'
 import Analytics from './components/admin/Analytics';
-import CreateEmployee from './components/admin/createEmployee';
+import CreateEmployee from './components/admin/CreateEmployee.jsx';
 import ManageVisitRequests from './components/admin/ManageVisitRequests';
 import VisitRequestDetail from './components/admin/VisitRequestDetails.jsx';
 import EmployeeDashboard from './components/admin/EmployeeDashboard';
-import Signup from './components/user/Signup.jsx';
-import User from './components/user/User.jsx';
+import Signup from './components/client/Signup.jsx';
+import User from './components/client/User.jsx';
 import UpdateEmployee from './components/admin/UpdateEmployee.jsx'
 import RequestVisit from './components/houseListPage/RequestVisit.jsx';
 
