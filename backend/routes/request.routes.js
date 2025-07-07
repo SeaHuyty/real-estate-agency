@@ -4,7 +4,7 @@ import {
     getAllRequests,
     updateRequest,
     getRequestById  // Add this import
-} from '../controllers/requestController.js';
+} from '../controllers/request.controller.js';
 import authenticateToken from '../middleware/authenticateToken.js';
 
 const router = express.Router();
