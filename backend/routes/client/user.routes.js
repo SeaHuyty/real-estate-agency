@@ -2,7 +2,7 @@ import express from 'express';
 import {
     verifyUser,
     getUser
-} from '../../controllers/client/userController.js';
+} from '../../controllers/client/user.controller.js';
 
 const router = express.Router();
 

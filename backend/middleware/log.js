@@ -1,4 +1,4 @@
-import Log from "../models/Log.js";
+import Log from "../models/Log.model.js";
 
 const log = async (req, res, next) => {
     try {
