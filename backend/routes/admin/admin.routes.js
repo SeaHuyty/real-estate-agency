@@ -13,10 +13,10 @@ import {
     updateEmployee,
     deleteEmployee,
     getEmployeeById
-} from '../../controllers/admin/adminControllers.js';
+} from '../../controllers/admin/admin.controller.js';
 import upload from '../../middleware/multer.js';
-import { getAllProperties } from '../../controllers/admin/property.js';
-import { uploadEmployeeProfile } from '../../controllers/admin/employee.js';
+import { getAllProperties } from '../../controllers/admin/property.controller.js';
+import { uploadEmployeeProfile } from '../../controllers/admin/employee.controller.js';
 
 const router = express.Router();
 

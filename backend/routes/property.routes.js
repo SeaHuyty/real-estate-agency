@@ -5,7 +5,7 @@ import {
     getTopProperty,
     getSimilarProperties,
     countProperties
-} from '../controllers/propertyController.js';
+} from '../controllers/property.controller.js';
 import log from '../middleware/log.js';
 
 const router = express.Router();
