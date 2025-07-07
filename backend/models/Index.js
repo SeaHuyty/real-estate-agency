@@ -1,3 +1,29 @@
+/**
+ * Models Index - Database Model Relationships
+ *
+ * This file imports all database models and defines their Sequelize associations.
+ * Associations establish foreign key constraints, support cascading deletes,
+ * and enable eager loading for complex queries.
+ *
+ * Model Relationships:
+ * - Property: hasMany PropertyImages, hasOne Amenity, hasMany VisitRequests
+ * - PropertyImages: belongsTo Property
+ * - Amenity: belongsTo Property
+ * - VisitRequest: belongsTo Property, belongsTo Customer
+ * - Customer: hasMany VisitRequests
+ * - Employee: hasOne EmployeeAuth
+ * - EmployeeAuth: belongsTo Employee
+ * - Log: standalone model for logging
+ *
+ * Business Rules:
+ * - Deleting a Property cascades to its images, amenities, and visit requests.
+ * - Each VisitRequest is linked to a Customer and a Property.
+ * - Each Employee has a single EmployeeAuth record for authentication.
+ *
+ * @author Real Estate Agency Team
+ * @version 1.0.0
+ */
+
 import Amenity from "./Amenity.model.js";
 import Customer from "./Customer.model.js";
 import Employee from "./Employee.model.js";
