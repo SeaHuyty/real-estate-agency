@@ -22,7 +22,7 @@ export const getEmployees = async (req, res) => {
         });
 
         // Cache the data in Redis for 5 minutes (300 seconds)
-        await client.setEx(cacheKey, 300, employees);
+        await client.setEx(cacheKey, 300, JSON.stringify(employees));
         
         res.status(200).json({ success: true, data: employees });
     } catch (error) {

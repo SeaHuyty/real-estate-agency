@@ -25,7 +25,7 @@
     "multer": "^2.0.0",
     "pg": "^8.16.3",
     "react-dropzone": "^14.3.8",
-    "redis": "^5.5.6",
+    "redis": "^5.6.0",
     "sequelize": "^6.37.7"
   },
   "devDependencies": {

@@ -5,6 +5,14 @@
 * {
     font-family: "Roboto", sans-serif;
 }
+/* Add in global CSS or use Tailwind plugin */
+.scrollbar-hide {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome/Safari/WebKit */
+}
 
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
