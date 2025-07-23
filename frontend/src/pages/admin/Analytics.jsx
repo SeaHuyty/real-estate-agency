@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/admin/adminSidebar';
+// import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 
 const Analytics = () => {
@@ -73,8 +74,9 @@ const Analytics = () => {
     }
 
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
-            <Navbar />
+        <div className='flex h-screen bg-gray-50'>
+        <Sidebar />
+        <div className="w-full overflow-y-auto scrollbar-hide">
             <main className="flex-grow px-4 sm:px-6 lg:px-8 py-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -270,7 +272,8 @@ const Analytics = () => {
                     </div>
                 </div>
             </main>
-            <Footer />
+            {/* <Footer /> */}
+        </div>
         </div>
     );
 };

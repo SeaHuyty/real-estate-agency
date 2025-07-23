@@ -240,7 +240,7 @@ const UpdateProperty = () => {
                         <form onSubmit={handleSubmit}>
                             {/* Basic Info Tab */}
                             {activeTab === 'basic' && (
-                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                                     <div>
                                         <label className='block text-sm font-medium text-gray-700 mb-1'>Title</label>
                                         <input type='text' name='title' value={formData.title} onChange={handleChange} className='w-full px-4 py-2 border border-gray-300 rounded-lg' required />
@@ -259,20 +259,141 @@ const UpdateProperty = () => {
                                         <label className='block text-sm font-medium text-gray-700 mb-1'>Description</label>
                                         <textarea name='description' value={formData.description} onChange={handleChange} className='w-full px-4 py-2 border border-gray-300 rounded-lg min-h-[300px]' required />
                                     </div>
-                                     <div>
-                                         <label className='block text-sm font-medium text-gray-700 mb-1'>Thumbnail</label>
-                                         <div {...getThumbnailRootProps()} className='border-2 border-dashed rounded-lg p-4 text-center cursor-pointer'>
-                                             <input {...getThumbnailInputProps()} />
-                                             {thumbnailPreview ? (
-                                                 <img src={thumbnailPreview} alt="Thumbnail" className='h-48 w-full object-contain mx-auto'/>
-                                             ) : <p>Drag & drop or click to select a thumbnail</p>}
-                                         </div>
-                                     </div>
-                                 </div>
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Thumbnail</label>
+                                        <div {...getThumbnailRootProps()} className='border-2 border-dashed rounded-lg p-4 text-center cursor-pointer'>
+                                            <input {...getThumbnailInputProps()} />
+                                            {thumbnailPreview ? (
+                                                <img src={thumbnailPreview} alt="Thumbnail" className='h-48 w-full object-contain mx-auto'/>
+                                            ) : <p>Drag & drop or click to select a thumbnail</p>}
+                                        </div>
+                                    </div>
+                                </div>
                             )}
 
                             {/* Details, Location, Amenities Tabs... (same as your CreateProperty component) */}
-                            
+                            {/* Details Tab */}
+                            {activeTab === 'details' && (
+                                <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Address</label>
+                                        <input
+                                            type='text'
+                                            name='address'
+                                            value={formData.address}
+                                            onChange={handleChange}
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                            required
+                                            placeholder='123 Main Street'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>City</label>
+                                        <input
+                                            type='text'
+                                            name='city'
+                                            value={formData.city}
+                                            onChange={handleChange}
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                            required
+                                            placeholder='Phnom Penh'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Province</label>
+                                        <select
+                                            name='province'
+                                            value={formData.province}
+                                            onChange={handleChange}
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                            required
+                                        >
+                                            <option value=''>Select Province</option>
+                                            <option value='phnompenh'>Phnom Penh</option>
+                                            <option value='siemreap'>Siem Reap</option>
+                                            <option value='sihanouk'>Sihanouk Ville</option>
+                                            <option value='kompot'>Kompot</option>
+                                            <option value='kep'>Kep</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Price ($)</label>
+                                        <div className='relative'>
+                                            <span className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500'>$</span>
+                                            <input
+                                                type='number'
+                                                name='price'
+                                                value={formData.price}
+                                                onChange={handleChange}
+                                                className='w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                                required
+                                                placeholder='500,000'
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Size (m²)</label>
+                                        <div className='relative'>
+                                            <input
+                                                type='number'
+                                                name='size'
+                                                value={formData.size}
+                                                onChange={handleChange}
+                                                className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                                required
+                                                placeholder='150'
+                                            />
+                                            <span className='absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500'>m²</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Bedrooms</label>
+                                        <input
+                                            type='number'
+                                            name='bedrooms'
+                                            value={formData.bedrooms}
+                                            onChange={handleChange}
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                            required
+                                            placeholder='3'
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className='block text-sm font-medium text-gray-700 mb-1'>Bathrooms</label>
+                                        <input
+                                            type='number'
+                                            name='bathrooms'
+                                            value={formData.bathrooms}
+                                            onChange={handleChange}
+                                            className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                            required
+                                            placeholder='2'
+                                        />
+                                    </div>
+                                </div>
+                            )}
+
+                            {activeTab === 'location' && (
+                                <div className='mb-6'>
+                                    <label className='block text-sm font-medium text-gray-700 mb-2'>Location URL</label>
+                                    <input
+                                        type='text'
+                                        name='location_url'
+                                        value={formData.location_url}
+                                        onChange={handleChange}
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500'
+                                        required
+                                        placeholder='<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16004.860910661548!2d104.92720480000001!3d11.509877949999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3109512f138297f1%3A0x34ef8a478031b776!2sISPP%20-%20International%20School%20of%20Phnom%20Penh!5e1!3m2!1sen!2skh!4v1748704813210!5m2!1sen!2skh" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+                                    />
+                                </div>
+                            )}
+
                             {activeTab === 'amenities' && (
                                 <div className='mb-6'>
                                     <h1 className='font-semibold mb-2'>Amenities</h1>
