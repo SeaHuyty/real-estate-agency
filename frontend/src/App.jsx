@@ -35,11 +35,11 @@ function App() {
             <Route path='/login' element={<LoginAdmin />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/user' element={<User />} />
-            <Route path='/admin' element={<ProtectedRouted><AdminDashboard /></ProtectedRouted>}/>
+            <Route path='/admin' element={<ProtectedRouted><Analytics /></ProtectedRouted>}/>
             <Route path='/admin/properties/create' element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
             <Route path='/admin/properties/manage' element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
             <Route path='/admin/edit/:id' element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
-            <Route path='/admin/analytics' element={<Analytics />} />
+            {/* <Route path='/admin/analytics' element={<ProtectedRouted><Analytics /></ProtectedRouted>} /> */}
             <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
             <Route path='/admin/requests/:id' element={<ProtectedRouted><VisitRequestDetail /></ProtectedRouted>} />
             <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
