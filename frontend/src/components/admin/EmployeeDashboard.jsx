@@ -18,8 +18,8 @@ const EmployeeDashboard = () => {
             try {
                 const res = await axios.get(`${BASE_URL}/api/admins/employees`);
                 const data = res.data;
-                if (!data.success) {
-                    throw new Error(data.message || 'Failed to fetch employees');
+                if (!data.success || !Array.isArray(data.data)) {
+                    throw new Error(data.message || 'Invalid employee data');
                 }
                 toast.success('Employees fetched successfully');
                 setEmployees(data.data);

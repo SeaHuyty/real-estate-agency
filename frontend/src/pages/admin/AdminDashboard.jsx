@@ -1,59 +1,55 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-// import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/admin/adminSidebar.jsx'
-import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-// import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
-// import Properties from '../houseListPage/properties';
+// import { jwtDecode } from 'jwt-decode';
 
 const BASE_URL = 'http://localhost:3000';
 
 const AdminDashboard = () => {
-    const [admin, setAdmin] = useState(null);
     const [userId, setUserId] = useState(null);
-    const [property, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-    const [employee, setEmployees] = useState([]);
-    const handleLogout = () => {
-        localStorage.removeItem('accessToken');
-        navigate('/login');
-    };
+    const [property, setProperties] = useState([]);
+    // const [admin, setAdmin] = useState(null);
+    // const [employee, setEmployees] = useState([]);
+    // const navigate = useNavigate();
+    // const handleLogout = () => {
+    //     localStorage.removeItem('accessToken');
+    //     navigate('/login');
+    // };
 
-    useEffect(() => {
-    const fetchData = async () => {
-        try {
-        const token = localStorage.getItem('accessToken');
-        if (!token) throw new Error('No token');
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const token = localStorage.getItem('accessToken');
+    //             if (!token) throw new Error('No token');
 
-        const decoded = jwtDecode(token);
-        if (!decoded?.id) throw new Error('Invalid token');
+    //             const decoded = jwtDecode(token);
+    //             if (!decoded?.id) throw new Error('Invalid token');
 
-        const [adminRes, employeeRes, propertiesRes] = await Promise.all([
-            axios.get(`${BASE_URL}/api/admins/check-auth`, {
-            headers: { Authorization: `Bearer ${token}` },
-            }),
-            axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
-            params: { id: decoded.id },
-            }),
-            axios.get(`${BASE_URL}/api/properties`),
-        ]);
+    //             const [adminRes, employeeRes, propertiesRes] = await Promise.all([
+    //                 axios.get(`${BASE_URL}/api/admins/check-auth`, {
+    //                     headers: { Authorization: `Bearer ${token}` },
+    //                 }),
+    //                 axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
+    //                     params: { id: decoded.id },
+    //                 }),
+    //                 axios.get(`${BASE_URL}/api/properties`),
+    //             ]);
 
-        setAdmin(adminRes.data.user);
-        setEmployees(employeeRes.data.data);
-        setProperties(propertiesRes.data.data);
-        } catch (err) {
-        console.error('Error loading dashboard data:', err);
-        } finally {
-        setLoading(false);
-        }
-    };
+    //             setAdmin(adminRes.data.user);
+    //             setEmployees(employeeRes.data.data);
+    //             setProperties(propertiesRes.data.data);
+    //         } catch (err) {
+    //             console.error('Error loading dashboard data:', err);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
 
-    fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     const dashboardCards = [
         {
@@ -141,7 +137,7 @@ const AdminDashboard = () => {
                             </div>
                         ) : (
                             <div className="max-w-7xl mx-auto">
-                                {/* Header Section */}
+                                {/* Header Section
                                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
                                     <div className='flex items-center'>
                                         <h1 className="text-3xl font-bold text-gray-900">
@@ -160,7 +156,7 @@ const AdminDashboard = () => {
                                         </svg>
                                         Sign out
                                     </button>
-                                </div>
+                                </div> */}
 
                                 {/* Stats Overview */}
                                 <p className="mt-2 text-gray-600 mb-5">
