@@ -2,7 +2,7 @@ import React from 'react'
 
 const footer = () => {
     return (
-        <div className='w-full'>
+        <div className='w-full mt-3'>
             <footer class="w-full bg-gray-900">
                 <div class="mx-auto w-full max-w-screen-l">
                 <div class="flex justify-between gap-8 px-20 py-6 lg:py-8">

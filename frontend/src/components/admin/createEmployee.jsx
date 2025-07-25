@@ -3,11 +3,16 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar'
-import 'react-toastify/dist/ReactToastify.css';
 import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
 import { HiPlus } from "react-icons/hi";
+import { useNavigate } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+
+const BASE_URL = 'http://localhost:3000';
+
 const CreateEmployee = () => {
-    const BASE_URL = 'http://localhost:3000';
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const [formData, setFormdata] = useState({
         id: '',
         firstName: '',
@@ -43,7 +48,11 @@ const CreateEmployee = () => {
 
         formData.append('employeeProfile', file);
 
-        const res = await axios.post(`${BASE_URL}/api/admins/upload/employeeProfile`, formData)
+        const res = await axios.post(`${BASE_URL}/api/admins/upload/employeeProfile`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return res.data.url;
     }
 
@@ -77,15 +86,20 @@ const CreateEmployee = () => {
             profile: imageUrl
         }
         try {
-            const res = await axios.post(`${BASE_URL}/api/admins/createEmployee`, payload);
+            const res = await axios.post(`${BASE_URL}/api/admins/createEmployee`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const data = res.data;
             if (!data.success) {
                 throw new Error(data.message || 'Created Failed');
             } 
             toast.success('Employee created successfully');
+            Navigate('/admin/employee'); // redirect to list page
         } catch (err) {
             console.error('Error in handleSubmit:', err);
-            toast.error(err.response?.data?.message || 'Failed to create property');
+            toast.error(err.response?.data?.message || 'Failed to create Employee');
         } finally {
             setLoading(false);
         }
