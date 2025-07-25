@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { HiUser, HiPencil, HiTrash } from "react-icons/hi2";
 import { Link } from 'react-router-dom'
+import 'react-toastify/dist/ReactToastify.css';
+
+const BASE_URL = 'http://localhost:3000';
 
 const EmployeeDashboard = () => {
-    const BASE_URL = 'http://localhost:3000';
+    const token = localStorage.getItem('accessToken');
     const [employee, setEmployees] = useState([]);
     const [search, setSearch] = useState('');
     const [filteredEmployee, setFilteredEmployee] = useState([]);
@@ -16,7 +18,11 @@ const EmployeeDashboard = () => {
     useEffect(() => {   
         const fetchEmployees = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/api/admins/employees`);
+                const res = await axios.get(`${BASE_URL}/api/admins/employees`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const data = res.data;
                 if (!data.success || !Array.isArray(data.data)) {
                     throw new Error(data.message || 'Invalid employee data');
@@ -38,7 +44,11 @@ const EmployeeDashboard = () => {
             if (!confirm) {
                 return;
             }
-            const res = await axios.delete(`${BASE_URL}/api/admins/employees/${id}`);
+            const res = await axios.delete(`${BASE_URL}/api/admins/employees/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             if (res.data.success) {
                 setEmployees(prev => prev.filter(emp => emp.id !== id));
                 toast.success("Employee deleted successfully");
@@ -51,10 +61,6 @@ const EmployeeDashboard = () => {
     }
     useEffect (() => {
         let searchEmployee = [...employee];
-        // if (!search) {
-        //     setFilteredEmployee(employee);
-        //     return;
-        // }
         if (search && search.trim() !== '') {
             searchEmployee = searchEmployee.filter(emp =>
                 emp.first_name.toLowerCase().includes(search.toLowerCase()) ||
@@ -141,7 +147,7 @@ const EmployeeDashboard = () => {
                                     <td className="px-4 py-2">{emp.salary}</td>
                                     <td className="px-4 py-2 flex gap-2 justify-center items-center mt-5">
                                         
-                                        <Link to={`/hr/${emp.id}`} className="text-blue-600 hover:text-blue-800 cursor-pointer hover:scale-110"
+                                        <Link to={`/admin/employee/${emp.id}`} className="text-blue-600 hover:text-blue-800 cursor-pointer hover:scale-110"
                                             onClick={() => handleUpdate(emp.id)}>
                                         
                                             <HiPencil className="w-5 h-5" />

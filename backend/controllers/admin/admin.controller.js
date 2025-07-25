@@ -13,7 +13,7 @@ export const getEmployees = async (req, res) => {
         // Check Redis cache first
         const cachedData = await client.get(cacheKey);
         if (cachedData) {
-            return res.status(200).json({ success: true, source: 'redis', data: cachedData });
+            return res.status(200).json({ success: true, source: 'redis', data: JSON.parse(cachedData) });
         }
 
         // If no cache data, retrieve from database
@@ -88,7 +88,9 @@ export const createEmployee = async (req, res) => {
             salary: salary,
             profile: profile
         });
-        
+
+        await client.del('allEmployees');
+
         res.status(201).json({ success: true, id: query.id });
     } catch (err) {
         console.log('Error in createEmployee:', err);
@@ -132,7 +134,13 @@ export const updateEmployee = async (req, res) => {
         if (count === 0) {
             return res.status(404).json( { success: false, message: 'Employee not found' });
         }
-        res.status(200).json({ success: true, data: updateEmployee[0] });
+         // Re-fetch the fresh row (works across all dialects)
+        const fresh = await Employee.findByPk(id);
+        // Invalidate caches so next GET returns fresh data
+        await client.del('allEmployees');
+        await client.del(`employee:${id}`); // only if you also cache per-id
+
+        return res.status(200).json({ success: true, data: fresh });
     } catch (error) { 
         console.log('Error in update employee', error);
         res.status(500).json({ success: false, message: 'Internal Server error' });
@@ -150,6 +158,7 @@ export const deleteEmployee = async (req, res) => {
         if (deleteCount === 0) {
             return res.status(404).json({ success: false, message: "Employee not found" });
         }
+        await client.del('allEmployees'); 
         res.status(200).json({ success: true, message: 'Employee deleted successfully' });
     } catch (error) {
         console.log('Error DeleteEmployee', error);

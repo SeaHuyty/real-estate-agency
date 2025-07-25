@@ -7,7 +7,6 @@ import Properties from './components/houseListPage/PropertyList.jsx'
 import Contact from './components/Contact.jsx'
 import LoginAdmin from './components/admin/LoginAdmin.jsx'
 import RegisterAdmin from './components/admin/RegisterAdmin.jsx'
-import AdminDashboard from './pages/admin/AdminDashboard.jsx'
 import CreateProperty from './pages/admin/CreateProperty.jsx'
 import ManageProperties from './pages/admin/ManageProperties.jsx'
 import ProtectedRouted from './components/admin/protectedRoute.jsx'
@@ -39,13 +38,12 @@ function App() {
             <Route path='/admin/properties/create' element={<ProtectedRouted><CreateProperty /></ProtectedRouted> } />
             <Route path='/admin/properties/manage' element={<ProtectedRouted><ManageProperties /></ProtectedRouted> } />
             <Route path='/admin/edit/:id' element={<ProtectedRouted><UpdateProperty /></ProtectedRouted>} />
-            {/* <Route path='/admin/analytics' element={<ProtectedRouted><Analytics /></ProtectedRouted>} /> */}
             <Route path='/admin/requests' element={<ProtectedRouted><ManageVisitRequests /></ProtectedRouted>} />
             <Route path='/admin/requests/:id' element={<ProtectedRouted><VisitRequestDetail /></ProtectedRouted>} />
             <Route path='/admin/register' element={<ProtectedRouted><RegisterAdmin /></ProtectedRouted>} />
-            <Route path='/hr' element={<EmployeeDashboard />} />
-            <Route path='/hr/createEmployee' element={<CreateEmployee />} />
-            <Route path='/hr/:id' element={<UpdateEmployee />} />
+            <Route path='/admin/employee' element={<ProtectedRouted><EmployeeDashboard /></ProtectedRouted>} />
+            <Route path='/admin/createEmployee' element={<ProtectedRouted><CreateEmployee /></ProtectedRouted>} />
+            <Route path='/admin/employee/:id' element={<ProtectedRouted><UpdateEmployee /></ProtectedRouted>} />
             <Route path='/properties/:id/request-visit' element={<RequestVisit />} />
           </Routes>
       </div>

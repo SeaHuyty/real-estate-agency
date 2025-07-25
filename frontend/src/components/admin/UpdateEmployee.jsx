@@ -1,14 +1,19 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar'
-import 'react-toastify/dist/ReactToastify.css';
 import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
 import { HiPlus } from "react-icons/hi";
 import { useParams } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+
+const BASE_URL = 'http://localhost:3000';
+
 const CreateEmployee = () => {
-    const BASE_URL = 'http://localhost:3000';
+    const navigate = useNavigate();
+    const token = localStorage.getItem('accessToken');
     const { id } = useParams();
     const [formData, setFormdata] = useState({
         firstName: '',
@@ -29,7 +34,11 @@ const CreateEmployee = () => {
     useEffect(() => {
         const fetchEmployeeData = async () => {
             try {
-                const res = await axios.get(`${BASE_URL}/api/admins/employees/${id}`);
+                const res = await axios.get(`${BASE_URL}/api/admins/employees/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 const emp = res.data.data;
 
                 setFormdata({
@@ -73,7 +82,11 @@ const CreateEmployee = () => {
 
         formData.append('employeeProfile', file);
 
-        const res = await axios.post(`${BASE_URL}/api/admins/upload/employeeProfile`, formData)
+        const res = await axios.post(`${BASE_URL}/api/admins/upload/employeeProfile`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
         return res.data.url;
     }
 
@@ -107,12 +120,17 @@ const CreateEmployee = () => {
             profile: imageUrl
         }
         try {
-            const res = await axios.put(`${BASE_URL}/api/admins/employees/${id}`, payload);
+            const res = await axios.put(`${BASE_URL}/api/admins/employees/${id}`, payload, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             const data = res.data;
             if (!data.success) {
                 throw new Error(data.message || 'Update Failed');
             } 
             toast.success('Update employee data successfully');
+            navigate('/admin/employee'); // redirect to list page
         } catch (err) {
             console.error('Error in handleSubmit:', err);
             toast.error(err.response?.data?.message || 'Failed to update employee');
