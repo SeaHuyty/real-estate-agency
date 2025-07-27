@@ -16,12 +16,10 @@ import {
   FaClock,
   FaBed,
   FaBath,
-  FaRulerCombined,
   FaChartArea
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
+import Sidebar from '../../components/admin/adminSidebar';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const BASE_URL = 'http://localhost:3000';
@@ -112,10 +110,14 @@ const VisitRequestDetail = () => {
                 
                 const [requestRes, employeesRes] = await Promise.all([
                     axios.get(`${BASE_URL}/api/requests/${id}`, { 
-                        headers: { Authorization: `Bearer ${token}` } 
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
                     }),
                     axios.get(`${BASE_URL}/api/admins/employees`, { 
-                        headers: { Authorization: `Bearer ${token}` } 
+                        headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                     })
                 ]);
 
@@ -184,8 +186,8 @@ const VisitRequestDetail = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-                <Navbar />
+            <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+                <Sidebar />
                 <div className="container mx-auto px-4 py-20 text-center">
                     <motion.div
                         animate={{ rotate: 360 }}
@@ -194,17 +196,16 @@ const VisitRequestDetail = () => {
                     ></motion.div>
                     <p className="text-gray-600 mt-4 text-lg">Loading request details...</p>
                 </div>
-                <Footer />
             </div>
         );
     }
 
     if (error || !request) {
         return (
-            <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-                <Navbar />
-                <div className="container mx-auto px-4 py-20">
-                    <div className="max-w-2xl mx-auto text-center p-8 bg-white rounded-2xl shadow-lg">
+            <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+                <Sidebar />
+                <div className="container flex justify-center items-center px-20">
+                    <div className="p-8 w-full text-center  bg-white rounded-2xl shadow-lg">
                         <motion.div
                             initial={{ scale: 0.8 }}
                             animate={{ scale: 1 }}
@@ -232,7 +233,6 @@ const VisitRequestDetail = () => {
                         </motion.button>
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }
@@ -246,8 +246,8 @@ const VisitRequestDetail = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-            <Navbar />
+        <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+            <Sidebar />
             
             <div className="container mx-auto px-20 py-8">
                 <motion.button 
@@ -543,8 +543,6 @@ const VisitRequestDetail = () => {
                     </div>
                 </motion.div>
             </div>
-            
-            <Footer />
         </div>
     );
 };
