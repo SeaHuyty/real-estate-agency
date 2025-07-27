@@ -3,9 +3,8 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import Sidebar from '../../components/admin/adminSidebar';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -220,10 +219,9 @@ const UpdateProperty = () => {
     };
 
     return (
-        <div className='min-h-screen bg-gray-50'>
-            <Navbar />
-            <div className='container mx-auto px-4 py-8'>
-                <div className='max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden'>
+        <div className='flex h-screen'>
+            <Sidebar />
+                <div className='w-full overflow-hidden px-5'>
                     <div className='p-6'>
                         <h1 className='text-3xl font-bold text-gray-800 mb-2'>Update Property</h1>
                         <p className='text-gray-600 mb-6'>Edit the details of the property</p>
@@ -437,9 +435,8 @@ const UpdateProperty = () => {
                         </form>
                     </div>
                 </div>
+                {/* <Footer /> */}
             </div>
-            <Footer />
-        </div>
     );
 };
 

@@ -225,7 +225,7 @@ const PropertyDetails = () => {
                                                 <div className='flex gap-3 items-center'>
                                                     <img className='w-[30px] h-[30px]' src="/garage.png" alt="" />
                                                     <div>
-                                                        <h1>Parking lot</h1>
+                                                        <h1>Parking Lot</h1>
                                                     </div>
                                                 </div>
                                             )}

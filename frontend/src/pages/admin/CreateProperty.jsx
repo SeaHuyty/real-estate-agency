@@ -4,8 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import Sidebar from '../../components/admin/adminSidebar';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -196,10 +195,9 @@ const CreateProperty = () => {
     };
 
     return (
-        <div className='min-h-screen bg-gray-50'>
-            <Navbar />
-            <div className='container mx-auto px-4 py-8'>
-                <div className='max-w-5xl mx-auto bg-white rounded-xl shadow-md overflow-hidden'>
+        <div className='flex h-screen bg-gray-50'>
+            <Sidebar />
+                <div className='px-10 py-5 w-full overflow-y-auto scrollbar-hide'>
                     <div className='p-6'>
                         <h1 className='text-3xl font-bold text-gray-800 mb-2'>Create New Property</h1>
                         <p className='text-gray-600 mb-6'>Fill in the details to list a new property</p>
@@ -560,8 +558,6 @@ const CreateProperty = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
-        </div>
     );
 };
 
