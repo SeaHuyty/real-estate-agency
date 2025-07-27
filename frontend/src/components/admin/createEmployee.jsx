@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Sidebar from './Sidebar'
-import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
+import { HiUser } from "react-icons/hi2";
 import { HiPlus } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';

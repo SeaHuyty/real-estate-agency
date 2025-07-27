@@ -1,7 +1,7 @@
 import { usePropertyStore } from './ListHouse.jsx';
 import PropertyCard from './PropertyCard.jsx';
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar.jsx';
 import Footer from '../Footer.jsx'
 
@@ -12,7 +12,7 @@ function Properties() {
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-    const { properties, loading, error, fetchProperties } = usePropertyStore();
+    const { properties, loading, error, fetchProperties, meta } = usePropertyStore();
 
     const [filters, setFilters] = useState({
         province: queryParams.get('province') || '',
@@ -23,8 +23,8 @@ function Properties() {
     });
 
     useEffect(() => {
-        fetchProperties(filters);
-    }, [filters]);
+        fetchProperties(filters, currentPage); // ✅ now page-aware
+    }, [filters, currentPage]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,12 +50,9 @@ function Properties() {
         property.id.toString().includes(searchTerm)
     );
 
-    // Pagination logic
-    const totalPages = Math.ceil(filteredProperties.length / ITEMS_PER_PAGE);
-    const currentProperties = filteredProperties.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-    );
+    const totalPages = meta.pageCount;
+    const totalProperties = meta.total;
+
     return (
         <div className='w-full'>
             <Navbar />
@@ -79,7 +76,7 @@ function Properties() {
                             </select>
                         </form>
                         <form class="w-full flex flex-col gap-[2px]">
-                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Property</label>
+                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Property Type</label>
                             <select 
                                 name="type"
                                 value={filters.type}
@@ -111,17 +108,7 @@ function Properties() {
                                 value={filters.maxprice}
                                 onChange={handleChange}
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                        </form>
-                        <form class="w-full flex flex-col gap-[2px]">
-                            <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Maximum Price</label>
-                            <input 
-                                type="number" 
-                                name="bedrooms" 
-                                placeholder="Bedroom"
-                                value={filters.maxprice}
-                                onChange={handleChange}
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                        </form>             
+                        </form>       
                         <div className="w-full flex flex-col gap-[2px]">
                             <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Search Properties</label>
                             <input
@@ -146,8 +133,8 @@ function Properties() {
                 ) : (
                     <>
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                            {currentProperties.map(property => (
-                                <PropertyCard key={property.id} property={property} className='flex flex-col gap-3' />
+                            {properties.map(property => (
+                                <PropertyCard key={property.id} property={property} />
                             ))}
                         </div>
 
@@ -155,9 +142,7 @@ function Properties() {
                         {filteredProperties.length > 0 && (
                             <div className='flex flex-col md:flex-row items-center justify-between gap-4 mt-6'>
                                 <div className='text-gray-600 transition'>
-                                    Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} -{' '}
-                                    {Math.min(currentPage * ITEMS_PER_PAGE, filteredProperties.length)} of{' '}
-                                    {filteredProperties.length} properties
+                                    Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} - {Math.min(currentPage * ITEMS_PER_PAGE, totalProperties)} of {totalProperties} properties
                                 </div>
                                 <div className='flex gap-2 '>
                                     <img

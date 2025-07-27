@@ -329,6 +329,10 @@ export const updateProperty = async (req, res) => {
                 ));
             }
         }
+        
+        await client.del(`property:${id}`);
+        await client.del('topProperty');
+        await client.del('countProperties');
 
         res.status(200).json({ success: true, message: 'Property Updated Successfully' });
 

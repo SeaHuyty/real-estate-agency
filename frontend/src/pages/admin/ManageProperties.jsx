@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
+import Sidebar from '../../components/admin/adminSidebar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { HiPencil, HiTrash } from "react-icons/hi2";
 import 'react-toastify/dist/ReactToastify.css';
 
 const BASE_URL = 'http://localhost:3000';
@@ -21,24 +21,45 @@ const ManageProperties = () => {
 
 
     useEffect(() => {
-        fetchProperties();
-    }, []);
+        fetchProperties(currentPage, searchTerm); // ✅ fetches on page or search change
+    }, [currentPage, searchTerm]);
 
-    const fetchProperties = async () => {
-        setLoading(true);
-        setError(null);
+    // const fetchProperties = async () => {
+    //     setLoading(true);
+    //     setError(null);
 
+    //     try {
+    //         if (!token) {
+    //             throw new Error('No token found. Please login again');
+    //         }
+    //         const response = await axios.get(`${BASE_URL}/api/admins`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (response.data.success) {
+    //             setProperties(response.data.data);
+    //         }
+    //     } catch (err) {
+    //         setError(err.response?.data?.message || 'Failed to fetch properties');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+    const fetchProperties = async (page = 1, search = '') => {
         try {
-            if (!token) {
-                throw new Error('No token found. Please login again');
-            }
             const response = await axios.get(`${BASE_URL}/api/admins`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
+                headers: { Authorization: `Bearer ${token}` },
+                params: {
+                    page,
+                    limit: ITEMS_PER_PAGE,
+                    search,
                 }
             });
+
             if (response.data.success) {
                 setProperties(response.data.data);
+            // setMeta(response.data.meta); // total, page, pageCount, etc.
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to fetch properties');
@@ -84,9 +105,9 @@ const ManageProperties = () => {
     );
 
     return (
-        <div className='w-full'>
-            <Navbar />
-            <div className='px-4 md:px-20 py-8 flex flex-col gap-5'>
+        <div className='flex h-screen bg-gray-50'>
+            <Sidebar />
+            <div className='px-10 py-5 w-full overflow-y-auto scrollbar-hide'>
                 <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-5'>
                     <h1 className='text-3xl font-bold'>Manage Properties</h1>
                     <div className='flex flex-col md:flex-row gap-4 w-full md:w-auto'>
@@ -117,7 +138,7 @@ const ManageProperties = () => {
                     </div>
                 ) : (
                     <>
-                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5'>
                             {currentProperties.map(property => (
                                 <div key={property.id} className='flex flex-col gap-3'>
                                     <div>
@@ -135,27 +156,25 @@ const ManageProperties = () => {
                                             <h2 className="text-[20px] font-semibold">{property.title}</h2>
                                             <p className='text-[20px] font-semibold text-green-600'>$ {Number(property.price).toLocaleString()}</p>
                                         </div>
-                                        <p className='text-[14px] flex items-center gap-[10px] text-gray-500'>
+                                        <p className='text-[14px] flex  items-center'>
                                             <img className='w-[20px] h-[20px]' src="/pin.png" alt="" />
-                                            <span>{property.address}, {property.city}</span>
+                                            <span>{property.address} {property.city}</span>
                                         </p>
-                                        <div className="flex justify-between align-center">
-                                            <div className="flex items-center bg-white w-full">
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex items-center w-full">
                                                 <span>ID: {property.id}</span>
                                             </div>
-                                            <div className='flex gap-3 mt-2 w-full h-10 justify-end'>
+                                            <div className='flex gap-3 w-full justify-end'>
                                                 <div>
-                                                    <img 
+                                                    <HiPencil 
                                                         onClick={() => navigate(`/admin/edit/${property.id}`)}
-                                                        className='flex-1 text-center cursor-pointer w-5 h-5'
-                                                        src='/edit.png' alt='edit'
+                                                        className='text-blue-500 cursor-pointer w-5 h-5' 
                                                     />
                                                 </div>
                                                 <div>
-                                                    <img 
+                                                    <HiTrash 
                                                         onClick={() => handleDelete(property.id)}
-                                                        className='flex-1 text-center cursor-pointer w-5 h-5'
-                                                        src='/delete.png' alt='delete'
+                                                        className='text-red-500 cursor-pointer w-5 h-5' 
                                                     />
                                                 </div>
                                             </div>
@@ -167,7 +186,7 @@ const ManageProperties = () => {
 
                         {/* Pagination Controls */}
                         {filteredProperties.length > 0 && (
-                            <div className='flex flex-col md:flex-row items-center justify-between gap-4 mt-6'>
+                            <div className='flex flex-col md:flex-row items-center justify-between gap-4 mt-5'>
                                 <div className='text-gray-600 transition'>
                                     Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} -{' '}
                                     {Math.min(currentPage * ITEMS_PER_PAGE, filteredProperties.length)} of{' '}
@@ -201,7 +220,7 @@ const ManageProperties = () => {
                     </>
                 )}
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 };

@@ -3,10 +3,9 @@ import { Amenity, Property, PropertyImages } from '../models/Index.js';
 import { Op } from 'sequelize';
 
 export const getAllProperties = async (req, res) => {
-    const { province, type, minprice, maxprice, bedrooms } = req.query;
+    const { province, type, minprice, maxprice, bedrooms, page = 1, limit = 6 } = req.query;
 
     try {
-        // Build where clause with status = 'available' always
         const where = { status: 'available' };
 
         if (province) where.province = province;
@@ -15,8 +14,12 @@ export const getAllProperties = async (req, res) => {
         if (maxprice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(maxprice) };
         if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
 
-        // Find properties with only selected attributes
-        const properties = await Property.findAll({
+        const pageNumber = parseInt(page);
+        const pageSize = parseInt(limit);
+        const offset = (pageNumber - 1) * pageSize;
+
+        // Fetch paginated data and total count
+        const { count, rows } = await Property.findAndCountAll({
             where,
             attributes: [
                 'id',
@@ -27,12 +30,27 @@ export const getAllProperties = async (req, res) => {
                 'price',
                 'size',
                 'address',
-                'city',
+                'city'
             ],
             order: [['listed_date', 'DESC']],
+            offset,
+            limit: pageSize,
         });
 
-        res.status(200).json({ success: true, data: properties });
+        const pageCount = Math.ceil(count / pageSize);
+
+        res.status(200).json({
+            success: true,
+            data: rows,
+            meta: {
+                total: count,
+                page: pageNumber,
+                limit: pageSize,
+                pageCount,
+                hasPrev: pageNumber > 1,
+                hasNext: pageNumber < pageCount,
+            }
+        });
     } catch (error) {
         console.error('getAllProperties error:', error);
         res.status(500).json({ success: false, message: error.message });
@@ -98,19 +116,21 @@ export const getProperty = async (req, res) => {
             return res.status(404).json({ success: false, message: 'Property not found' });
         }
 
+        
         const raw = property.toJSON();
-
+        
         // Flatten image URLs from [{ image_url: ... }] → [url1, url2]
         raw.images = raw.images.map(img => img.image_url);
-
+        
         // Flatten amenities into top-level keys
         if (raw.amenities) {
             Object.assign(raw, raw.amenities);
             delete raw.amenities;
         }
-
+        
         // Cache it for 5 minutes
         await client.setEx(cacheKey, 300, JSON.stringify(raw));
+        await client.del(cacheKey);
 
         res.status(200).json({ success: true, data: raw });
 
