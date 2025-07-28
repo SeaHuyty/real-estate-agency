@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
+import About from './components/About.jsx'
 import LandingPage from './pages/client/landingPage'
 import PropertyDetails from './components/houseListPage/PropertyDetails'
 import Properties from './components/houseListPage/PropertyList.jsx'
@@ -31,6 +32,7 @@ function App() {
             <Route path='/properties/:id' element={<PropertyDetails />} />
             <Route path='/properties' element={<Properties />} />
             <Route path='/Contact' element={<Contact />} />
+            <Route path='/About' element={<About />} />
             <Route path='/login' element={<LoginAdmin />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/user' element={<User />} />

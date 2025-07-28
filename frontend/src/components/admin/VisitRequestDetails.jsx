@@ -213,7 +213,7 @@ const VisitRequestDetail = () => {
         return (
             <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
                 <Sidebar />
-                <div className="container mx-auto px-4 py-20 text-center">
+                <div className="px-4 py-20 text-center overflow-y-auto scrollbar-hide">
                     <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -229,7 +229,7 @@ const VisitRequestDetail = () => {
         return (
             <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
                 <Sidebar />
-                <div className="container flex justify-center items-center px-20">
+                <div className="container flex justify-center items-center px-20 overflow-y-auto scrollbar-hide">
                     <div className="p-8 w-full text-center  bg-white rounded-2xl shadow-lg">
                         <motion.div
                             initial={{ scale: 0.8 }}
@@ -274,7 +274,7 @@ const VisitRequestDetail = () => {
         <div className="flex h-screen bg-gradient-to-b from-gray-50 to-gray-100">
             <Sidebar />
             
-            <div className="container mx-auto px-20 py-8">
+            <div className="container mx-auto px-20 py-8 overflow-y-auto scrollbar-hide">
                 <div className="flex items-center justify-between mb-6">
                     <motion.button
                         whileHover={{ x: -5 }}
