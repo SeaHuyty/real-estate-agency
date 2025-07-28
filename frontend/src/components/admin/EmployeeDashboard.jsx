@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './adminSidebar';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { HiUser, HiPencil, HiTrash } from "react-icons/hi2";
@@ -79,9 +79,9 @@ const EmployeeDashboard = () => {
     }, [search, employee, jobFilter]);
 
     return (
-        <div>
+        <div className="flex h-screen">
             <Sidebar />
-            <div className="ml-64 flex flex-col h-screen p-5">
+            <div className="w-full overflow-y-auto scrollbar-hide p-5">
                 <div className='flex justify-between items-center'>
                     <h1 className="text-3xl font-bold text-blue-900">Employee List</h1>
                     <div className='flex gap-5'>

@@ -23,8 +23,13 @@ function Properties() {
     });
 
     useEffect(() => {
-        fetchProperties(filters, currentPage); // ✅ now page-aware
-    }, [filters, currentPage]);
+        fetchProperties(
+            {
+            ...filters, search: searchTerm,   // ← pass it here
+            },
+            currentPage
+        );
+    }, [filters, searchTerm, currentPage]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,15 +46,6 @@ function Properties() {
         setCurrentPage(1);
     };
 
-    // Filter properties based on search term
-    const filteredProperties = properties.filter(property => 
-        property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.province.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.property_type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.id.toString().includes(searchTerm)
-    );
-
     const totalPages = meta.pageCount;
     const totalProperties = meta.total;
 
@@ -58,7 +54,7 @@ function Properties() {
             <Navbar />
             <div className='px-20 flex flex-col gap-10'>
                 <div className="flex flex-col gap-[10px]">
-                    <h1 className='font-semibold text-[24px]'>{filteredProperties.length} Properties Found</h1>
+                    <h1 className='font-semibold text-[24px]'>{meta.total} Properties Found</h1>
                     <div className='w-full flex gap-5 items-center'>
                         <form class="w-full flex flex-col gap-[2px]">
                             <label htmlFor="type" class="block text-sm font-medium text-gray-900 dark:text-white">Select Provinces</label>
@@ -139,7 +135,7 @@ function Properties() {
                         </div>
 
                         {/* Pagination Controls */}
-                        {filteredProperties.length > 0 && (
+                        {properties.length > 0 && (
                             <div className='flex flex-col md:flex-row items-center justify-between gap-4 mt-6'>
                                 <div className='text-gray-600 transition'>
                                     Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1} - {Math.min(currentPage * ITEMS_PER_PAGE, totalProperties)} of {totalProperties} properties
@@ -148,14 +144,14 @@ function Properties() {
                                     <img
                                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                                         disabled={currentPage === 1}
-                                        className='px-4 py-2 duration-300 easy-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                                        className='px-4 py-2 duration-300 ease-in-out hover:bg-blue-900 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed'
                                         src="/left_arrow.svg" alt='Previous'
                                     />
                                     {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                                         <button
                                             key={page}
                                             onClick={() => setCurrentPage(page)}
-                                            className={`px-4 py-2 duration-300 easy-in-out hover:bg-blue-900 hover:text-white ${currentPage === page ? 'bg-blue-900 text-white' : ''}`}
+                                            className={`px-4 py-2 duration-300 ease-in-out hover:bg-blue-900 hover:text-white ${currentPage === page ? 'bg-blue-900 text-white' : ''}`}
                                         >
                                             {page}
                                         </button>

@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Sidebar from './Sidebar'
+import Sidebar from './adminSidebar'
 import { HiUser } from "react-icons/hi2";  // heroicon outline/solid v2
 import { HiPlus } from "react-icons/hi";
 import { useParams } from 'react-router-dom';
@@ -139,11 +139,11 @@ const CreateEmployee = () => {
         }
     }
     return (
-        <div>
+        <div className='flex h-screen'>
             <Sidebar />
-            <div className='ml-32 w-full flex flex-col gap-5 items-center justify-center h-screen'>
-                <h1 className='mr-260 text-[25px] font-bold'>Add Employee</h1>
-                    <form onSubmit={handleSubmit} className='w-full flex justify-center gap-5'>
+            <div className='w-full flex flex-col justify-center overflow-y-auto scrollbar-hide px-5'>
+                <h1 className='text-[25px] font-bold'>Add Employee</h1>
+                    <form onSubmit={handleSubmit} className='mt-5 w-full flex justify-center gap-5'>
                         <div className='w-150 border border-gray-300 rounded-lg p-5'>
                             <h1 className='font-bold'>Personal Information</h1>
                             <div className='mt-5 gap-5 flex justify-center items-center'>

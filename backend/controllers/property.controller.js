@@ -1,9 +1,9 @@
 import { client } from '../config/redisClient.js';
 import { Amenity, Property, PropertyImages } from '../models/Index.js';
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 
 export const getAllProperties = async (req, res) => {
-    const { province, type, minprice, maxprice, bedrooms, page = 1, limit = 6 } = req.query;
+    const { province, type, minprice, maxprice, bedrooms, page = 1, limit = 6, search = '' } = req.query;
 
     try {
         const where = { status: 'available' };
@@ -13,6 +13,20 @@ export const getAllProperties = async (req, res) => {
         if (minprice) where.price = { ...(where.price || {}), [Op.gte]: parseFloat(minprice) };
         if (maxprice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(maxprice) };
         if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
+
+    // ← free‑text search
+        if (search.trim()) {
+            where[Op.or] = [
+                { title:         { [Op.iLike]: `%${search}%` } },
+                { city:          { [Op.iLike]: `%${search}%` } },
+                { province:      { [Op.iLike]: `%${search}%` } },
+                { property_type: { [Op.iLike]: `%${search}%` } },
+                Sequelize.where(
+                Sequelize.cast(Sequelize.col('id'), 'TEXT'),
+                { [Op.iLike]: `%${search}%` }
+                ),
+            ];
+        }
 
         const pageNumber = parseInt(page);
         const pageSize = parseInt(limit);
