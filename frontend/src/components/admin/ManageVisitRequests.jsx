@@ -2,18 +2,20 @@ import { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { 
-  FaSync, 
-  FaSearch, 
-  FaFilter, 
-  FaSort, 
-  FaCalendarAlt, 
-  FaUser, 
+import {
+  FaSync,
+  FaSearch,
+  FaFilter,
+  FaSort,
+  FaCalendarAlt,
+  FaUser,
   FaEye,
   FaChevronDown,
   FaChevronUp,
   FaTimes,
-  FaChartBar
+  FaChartBar,
+  FaTrash,
+  FaExclamationTriangle
 } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from '../../components/admin/adminSidebar';
@@ -61,7 +63,7 @@ const StatusIndicator = ({ status, count, active, onClick }) => {
   );
 };
 
-const RequestCard = ({ request, onClick }) => {
+const RequestCard = ({ request, onClick, onDelete }) => {
   const statusColors = {
     pending: 'yellow',
     assigned: 'blue',
@@ -111,8 +113,8 @@ const RequestCard = ({ request, onClick }) => {
         )}
       </div>
       
-      <div className="bg-gray-50 px-4 py-2.5 flex justify-end border-t border-gray-100">
-        <button 
+      <div className="bg-gray-50 px-4 py-2.5 flex justify-between items-center border-t border-gray-100">
+        <button
           onClick={(e) => {
             e.stopPropagation();
             onClick();
@@ -121,6 +123,19 @@ const RequestCard = ({ request, onClick }) => {
         >
           <FaEye className="mr-1.5" /> View Details
         </button>
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(request.id, e);
+          }}
+          className="text-red-600 hover:text-red-800 text-xs font-medium flex items-center transition-colors"
+          title="Delete Request"
+        >
+          <FaTrash className="mr-1.5" /> Delete
+        </motion.button>
       </div>
     </motion.div>
   );
@@ -213,6 +228,33 @@ const ManageVisitRequests = () => {
 
     const handleRowClick = (id) => {
         navigate(`/admin/requests/${id}`);
+    };
+
+    const handleDeleteRequest = async (id, e) => {
+        e.stopPropagation(); // Prevent row click when delete button is clicked
+
+        // Show confirmation dialog
+        const confirmed = window.confirm(
+            'Are you sure you want to delete this visit request? This action cannot be undone.'
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const response = await axios.delete(`${BASE_URL}/api/requests/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.success) {
+                // Remove the deleted request from the state
+                setRequests(prev => prev.filter(req => req.id !== id));
+                setFilteredRequests(prev => prev.filter(req => req.id !== id));
+                toast.success('Visit request deleted successfully');
+            }
+        } catch (err) {
+            console.error('Error deleting request:', err);
+            toast.error(err.response?.data?.message || 'Failed to delete visit request');
+        }
     };
 
     const clearFilters = () => {
@@ -476,10 +518,11 @@ const ManageVisitRequests = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                             <AnimatePresence>
                                 {filteredRequests.map(request => (
-                                    <RequestCard 
+                                    <RequestCard
                                         key={request.id}
                                         request={request}
                                         onClick={() => handleRowClick(request.id)}
+                                        onDelete={handleDeleteRequest}
                                     />
                                 ))}
                             </AnimatePresence>
@@ -539,15 +582,28 @@ const ManageVisitRequests = () => {
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
-                                                    <button
-                                                        onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            handleRowClick(request.id);
-                                                        }}
-                                                        className="text-blue-600 hover:text-blue-800 text-xs flex items-center justify-end w-full"
-                                                    >
-                                                        <FaEye className="mr-1.5" /> View
-                                                    </button>
+                                                    <div className="flex items-center justify-end space-x-2">
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                handleRowClick(request.id);
+                                                            }}
+                                                            className="text-blue-600 hover:text-blue-800 text-xs flex items-center transition-colors"
+                                                            title="View Details"
+                                                        >
+                                                            <FaEye className="mr-1" /> View
+                                                        </button>
+
+                                                        <motion.button
+                                                            whileHover={{ scale: 1.05 }}
+                                                            whileTap={{ scale: 0.95 }}
+                                                            onClick={(e) => handleDeleteRequest(request.id, e)}
+                                                            className="text-red-600 hover:text-red-800 text-xs flex items-center transition-colors"
+                                                            title="Delete Request"
+                                                        >
+                                                            <FaTrash className="mr-1" /> Delete
+                                                        </motion.button>
+                                                    </div>
                                                 </td>
                                             </motion.tr>
                                         ))}

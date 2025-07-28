@@ -37,11 +37,11 @@ export const verifyUser = async (req, res) => {
             });
         }
 
-        // Generate JWT token for the user
+        // Generate JWT token for the user (extended to 24 hours)
         const tokenData = jwt.sign(
             { id: user.id, email: user.email },
             process.env.JWT_USER_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: '24h' }
         );
 
         res.status(200).json({ token: tokenData });

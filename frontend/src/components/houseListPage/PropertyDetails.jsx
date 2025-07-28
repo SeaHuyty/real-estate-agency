@@ -30,13 +30,9 @@ const PropertyDetails = () => {
             toast.error("Please login to request a visit.");
             return;
         }
-        // This is a placeholder for the actual user ID.
-        // In a real application, you would get this from the logged-in user's context or token.
-        const userId = 1;
-
         try {
-            await axios.post(`${BASE_URL}/api/requests`, 
-                { userId, propertyId: id, preferredDate: visitDate, notes: visitNotes },
+            await axios.post(`${BASE_URL}/api/requests`,
+                { propertyId: id, preferredDate: visitDate, notes: visitNotes },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             toast.success("Visit request submitted successfully!");

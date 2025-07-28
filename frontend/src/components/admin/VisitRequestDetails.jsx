@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { 
-  FaCalendarAlt, 
-  FaUser, 
-  FaBuilding, 
-  FaArrowLeft, 
-  FaSave, 
+import {
+  FaCalendarAlt,
+  FaUser,
+  FaBuilding,
+  FaArrowLeft,
+  FaSave,
   FaImage,
   FaPhone,
   FaEnvelope,
@@ -16,7 +16,9 @@ import {
   FaClock,
   FaBed,
   FaBath,
-  FaChartArea
+  FaChartArea,
+  FaTrash,
+  FaExclamationTriangle
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Sidebar from '../../components/admin/adminSidebar';
@@ -157,7 +159,7 @@ const VisitRequestDetail = () => {
         e.preventDefault();
         try {
             const response = await axios.put(
-                `${BASE_URL}/api/requests/${id}`, 
+                `${BASE_URL}/api/requests/${id}`,
                 {
                     status: formData.status,
                     assignedAgencyId: formData.assigned_agency_id || null,
@@ -169,7 +171,7 @@ const VisitRequestDetail = () => {
             if (response.data.success) {
                 setRequest(response.data.data);
                 toast.success('Request updated successfully');
-                
+
                 // Animate status change
                 const statusElement = document.querySelector('.status-badge');
                 if (statusElement) {
@@ -181,6 +183,29 @@ const VisitRequestDetail = () => {
             }
         } catch (err) {
             toast.error('Error updating request: ' + (err.response?.data?.message || err.message));
+        }
+    };
+
+    const handleDeleteRequest = async () => {
+        // Show confirmation dialog
+        const confirmed = window.confirm(
+            'Are you sure you want to delete this visit request? This action cannot be undone.'
+        );
+
+        if (!confirmed) return;
+
+        try {
+            const response = await axios.delete(`${BASE_URL}/api/requests/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (response.data.success) {
+                toast.success('Visit request deleted successfully');
+                navigate('/admin/requests');
+            }
+        } catch (err) {
+            console.error('Error deleting request:', err);
+            toast.error(err.response?.data?.message || 'Failed to delete visit request');
         }
     };
 
@@ -250,13 +275,24 @@ const VisitRequestDetail = () => {
             <Sidebar />
             
             <div className="container mx-auto px-20 py-8">
-                <motion.button 
-                    whileHover={{ x: -5 }}
-                    onClick={() => navigate('/admin/requests')}
-                    className="flex items-center text-blue-600 hover:text-blue-800 mb-6 transition-colors duration-200 font-medium"
-                >
-                    <FaArrowLeft className="mr-2" /> Back to Requests
-                </motion.button>
+                <div className="flex items-center justify-between mb-6">
+                    <motion.button
+                        whileHover={{ x: -5 }}
+                        onClick={() => navigate('/admin/requests')}
+                        className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium"
+                    >
+                        <FaArrowLeft className="mr-2" /> Back to Requests
+                    </motion.button>
+
+                    <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={handleDeleteRequest}
+                        className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg"
+                    >
+                        <FaTrash className="mr-2" /> Delete Request
+                    </motion.button>
+                </div>
                 
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
