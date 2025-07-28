@@ -44,9 +44,12 @@ const Sidebar = () => {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                     axios.get(`${BASE_URL}/api/admins/employeeProfile`, {
+                        headers: { Authorization: `Bearer ${token}` },
                         params: { id: decoded.id },
                     }),
-                    axios.get(`${BASE_URL}/api/properties`),
+                    axios.get(`${BASE_URL}/api/properties`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
                 ]);
 
                 setAdmin(adminRes.data.user);
