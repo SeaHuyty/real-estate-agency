@@ -21,6 +21,7 @@ import { uploadEmployeeProfile } from '../../controllers/admin/employee.controll
 const router = express.Router();
 
 router.post('/login', login);
+router.post('/register', register);
 
 router.use(authenticateToken);
 
@@ -36,7 +37,6 @@ router.put('/employees/:id', updateEmployee);
 router.delete('/employees/:id', deleteEmployee);
 router.post('/upload/employeeProfile', upload.single('employeeProfile'), uploadEmployeeProfile);
 router.get('/', getAllProperties);
-router.post('/register', register);
 router.post('/', createProperty);
 router.put('/:id', updateProperty);
 router.delete('/:id', deleteProperty);

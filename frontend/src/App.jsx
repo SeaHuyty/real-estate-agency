@@ -34,6 +34,7 @@ function App() {
             <Route path='/Contact' element={<Contact />} />
             <Route path='/About' element={<About />} />
             <Route path='/login' element={<LoginAdmin />} />
+            {/* <Route path='/register' element={<registerAdmin />} /> */}
             <Route path='/signup' element={<Signup />} />
             <Route path='/user' element={<User />} />
             <Route path='/admin' element={<ProtectedRouted><Analytics /></ProtectedRouted>}/>

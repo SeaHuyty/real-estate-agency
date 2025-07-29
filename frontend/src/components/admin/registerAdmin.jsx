@@ -1,4 +1,5 @@
 import React from 'react'
+import Sidebar from './adminSidebar';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -21,7 +22,7 @@ const registerAdmin = () => {
             const res = await axios.post(`${BASE_URL}/api/admins/register`,
                 {username, password, id},
                 {
-                    headers: { 'Content-Type': 'application/json'}
+                    headers: { 'Content-Type': 'application/json' }
                 }
             );
             const data = res.data;
@@ -38,8 +39,10 @@ const registerAdmin = () => {
         }
     }
     return (
-        <div className='min-h-screen flex items-center justify-center bg-gray-50'>
-            <div className='bg-white p-8 rounded-lg shadow-md w-full max-w-md'>
+        <div className='h-screen flex'>
+            {/* <Sidebar /> */}
+            <div className='w-full overflow-y-auto scrollbar-hide flex justify-center items-center'>
+            <div className='bg-white py-8 px-30 w-full'>
                 <h2 className='text-2xl font-bold mb-6 text-center'>Admin Register</h2>
                 
                 {error && <div className='mb-4 p-3 bg-red-100 text-red-700 rounded'>{error}</div>}
@@ -89,6 +92,7 @@ const registerAdmin = () => {
                         <a href="/login" className='text-sm text-blue-600 hover:underline'>Sign Up here</a>
                     </div>
                 </form>
+            </div>
             </div>
         </div>
     )

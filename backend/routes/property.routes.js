@@ -13,7 +13,7 @@ const router = express.Router();
 router.use(log);
 
 router.get('/', getAllProperties);
-router.get('/', countProperties);
+// router.get('/', countProperties);
 router.get('/top', getTopProperty);
 router.get('/:id', getProperty);
 router.get('/similar/:id', getSimilarProperties);
