@@ -132,7 +132,7 @@ const RequestVisit = () => {
 
         if (!formData.phone.trim()) {
             newErrors.phone = 'Phone number is required';
-        } else if (!/^\+?[\d\s\-\(\)]{10,}$/.test(formData.phone)) {
+        } else if (!/^\+?[\d\s\-\(\)]{9,}$/.test(formData.phone)) {
             newErrors.phone = 'Please enter a valid phone number';
         }
 

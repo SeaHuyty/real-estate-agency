@@ -134,7 +134,7 @@ const Contact = () => {
                                             type="text"
                                             name="first-name"
                                             id="first-name"
-                                            placeholder="Ah"
+                                            placeholder="John"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                                             required
                                         />
@@ -147,7 +147,7 @@ const Contact = () => {
                                             type="text"
                                             name="last-name"
                                             id="last-name"
-                                            placeholder="Ka"
+                                            placeholder="Doe"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                                             required
                                         />
@@ -162,7 +162,7 @@ const Contact = () => {
                                         type="email"
                                         name="email"
                                         id="email"
-                                        placeholder="Ahka@email.com"
+                                        placeholder="johndoe@email.com"
                                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                                         required
                                     />

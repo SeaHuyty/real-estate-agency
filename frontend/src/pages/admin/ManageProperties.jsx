@@ -101,9 +101,9 @@ const ManageProperties = () => {
                                         <h2 className='font-semibold'>{p.title}</h2>
                                         <span className='text-[20px] text-green-600 font-bold'>${Number(p.price).toLocaleString()}</span>
                                     </div>
-                                    <div className='flex justify-between items-center mt-2'>
-                                        <div className="flex flex-col justify-between gap-[10px]">
-                                            <p className='text-sm'>{p.city}, {p.address}</p>
+                                    <div className="flex flex-col justify-between gap-[10px]">
+                                        <p className='text-sm'>{p.city}, {p.address}</p>
+                                        <div className='flex justify-between items-center'>
                                             <div className="flex gap-[20px] text-[10px]">
                                                 <div className="flex items-center gap-[5px]">
                                                     <img src="/bed.png" alt="" className='w-[20px] h-[20px]'/>
@@ -118,14 +118,9 @@ const ManageProperties = () => {
                                                     <span>{p.size} m²</span>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div className='flex items-center gap-2 cursor-pointer'>
-                                            <div className='bg-blue-900 p-3 duration-300 ease-in-out hover:scale-110'>
-                                                <HiPencil className='text-white' onClick={() => navigate(`/admin/edit/${p.id}`)}/>
-                                            </div>
-                                            <div className='bg-red-600 p-3 duration-300 ease-in-out hover:scale-110'>
-                                                <HiTrash className='text-white' onClick={() => handleDelete(p.id)}/>
+                                            <div className='flex items-center gap-2 cursor-pointer'>
+                                                <HiPencil className='text-blue-900' size={24} onClick={() => navigate(`/admin/edit/${p.id}`)}/>
+                                                <HiTrash className='text-red-600' size={24} onClick={() => handleDelete(p.id)}/>
                                             </div>
                                         </div>
                                     </div>
