@@ -1,16 +1,17 @@
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3000';
-import React from 'react';
 import Slider from './Slider'
-import Map from './Map'
+import Map from './map.jsx'
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import PropertyCard from './PropertyCard';
 import { toast } from 'react-toastify';
 import { GoogleLogin } from '@react-oauth/google';
 import { useNavigate } from 'react-router-dom';
+
+const BASE_URL = 'http://localhost:3000';
 
 const PropertyDetails = () => {
     const { id } = useParams();

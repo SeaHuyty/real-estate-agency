@@ -7,7 +7,7 @@ const Analytics = () => {
     const [timeRange, setTimeRange] = useState('monthly');
     const [propertyStats, setPropertyStats] = useState(null);
     const [userStats, setUserStats] = useState(null);
-
+    
     // Mock data - replace with real API calls
     useEffect(() => {
         const fetchData = async () => {

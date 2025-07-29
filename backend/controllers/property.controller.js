@@ -10,9 +10,8 @@ export const getAllProperties = async (req, res) => {
 
         if (province) where.province = province;
         if (type) where.property_type = type;
-        if (minprice) where.price = { ...(where.price || {}), [Op.gte]: parseFloat(minprice) };
-        if (maxprice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(maxprice) };
-        if (bedrooms) where.bedrooms = { [Op.gte]: parseInt(bedrooms) };
+        if (minprice) where.price = { ...(where.price || {}), [Op.lte]: parseFloat(minprice) };
+        if (maxprice) where.price = { ...(where.price || {}), [Op.gte]: parseFloat(maxprice) };
 
     // ← free‑text search
         if (search.trim()) {

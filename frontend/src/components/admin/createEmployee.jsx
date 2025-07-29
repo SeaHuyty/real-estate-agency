@@ -14,11 +14,11 @@ const CreateEmployee = () => {
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
     const [formData, setFormdata] = useState({
-        id: '',
+        // id: '',
         firstName: '',
         lastName: '',
         email: '',
-        phone: '',
+        phoneNumber: '',
         dob: '',
         hireDate: '',
         jobTitle: '',
@@ -96,7 +96,7 @@ const CreateEmployee = () => {
                 throw new Error(data.message || 'Created Failed');
             } 
             toast.success('Employee created successfully');
-            Navigate('/admin/employee'); // redirect to list page
+            navigate('/admin/employee'); // redirect to list page
         } catch (err) {
             console.error('Error in handleSubmit:', err);
             toast.error(err.response?.data?.message || 'Failed to create Employee');
@@ -138,7 +138,7 @@ const CreateEmployee = () => {
                                 </div>
                             </div>
                             <div className='mt-10 grid grid-cols-2 gap-5'>
-                                <div className="mb-4 w-full">
+                                {/* <div className="mb-4 w-full">
                                     <label htmlFor="id" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id</label>
                                     <input className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" 
                                         type="number" id="id"
@@ -147,7 +147,7 @@ const CreateEmployee = () => {
                                         required
                                         placeholder='1'
                                     />
-                                </div>
+                                </div> */}
                                 <div className="mb-4">
                                     <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
                                     <input type="text" id="firstName" className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" 
