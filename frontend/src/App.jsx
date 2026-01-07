@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import About from './components/About.jsx'
-import LandingPage from './pages/client/landingPage'
+import LandingPage from './pages/client/LandingPage'
 import PropertyDetails from './components/houseListPage/PropertyDetails'
 import Properties from './components/houseListPage/PropertyList.jsx'
 import Contact from './components/Contact.jsx'
